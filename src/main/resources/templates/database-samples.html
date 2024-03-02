@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+<title>Database Admin Control Panel</title>
+<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+</head>
+<body>
+
+	<div class="container-fluid">
+
+				<div>
+			<div class="nav-bg">
+				<div class="row">
+					<div class="col">
+						<nav class="navbar navbar-expand-lg text-white nav-border-style">
+							<div>
+								<a class="navbar-brand" th:href="@{/}"> <img th:src="@{/images/icar.png}" height="100px" width="100px" class='spinning'/>
+								</a>
+							</div>
+							<h1 class="">Buffalo Expression Database</h1>
+								
+						</nav>
+					</div>
+					<div class="col">
+						<div class="d-flex align-items-center justify-content-end pt-2 px-5">
+							<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/iasris.jpeg}" height="100px" width="100px"/>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="nav-with-button-bg">
+			<nav class="navbar navbar-expand-lg text-nowrap fw-bold">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="topNavbar" aria-haspopup="true" aria-expanded="false">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/}">Home</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/about}">About Us</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/downloads}">Downloads</a>
+						</li>
+					</ul>
+					
+				</div>				
+					<div class="btn-group dropstart btn-dropdown-bg">
+					  <button type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+					    Database
+					  </button>
+					  	<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						    <li><a class="dropdown-item" th:href="@{/database/genes}">Gene Description</a></li>
+						    <li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
+						    <li><a class="dropdown-item" th:href="@{/database/tissue}">Expressions</a></li>
+					  	</ul>
+					</div>
+			</nav>
+		</div>
+		
+		<div class="overflow-hidden" style="height:350px">
+		<img  class="img-fluid w-100" th:src="@{/images/samples.jpeg}" />
+		
+			
+		</div>
+		<div class="border">
+			<div class="p-2">
+			<div class="row w-100" style="height:100px">
+			<div class="col">
+			<form class="" id="queryForm" method="post" onSubmit="return validateCheckBox(this);">
+				<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
+				<div class="input-group mb-2">
+				  <input required type="text" class="form-control" name="searchText" placeholder="Type Here" aria-label="Recipient's username" id="searchText">
+				  <button class="btn btn-outline-secondary" type="submit" id="search">Search</button>
+				</div>
+				<div class="align-middle mb-2">
+				  <input class="form-check-input" type="radio" name="searchParam" id="bioProject" value="bioProject">
+				  <label class="form-check-label" for="flexRadioDefault1">
+				    BIO PROJECT
+				  </label>
+				   <input class="form-check-input" type="radio" name="searchParam" id="breed" value="breed">
+				  <label class="form-check-label" for="flexRadioDefault1">
+				    BREED
+				  </label>
+				   <input class="form-check-input" type="radio" name="searchParam" id="condition_treatment" value="condition_treatment">
+				  <label class="form-check-label" for="flexRadioDefault1">
+				    CONDITION/TREATMENT
+				  </label>
+				     <input class="form-check-input" type="radio" name="searchParam" id="tissue" value="tissue">
+				  <label class="form-check-label" for="flexRadioDefault1">
+				    TISSUES
+				  </label>
+				</div>
+				
+				<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px"></div>
+				</form>
+				</div>
+				<div class="col">
+					<div class="input-group position-relative ">
+						  <input required placeholder="Type Run Id" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
+					</div>
+<!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
+					<div hidden=true id="listContainer" class=" position-absolute bg-light  overflow-auto text-nowrap border rounded-bottom" style="height:200px; width:560px;">
+						  	<div id="listElements" >
+						  	</div>
+					 </div>
+						  
+					</div>
+				</div>				
+			</div>
+			
+			<div class="m-2">
+					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
+				</div>
+ 		<div class="overflow-auto text-nowrap p-2">
+ 		<table class="table table-striped border" id="genes">
+			  <thead class="table-dark">
+			  </thead>
+			  <tbody>
+			    
+			  </tbody>
+			</table>
+		</div>
+		</div>
+		
+		<div class="mx-auto mt-2" style="width: 500px;">
+			<div class="justify-content-center text-center" id="pageInfo" >
+		
+			</div>
+		 	<ul class="pagination justify-content-center">
+			   <li id="firstPage"><a class="page-link">First</a></li>
+			    <li id="previousPage"><a class="page-link">Previous</a></li>
+			   
+			    <li id="nextPage"><a class="page-link" >Next</a></li>
+			     <li id="lastPage"><a class="page-link" >Last</a></li>
+			</ul>
+		</div>
+	<div class="footer">
+			<div class="sub-footer pt-2">
+				<h1>Database - Buffalo Expression DB</h1>
+			</div>
+			<div class="sub-footer">
+				<p>Database Control Panel - Copyright &copy; IARI</p>
+			</div>
+		</div>
+		
+	</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script type="text/javascript">
+var	init = 0;
+var	last = 10;
+var pageSize = 10;
+var pageNum = 1;
+var totalRecords = 0;
+var totalPages = 0;
+var numberOfRecordsOfLastPage = 0;
+var fetchedData = [];
+var globalData = [];
+var checkedData = new Set();
+var uncheckedData = new Set();
+var idSet = new Set();
+var isCheckAll = false;
+
+document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
+ 	$("#listElements").empty();  
+	var inputVal = document.getElementById("dropdownMenuLink1").value;
+	if(inputVal==""){
+		document.getElementById("listContainer").hidden = true;
+	}
+	else{
+		document.getElementById("listContainer").hidden = false;
+	}
+	var newArray = fetchedData.filter(function (el) {
+			return el.run.startsWith(inputVal);
+			});
+		if(newArray.length==0){
+			var span = `<span class="p-2">No results found</span>`
+			$("#listElements").append(span); 
+		}
+		for(let i=0;i<newArray.length;i++){
+			var anchor = `<div onclick="dropdownSelection('${newArray[i].run}')" class="dropdown-list px-2 py-1 fw-bold">${newArray[i].run}</div>`
+			$("#listElements").append(anchor);   
+		}
+});
+
+function dropdownSelection(string){
+	document.getElementById("dropdownMenuLink1").value = string;
+	document.getElementById("listContainer").hidden = true;
+	$("#listElements").empty()
+}
+
+function renderTable(data){
+	
+	headerRow = "";
+	if(isCheckAll){
+		headerRow = '<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>RUN</td><td>BIO PROJECT</td><td>BIO SAMPLE</td><td>TISSUE</td><td>ADDITIONAL INFO</td><td>CONDITION TREATMENT</td><td>SOURCE</td><td>SPECIES</td><td>BREED</td><td>GENDER</td><td>DEVELOPMENT STAGE</td></tr>';
+	}
+	else{
+		headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>RUN</td><td>BIO PROJECT</td><td>BIO SAMPLE</td><td>TISSUE</td><td>ADDITIONAL INFO</td><td>CONDITION TREATMENT</td><td>SOURCE</td><td>SPECIES</td><td>BREED</td><td>GENDER</td><td>DEVELOPMENT STAGE</td></tr>';
+	}
+	$("#genes").find("thead").empty()
+   	$("#genes").find("tbody").empty();
+	$("#genes").find("thead").append(headerRow);
+   	for(let i=init;i<last;i++){
+   		dataRow = "";
+   		if(checkedData.has(globalData[i].run)){
+   			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalData[i].run}></div><td>${globalData[i].run}</td></td><td>${globalData[i].bioProject}</td><td>${globalData[i].bioSample}</td><td>${globalData[i].tissue}</td><td>${globalData[i].additional_info}</td><td>${globalData[i].condition_treatment}</td><td>${globalData[i].source}</td><td>${globalData[i].species}</td><td>${globalData[i].breed}</td><td>${globalData[i].gender}</td><td>${globalData[i].development_stage}</td></tr>`
+   		}
+		else{
+			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].run}></div><td>${globalData[i].run}</td></td><td><a target=”_blank” href="https://www.ncbi.nlm.nih.gov/bioproject/${globalData[i].bioProject}">${globalData[i].bioProject}</a></td><td><a target=”_blank” href="https://www.ncbi.nlm.nih.gov/biosample/?term=${globalData[i].bioSample}">${globalData[i].bioSample}</a</td><td>${globalData[i].tissue}</td><td>${globalData[i].additional_info}</td><td>${globalData[i].condition_treatment}</td><td>${globalData[i].source}</td><td>${globalData[i].species}</td><td>${globalData[i].breed}</td><td>${globalData[i].gender}</td><td>${globalData[i].development_stage}</td></tr>`
+		}
+		$("#genes").find("tbody").append(dataRow);   		 
+ 	}
+}
+
+$( document ).ready(function() {
+	url = "[[@{/sample_description/api/sample_descriptions/runIds/all}]]"
+	$.get(url, function(data, status){
+		uncheckedData = new Set(data);
+		idSet = new Set(data);
+	});
+    url = "[[@{/sample_description/api/sample_descriptions}]]"
+    	$.get(url, function(data, status){
+    	fetchedData = data;
+    	globalData = data;
+    	totalRecords = data.length;
+    	totalPages = Math.ceil(totalRecords/pageSize);
+    	numberOfRecordsOfLastPage = totalRecords%pageSize;
+    	renderTable(globalData);
+ 		pagination();
+});
+});
+
+document.getElementById("btn-searchGeneByName").addEventListener("click", function(event){
+	init=0;
+	last=1;
+	totalRecords = 1
+	totalPages = 1
+	pageNum=1;
+	pagination();
+	checkedData = new Set();
+    $("#genes").find("tbody").empty();
+	searchText = document.getElementById("dropdownMenuLink1").value
+	url = "[[@{/sample_description/api/sample_descriptions/}]]" + searchText
+	$.get(url, function(data, status){
+		globalData = [data];
+		if(!data){
+			pageInfo = `No Records found`
+			init=0;
+			last=0;
+			$("#pageInfo").empty();
+			$("#pageInfo").append(pageInfo);
+		}
+		renderTable(globalData) 
+	})
+})
+
+document.getElementById("firstPage").addEventListener("click", function(event){
+		init = 0;
+		last = 10;
+		pageNum = 1;
+		pagination();
+  		event.preventDefault();
+		$("#genes").find("tbody").empty();
+		renderTable(globalData)
+});
+document.getElementById("nextPage").addEventListener("click", function(event){
+		init = init + pageSize;
+		last = last + pageSize;
+		if(last>totalRecords){
+			last = last - numberOfRecordsOfLastPage; 
+		}
+		pageNum = pageNum + 1;
+		pagination();
+  		event.preventDefault();
+  		renderTable(globalData)
+
+});
+document.getElementById("lastPage").addEventListener("click", function(event){
+		var new_init = totalRecords - numberOfRecordsOfLastPage;
+		var new_last = totalRecords;
+		init = new_init;
+		last = new_last;
+		pageNum = totalPages;
+		pagination();
+  		event.preventDefault();
+  		renderTable(globalData);
+});
+document.getElementById("previousPage").addEventListener("click", function(event){
+		pageNum = pageNum - 1;
+		init = init - pageSize;
+		
+		if(pageNum == totalPages - 1){
+			last = last - Math.ceil(pageSize/2);
+		}
+		else{
+			last = last - 10;
+		}
+		pagination();
+  		event.preventDefault();
+  		renderTable(globalData)
+ 	
+});
+
+function pagination(){
+	var pageInfo = "";
+	$("#pageInfo").empty();
+	if(pageNum<=1){
+		$("#firstPage").addClass("page-item disabled");
+		$("#previousPage").addClass("page-item disabled");
+		$("#nextPage").removeClass("disabled");
+		$("#lastPage").removeClass("disabled");	
+		pageInfo = `<span>Showing rows #  ${init+1} to ${last} of ${totalRecords}</span>`
+		if(pageNum==totalPages){
+			$("#nextPage").addClass("page-item disabled");
+			$("#lastPage").addClass("page-item disabled");
+			pageInfo = `<span>Showing rows #  ${1} to ${totalRecords} of ${totalRecords}</span>`		
+		}
+	}
+	else if(pageNum>1){
+		$("#firstPage").removeClass("disabled");
+		$("#previousPage").removeClass("disabled");
+		$("#nextPage").removeClass("disabled");
+		$("#lastPage").removeClass("disabled");
+		pageInfo = `<span>Showing rows #  ${init+1} to ${last} of ${totalRecords}</span>`
+		if(pageNum==totalPages){
+			$("#nextPage").addClass("page-item disabled");
+			$("#lastPage").addClass("page-item disabled");
+			pageInfo = `<span>Showing rows #  ${totalRecords - numberOfRecordsOfLastPage} to ${totalRecords} of ${totalRecords}</span>`
+		}
+	}
+	$("#pageInfo").append(pageInfo);
+}
+	function validateCheckBox(form){
+		init=0;
+		last=1;
+		totalRecords = 1
+		totalPages = 1
+		pageNum=1;
+		checkedData = new Set();
+		pagination();
+	    $("#genes").find("tbody").empty();
+		var selectedValue = $("input[name=searchParam]:checked").val();
+		var textValue = $("input[name=searchText]").val();
+		if(textValue == "+"){
+			textValue = "%2B";
+		}
+		if(!selectedValue){
+            $("#radio-error").text("Please select a search parameter");   
+            } 
+         else {  
+	         $("#radio-error").empty();
+	         
+	         url = "[[@{/sample_description/api/sample_descriptions/query/runIds}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+	         $.get(url, function(data, status){	
+	         		idSet = new Set(data);
+         	});
+         	console.log(selectedValue, ":", textValue)
+			url = "[[@{/sample_description/api/sample_descriptions/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+			$.get(url, function(data, status){
+				console.log(status)
+				globalData = data;
+				if(data.length==0){
+					pageInfo = `No Records found`
+					init=0;
+					last=0;
+					$("#pageInfo").empty();
+					$("#pageInfo").append(pageInfo);
+				}
+				else{
+					init=0;
+					last=pageSize;
+					if(globalData.length<pageSize){
+						last = globalData.length;
+					}
+					totalRecords = globalData.length;
+					totalPages = Math.ceil(globalData.length/pageSize);
+					numberOfRecordsOfLastPage = totalRecords%pageSize;
+					pagination();
+					renderTable(globalData)
+				}
+			  });	
+         }
+		return false;
+	}
+	
+	$(document).ready (function () {  
+    $('#genes').after ('<div id="nav"></div>');  
+    var rowsShown = 5;  
+    var rowsTotal = $('#data tbody tr').length;  
+    var numPages = rowsTotal/rowsShown;  
+    for (i = 0;i < numPages;i++) {  
+        var pageNum = i + 1;  
+        $('#nav').append ('<a href="#" rel="'+i+'">'+pageNum+'</a> ');  
+    }
+    });
+    
+function checkBox(checkbox){
+	index = checkbox.value;
+	id = checkbox.id;
+	if($(`#${id}:checkbox:checked`).length>0){
+		checkedData.add(id)
+		uncheckedData.delete(id)
+		
+	}else{
+		headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>RUN</td><td>BIO PROJECT</td><td>BIO SAMPLE</td><td>TISSUE</td><td>ADDITIONAL INFO</td><td>CONDITION TREATMENT</td><td>SOURCE</td><td>SPECIES</td><td>BREED</td><td>GENDER</td><td>DEVELOPMENT STAGE</td></tr>';
+    	$("#genes").find("thead").empty()
+		$("#genes").find("thead").append(headerRow);
+		checkedData.delete(id)
+		uncheckedData.add(id)
+	}
+}
+ 
+ function checkAll(checkbox){	 
+ 	if ($(checkbox).is(':checked')) {
+ 		isCheckAll = true;
+ 	   $("input[name='cbSelect']").attr('checked', true); 		
+	 		checkedData = idSet;	
+	 		uncheckedData = new Set(); 		
+    	$("#genes").find("tbody").empty();
+    	
+     	for(let i=init;i<last;i++){
+			dataRow = `<tr><td><div class="form-check"><input checked="true" onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].run}></div><td>${globalData[i].run}</td></td><td>${globalData[i].bioProject}</td><td>${globalData[i].bioSample}</td><td>${globalData[i].tissue}</td><td>${globalData[i].additional_info}</td><td>${globalData[i].condition_treatment}</td><td>${globalData[i].source}</td><td>${globalData[i].species}</td><td>${globalData[i].breed}</td><td>${globalData[i].gender}</td><td>${globalData[i].development_stage}</td></tr>`
+			$("#genes").find("tbody").append(dataRow);  		 
+			}
+    } else {
+        $("input[name='cbSelect']").attr('checked', false);
+			checkedData = new Set();
+	 		uncheckedData = idSet;
+ 	}
+ }
+ 
+ function fetchGenes(btn){
+ 	payload_1 = [...checkedData]
+ 	payload_2 = payload_1.splice(0, Math.floor(payload_1.length/2));
+ 	resposeData_1 = [];
+ 	responseData_2 = [];
+ 	url = "[[@{/sample_description/api/sample_descriptions/download/runIds}]]"
+ 	params = {runIds: payload_1};
+ 	$.post(url, params, function(data, status){
+ 		responseData_1 = data;
+ 		index = responseData_1.indexOf("\n")
+        responseData_1 = responseData_1.substring(index+1, responseData_1.length);
+ 		params = {runIds: payload_2};
+ 		$.post(url, params, function(data, status){
+	 		responseData_2 = data;
+	 		responseData = responseData_2.concat(responseData_1);
+	 		const blob = new Blob([responseData], { type: 'text/csv' });
+	 		const urls = window.URL.createObjectURL(blob);
+	 		const a = document.createElement('a');
+		    a.setAttribute('href', urls);
+		    a.setAttribute('download', 'sample_description.csv'); 
+		    a.click();
+	     	});
+ 	});
+ }
+ 
+</script>
+</body>
+</html>

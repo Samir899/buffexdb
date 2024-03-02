@@ -1,0 +1,132 @@
+*.icon-white{color: white}
+*.icon-silver{color: silver}
+*.icon-green{color: green}
+*.icon-dark{color: gray}
+*.icon-red{color: red}
+a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; cursor: pointer; }
+a:active { text-decoration: none; }
+*.no-text-decoration{
+	text-decoration: none;
+}
+*.background-img{
+	 background: url('/images/buffaloImage.jpg')
+                no-repeat center center fixed;
+    background-size: cover;
+}
+ul{
+	list-style-type: none;
+}
+
+*.dropdown-list:hover{
+	background: rgba(33,37,41);
+	color: white;
+	cursor:pointer;
+}
+i:hover{
+		cursor:pointer;
+}
+
+*.popup-container{
+  	position: relative;
+
+
+}
+*.overlay{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(248,249,250, 0);
+  visibility: hidden;
+}
+*.overlay-loader{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(38,80,115, 0.8);
+  visibility: hidden;
+  z-index:1;
+}
+
+*.popup-loader{
+	background: rgba(255,255,255,1);
+	margin:300px auto;
+	width: fit-content;
+	padding: 20px;
+	border-radius: 10px;
+}
+*.popup-table{
+	background: rgba(38,80,115, 0.9);
+	margin:200px auto;
+	width: 75%;
+	color:white;
+	
+}
+*.fixed{
+		position: fixed;
+}
+*.close{
+	z-index:-1
+}
+*.nav-border-style{
+	background: rgb(21,245,186);
+
+    border-radius: 50px 20px;
+}
+*.nav-bg{
+	background-color:#265073;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 50px;
+}
+*.body-bg{
+	background: #1B1A55;
+}
+*.nav-with-button-bg{
+
+
+}
+
+*.btn-dropdown-bg{
+	background: rgb(21,245,186);
+	border-radius: 5px;
+}
+*.footer{
+background: rgb(21,245,186);
+background: linear-gradient(90deg, rgba(21,245,186) 0%, rgba(9,9,121,1) 100%, rgb(38,80,115) 100%);
+color:white;
+padding:10px;
+}
+*.sub-footer{
+	
+text-align: center;
+}
+*.rounded-border{
+	border-radius:10px;
+	overflow:hidden;
+}
+
+*.spinning {
+
+    -webkit-animation:spin 2s linear infinite;
+    -moz-animation:spin 2s linear infinite;
+    animation:spin 2s linear infinite;
+}
+@-moz-keyframes spin { 
+    100% { -moz-transform: rotateY(180deg); } 
+}
+@-webkit-keyframes spin { 
+    100% { -webkit-transform: rotateY(180deg); } 
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotateY(180deg); 
+        transform:rotateY(180deg); 
+    } 
+}

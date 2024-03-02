@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+<title>Database Admin Control Panel</title>
+<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div class="container-fluid popup-container">
+		<div>
+			<div class="nav-bg">
+				<div class="row">
+					<div class="col">
+						<nav class="navbar navbar-expand-lg text-white nav-border-style">
+							<div>
+								<a class="navbar-brand" th:href="@{/}"> <img th:src="@{/images/icar.png}" height="100px" width="100px" class='spinning'/>
+								</a>
+							</div>
+							<h1 class="">Buffalo Expression Database</h1>
+								
+						</nav>
+					</div>
+					<div class="col">
+						<div class="d-flex align-items-center justify-content-end pt-2 px-5">
+							<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/iasris.jpeg}" height="100px" width="100px"/>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+				<div class="nav-with-button-bg">
+			<nav class="navbar navbar-expand-lg text-nowrap fw-bold">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="topNavbar" aria-haspopup="true" aria-expanded="false">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/}">Home</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/about}">About Us</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/downloads}">Downloads</a>
+						</li>
+					</ul>
+					
+				</div>				
+					<div class="btn-group dropstart btn-dropdown-bg">
+					  <button type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+					    Database
+					  </button>
+					  	<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						    <li><a class="dropdown-item" th:href="@{/database/genes}">Gene Description</a></li>
+						    <li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
+						    <li><a class="dropdown-item" th:href="@{/database/tissue}">Expressions</a></li>
+					  	</ul>
+					</div>
+			</nav>
+		</div>
+		<div class="overflow-hidden" style="height:350px">
+		<img  class="img-fluid w-100" th:src="@{/images/tissue.jpeg}" />		
+		</div>
+		<div class="border">
+			<div class="p-2">
+				<div class="row">
+					<div class="col">
+						<div class="row">
+							<div class="col">
+								<div class="">
+									<select class="form-select" id="select_tissue">
+										  <option disabled selected>Select Tissue</option>				  
+										  <option th:each="tissue, iStat: ${listTissues}" th:value="${tissue.id}" >[[${tissue.tissue_name}]]</option>
+									</select>
+								</div>
+							</div>
+							<div class="col">
+								<div class="d-flex align-items-center">
+									<div class="form-check m-2">
+									  <input class="form-check-input" type="checkbox" value="" id="cb_fpkm" checked onclick="checkBox_expLevel(this)">
+									  <label class="form-check-label" for="flexCheckDefault">
+									    FPKM
+									  </label>
+									</div>
+									<div class="form-check mx-2">
+									  <input class="form-check-input" type="checkbox" value="" id="cb_tpm" onclick="checkBox_expLevel(this)">
+									  <label class="form-check-label" for="flexCheckChecked">
+									   TPM
+									  </label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col ">
+						<div class="d-flex justify-content-end">
+							<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download <i class="fa-solid fa-download"></i></button>		
+						</div>
+					</div>
+				</div>
+			</div>
+	 		<div class="overflow-auto text-nowrap p-2">
+	 			<div>
+		 			<table class="table table-hover table-bordered" id="genes">
+					  <thead class="table-dark">
+					  </thead>
+					  <tbody>
+					    
+					  </tbody>
+					</table>
+				</div>
+	 			<div class="overlay-loader" id="table_loader_bg">
+	 				<div class="fixed w-100">
+	 					<div class="popup-loader" id="table_loader">
+						</div>
+	 				</div>					
+ 				</div>
+			</div>
+		</div>
+		
+		<div class="mx-auto mt-2" style="width: 500px;">
+			<div class="justify-content-center text-center" id="pageInfo" >
+		
+			</div>
+		 	<ul class="pagination justify-content-center">
+			   <li id="firstPage"><a class="page-link">First</a></li>
+			    <li id="previousPage"><a class="page-link">Previous</a></li>
+			   
+			    <li id="nextPage"><a class="page-link" >Next</a></li>
+			     <li id="lastPage"><a class="page-link" >Last</a></li>
+			</ul>
+		</div>
+		<div class="footer">
+			<div class="sub-footer pt-2">
+				<h1>Database - Buffalo Expression DB</h1>
+			</div>
+			<div class="sub-footer">
+				<p>Database - Copyright &copy; IARI</p>
+			</div>
+		</div>
+		<div class="overlay text-nowrap" id="overlay">
+			<div class="fixed w-100">
+			<div class="popup-table border rounded p-3">
+			<div class="close d-flex flex-row-reverse bd-highlight" id="close">
+				<i onclick="closePopup(this)" class="fa-regular fa-rectangle-xmark"></i>
+			</div>
+			 <div class="p-2 d-flex align-items-center">
+			 	<div class="p-2">
+			 		<h3>Sample Description</h3>
+			 	</div>
+			 	<div class="p-2">
+			 		<i class="fa-solid fa-download"></i>
+			 	</div>
+			 	 
+			 </div>
+			 <div class="container overflow-auto">
+					<table class="table table-hover table-bordered" id="popup-table-view">
+		 			 <thead class="table-dark">
+		  			</thead>
+		  			<tbody>
+		    
+		  			</tbody>
+				</table>
+			</div>		
+			</div>
+			</div>		  
+		</div>
+	</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script type="text/javascript">
+var	init = 0;
+var	last = 10;
+var pageSize = 10;
+var pageNum = 1;
+var totalRecords = 0;
+var totalPages = 0;
+var numberOfRecordsOfLastPage = 0;
+var fetchedData = [];
+var globalData = [];
+var checkedData = new Set();
+var uncheckedData = new Set();
+var idSet = [];
+var isCheckAll = false;
+var isExpanded = false;
+isTpm = false;
+isFpkm = true;
+var tissue_selected = "";
+var sum_of_fpkm = 0;
+function getTPM(fpkm){	
+	return fpkm*(Math.pow(10, 6)/(sum_of_fpkm));
+}
+
+//document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
+// 	$("#listElements").empty();  
+//	var inputVal = document.getElementById("dropdownMenuLink1").value;
+//	if(inputVal==""){
+//		document.getElementById("listContainer").hidden = true;
+//	}
+//	else{
+//		document.getElementById("listContainer").hidden = false;
+//	}
+//	var newArray = fetchedData.filter(function (el) {
+//			return el.run.startsWith(inputVal);
+//			});
+//		if(newArray.length==0){
+//			var span = `<span class="p-2">No results found</span>`
+//			$("#listElements").append(span); 
+//		}
+//		for(let i=0;i<newArray.length;i++){
+//			var anchor = `<div onclick="dropdownSelection('${newArray[i].run}')" class="dropdown-list px-2 py-1 fw-bold">${newArray[i].run}</div>`
+//			$("#listElements").append(anchor);   
+//		}
+//});
+
+function hideLoader(){
+	$("#table_loader").empty();
+	document.getElementById("table_loader_bg").style.visibility = "hidden";
+}
+
+function renderLoader(){
+	document.getElementById("table_loader_bg").style.visibility = "visible";
+	loader = `<div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div>`;
+	$("#table_loader").append(loader);
+}
+
+$("#select_tissue").change(function(){
+	
+	renderLoader();
+	selectedText = $(this).find(":selected").text();
+	tissue_selected = selectedText;
+	switch(selectedText){
+		case "COTYLEDON":
+			url = "[[@{/cotyledon/api/cotyledons}]]"
+			$.get(url,function(data, status){
+				hideLoader();
+				console.log(data.length)
+				console.log(data[0])
+				fetchedData = data;
+				globalData = data;
+				renderTable("COTYLEDON");
+				totalRecords = data.length;
+                totalPages = Math.ceil(totalRecords/pageSize);
+             	numberOfRecordsOfLastPage = totalRecords%pageSize;
+				pagination();
+			})
+		break;
+		case "CORPUS LUTEUM":
+			url = "[[@{/corpusluteum/api/corpusluteums/err/sum}]]"
+			
+			$.get(url, function(data, status){
+				console.log(data)
+				console.log(status)	
+				sum_of_fpkm = data;		
+			})
+			url = "[[@{/corpusluteum/api/corpusluteums}]]"
+			$.get(url,function(data, status){
+				hideLoader();
+				console.log(data.length)
+				console.log(data[0])
+				fetchedData = data;
+				globalData = data;
+				renderTable("CORPUS LUTEUM");
+				totalRecords = data.length;
+                totalPages = Math.ceil(totalRecords/pageSize);
+             	numberOfRecordsOfLastPage = totalRecords%pageSize;
+				pagination();
+			})
+		break;
+		default:console.log("Invalid Selection");
+	}
+
+})
+
+//function dropdownSelection(string){
+//	document.getElementById("dropdownMenuLink1").value = string;
+//	document.getElementById("listContainer").hidden = true;
+//	$("#listElements").empty()
+//}
+
+function renderTable(data){
+	isExpanded=false
+	
+	switch(data){
+		case "COTYLEDON":
+		headerRow = "";
+		if(isCheckAll){
+			if(isTpm && isFpkm){
+				headerRow = '<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (FPKM)</a></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (TPM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+			}
+			else if(isTpm){
+				headerRow = '<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (TPM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+			}
+			else{
+				headerRow = '<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (FPKM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+			}
+			
+		}
+		else{
+			if(isTpm && isFpkm){
+				headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (FPKM)</a></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (TPM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+			}
+			else if(isTpm){
+				headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (TPM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+			}
+			else{
+				headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (FPKM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+			}
+			
+		}
+		$("#genes").find("thead").empty()
+	   	$("#genes").find("tbody").empty();
+		$("#genes").find("thead").append(headerRow);
+	   	for(let i=init;i<last;i++){
+	   		dataRow = "";
+	   		if(checkedData.has(globalData[i].gene.geneId)){
+	   			if(isTpm && isFpkm){
+					dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].srr4119663_fpkm}</td><td>${globalData[i].srr4119663_tpm}</td><td>${globalData[i].gene.geneId}</td></tr>`
+				}
+				else if(isTpm){
+					dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].srr4119663_tpm}</td><td>${globalData[i].gene.geneId}</td></tr>`
+				}
+				else{
+					dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].srr4119663_fpkm}</td><td>${globalData[i].gene.geneId}</td></tr>`
+				}
+	   			
+	   		}	
+			else{
+			
+				if(isTpm && isFpkm){
+					dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div><td>${globalData[i].srr4119663_fpkm}</td><td>${globalData[i].srr4119663_tpm}</td></td><td>${globalData[i].gene.geneId}</td></tr>`
+				}
+				else if(isTpm){
+					dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div><td>${globalData[i].srr4119663_tpm}</td></td><td>${globalData[i].gene.geneId}</td></tr>`
+				}
+				else{
+					dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div><td>${globalData[i].srr4119663_fpkm}</td></td><td>${globalData[i].gene.geneId}</td></tr>`
+				}
+				
+			}
+			$("#genes").find("tbody").append(dataRow);
+			 
+	 		}
+	 		break;
+	 		case "CORPUS LUTEUM":
+			headerRow = "";
+			if(isCheckAll){
+				if(isTpm && isFpkm){
+					headerRow = '<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (FPKM)</a></td><td><a onclick="showSampleDescription(this)" >ERR315632 (TPM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+				}
+				else if(isTpm){
+					headerRow = '<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (TPM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+				}
+				else{
+					headerRow = '<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (FPKM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+				}
+				
+			}
+			else{
+				if(isTpm && isFpkm){
+					headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (FPKM)</a></td><td><a onclick="showSampleDescription(this)" >ERR315632 (TPM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+				}
+				else if(isTpm){
+					headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (TPM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+				}
+				else{
+					headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (FPKM)</a></td><td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td></tr>';
+				}
+				
+			}
+			$("#genes").find("thead").empty()
+		   	$("#genes").find("tbody").empty();
+			$("#genes").find("thead").append(headerRow);
+		   	for(let i=init;i<last;i++){
+		   		tpm = getTPM(globalData[i].err315632)
+		   		dataRow = "";
+		   		if(checkedData.has(globalData[i].gene.geneId)){
+		   			if(isTpm && isFpkm){
+						dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].err315632}</td><td>${tpm}</td><td>${globalData[i].gene.geneId}</td></tr>`
+					}
+					else if(isTpm){
+						dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${tpm}</td><td>${globalData[i].gene.geneId}</td></tr>`
+					}
+					else{
+						dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].err315632}</td><td>${globalData[i].gene.geneId}</td></tr>`
+					}
+		   			
+		   		}	
+				else{
+				
+					if(isTpm && isFpkm){
+						dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div><td>${globalData[i].err315632}</td><td>${tpm}</td></td><td>${globalData[i].gene.geneId}</td></tr>`
+					}
+					else if(isTpm){
+						dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div><td>${tpm}</td></td><td>${globalData[i].gene.geneId}</td></tr>`
+					}
+					else{
+						dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div><td>${globalData[i].err315632}</td></td><td>${globalData[i].gene.geneId}</td></tr>`
+					}
+					
+				}
+				$("#genes").find("tbody").append(dataRow);
+				 
+		 		}
+		 		break;
+		 		
+		 		
+		}
+		
+	}
+	
+function expand(){
+	renderWithGeneInfo(tissue_selected)
+}
+
+function collapse(){
+	renderTable(tissue_selected)
+}
+
+function renderWithGeneInfo(data){
+		isExpanded = true;
+		
+		switch(data){
+		
+			case "COTYLEDON":
+				headerRow = "";
+		
+				if(isCheckAll){
+					if(isTpm && isFpkm){
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" checked="true"></div></td><td><a onclick="showSampleDescription(this)" SRR4119663 (FPKM)</a></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (TPM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+					else if(isTpm){
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" checked="true"></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (TPM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+					else{
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" checked="true"></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (FPKM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+				}
+				else{
+					if(isTpm && isFpkm){
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (FPKM)</a></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (TPM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+					else if(isTpm){
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (TPM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+					else{
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td><a onclick="showSampleDescription(this)" >SRR4119663 (FPKM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+				}
+				$("#genes").find("thead").empty()
+			   	$("#genes").find("tbody").empty();
+				$("#genes").find("thead").append(headerRow);
+			   	for(let i=init;i<last;i++){
+			   
+			   		dataRow = "";
+			   		if(checkedData.has(globalData[i].gene.geneId)){
+			   		
+			   			if(isTpm && isFpkm){
+							dataRow = `<tr><tr><td><div class="form-check"><input checked="true" onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].srr4119663_fpkm}</td></td><td>${globalData[i].srr4119663_tpm}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+						else if(isTpm){
+							dataRow = `<tr><tr><td><div class="form-check"><input checked="true" onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].srr4119663_tpm}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+						else{
+							dataRow = `<tr><tr><td><div class="form-check"><input checked="true" onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].srr4119663_fpkm}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+			   		}
+					else{
+					
+						if(isTpm && isFpkm){
+							dataRow = `<tr><tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].srr4119663_fpkm}</td><td>${globalData[i].srr4119663_tpm}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+						else if(isTpm){
+							dataRow = `<tr><tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].srr4119663_tpm}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+						else{
+							dataRow = `<tr><tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].srr4119663_fpkm}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+						
+					}
+					$("#genes").find("tbody").append(dataRow);
+					 
+			 	}
+			 	break;
+			 	case "CORPUS LUTEUM":
+			 	 headerRow = "";
+		
+		
+				if(isCheckAll){
+					if(isTpm && isFpkm){
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" checked="true"></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (FPKM)</a></td><td><a onclick="showSampleDescription(this)" >ERR315632 (TPM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+					else if(isTpm){
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" checked="true"></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (TPM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+					else{
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" checked="true"></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (FPKM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+				}
+				else{
+					if(isTpm && isFpkm){
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (FPKM)</a></td><td><a onclick="showSampleDescription(this)" >ERR315632 (TPM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+					else if(isTpm){
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (TPM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+					else{
+						headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td><a onclick="showSampleDescription(this)" >ERR315632 (FPKM)</a></td><td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus"></i></div></td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
+					}
+				}
+				$("#genes").find("thead").empty()
+			   	$("#genes").find("tbody").empty();
+				$("#genes").find("thead").append(headerRow);
+			   	for(let i=init;i<last;i++){
+			   		tpm = getTPM(globalData[i].err315632)
+			   		dataRow = "";
+			   		if(checkedData.has(globalData[i].gene.geneId)){
+			   		
+			   			if(isTpm && isFpkm){
+							dataRow = `<tr><tr><td><div class="form-check"><input checked="true" onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].err315632}</td></td><td>${tpm}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+						else if(isTpm){
+							dataRow = `<tr><tr><td><div class="form-check"><input checked="true" onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${tpm}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+						else{
+							dataRow = `<tr><tr><td><div class="form-check"><input checked="true" onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].err315632}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+			   		}
+					else{
+					
+						if(isTpm && isFpkm){
+							dataRow = `<tr><tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].err315632}</td><td>${tpm}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+						else if(isTpm){
+							dataRow = `<tr><tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${tpm}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+						else{
+							dataRow = `<tr><tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].gene.geneId}></div></td><td>${globalData[i].err315632}</td><td>${globalData[i].gene.geneId}</td><td>${globalData[i].gene.geneName}</td><td>${globalData[i].gene.chromosome}</td><td>${globalData[i].gene.strand}</td><td>${globalData[i].gene.locus}</td></div></tr>`
+						}
+						
+					}
+					$("#genes").find("tbody").append(dataRow);
+					 
+			 	}
+			 	break;
+		
+		}
+		
+}
+function closePopup(event){
+	document.getElementById("overlay").style.visibility = "hidden";
+}
+
+function showSampleDescription(event){
+	runId = event.innerHTML.split("(")[0].trim();
+	document.getElementById("overlay").style.visibility = "visible";
+	headerRow = "";
+	headerRow = '<tr><<td>RUN</td><td>BIO PROJECT</td><td>BIO SAMPLE</td><td>TISSUE</td><td>ADDITIONAL INFO</td><td>CONDITION TREATMENT</td><td>SOURCE</td><td>SPECIES</td><td>BREED</td><td>GENDER</td><td>DEVELOPMENT STAGE</td></tr>';
+	$("#popup-table-view").find("thead").empty()
+   	$("#popup-table-view").find("tbody").empty();
+	$("#popup-table-view").find("thead").append(headerRow);
+	
+	url = "[[@{/sample_description/api/sample_descriptions/}]]" + runId;
+	$.get(url, function(data, status){
+		console.log(data);
+		dataRow = "";
+		dataRow = `<tr><td>${data.run}</td></td><td>${data.bioProject}</td><td>${data.bioSample}</td><td>${data.tissue}</td><td>${data.additional_info}</td><td>${data.condition_treatment}</td><td>${data.source}</td><td>${data.species}</td><td>${data.breed}</td><td>${data.gender}</td><td>${data.development_stage}</td></tr>`
+		$("#popup-table-view").find("tbody").append(dataRow);  
+	});
+	
+}
+
+$( document ).ready(function() {
+	
+	url = "[[@{/gene/api/genes/geneId/all}]]"
+	$.get(url, function(data, status){
+		console.log(status);
+		console.log(data);
+		uncheckedData = new Set(data);
+		idSet = data;
+	});
+});
+
+//document.getElementById("btn-searchGeneByName").addEventListener("click", function(event){
+//	init=0;
+//	last=1;
+//	totalRecords = 1
+//	totalPages = 1
+//	pageNum=1;
+//	pagination();
+//	checkedData = new Set();
+//    $("#genes").find("tbody").empty();
+//	searchText = document.getElementById("dropdownMenuLink1").value
+//	url = "[[@{/sample_description/api/sample_descriptions/}]]" + searchText
+//	$.get(url, function(data, status){
+//		globalData = [data];
+//		if(!data){
+//			pageInfo = `No Records found`
+//			init=0;
+//			last=0;
+//			$("#pageInfo").empty();
+//			$("#pageInfo").append(pageInfo);
+//		}
+//		renderTable(globalData) 
+//	})
+//})
+
+document.getElementById("firstPage").addEventListener("click", function(event){
+		init = 0;
+		last = 10;
+		pageNum = 1;
+		pagination();
+  		event.preventDefault();
+		$("#genes").find("tbody").empty();
+		if(isExpanded){
+			renderWithGeneInfo(this)
+			
+		}else{
+			renderTable(globalData)
+		}
+		
+});
+document.getElementById("nextPage").addEventListener("click", function(event){
+		init = init + pageSize;
+		last = last + pageSize;
+		if(last>totalRecords){
+			last = last - numberOfRecordsOfLastPage; 
+		}
+		pageNum = pageNum + 1;
+		pagination();
+  		event.preventDefault();
+  		
+		if(isExpanded){
+			renderWithGeneInfo(this)
+			
+		}else{
+			renderTable(globalData)
+		}
+
+});
+document.getElementById("lastPage").addEventListener("click", function(event){
+		var new_init = totalRecords - numberOfRecordsOfLastPage;
+		var new_last = totalRecords;
+		init = new_init;
+		last = new_last;
+		pageNum = totalPages;
+		pagination();
+  		event.preventDefault();
+  		if(isExpanded){
+			renderWithGeneInfo(this)
+			
+		}else{
+			renderTable(globalData)
+		}
+});
+document.getElementById("previousPage").addEventListener("click", function(event){
+		pageNum = pageNum - 1;
+		init = init - pageSize;
+		
+		if(pageNum == totalPages - 1){
+			last = last - Math.ceil(pageSize/2);
+		}
+		else{
+			last = last - 10;
+		}
+		pagination();
+  		event.preventDefault();
+  		if(isExpanded){
+			renderWithGeneInfo(tissue_selected)
+			
+		}else{
+			renderTable(tissue_selected)
+		}
+ 	
+});
+
+function pagination(){
+	var pageInfo = "";
+	$("#pageInfo").empty();
+	if(pageNum<=1){
+		$("#firstPage").addClass("page-item disabled");
+		$("#previousPage").addClass("page-item disabled");
+		$("#nextPage").removeClass("disabled");
+		$("#lastPage").removeClass("disabled");	
+		pageInfo = `<span>Showing rows #  ${init+1} to ${last} of ${totalRecords}</span>`
+		if(pageNum==totalPages){
+			$("#nextPage").addClass("page-item disabled");
+			$("#lastPage").addClass("page-item disabled");
+			pageInfo = `<span>Showing rows #  ${1} to ${totalRecords} of ${totalRecords}</span>`		
+		}
+	}
+	else if(pageNum>1){
+		$("#firstPage").removeClass("disabled");
+		$("#previousPage").removeClass("disabled");
+		$("#nextPage").removeClass("disabled");
+		$("#lastPage").removeClass("disabled");
+		pageInfo = `<span>Showing rows #  ${init+1} to ${last} of ${totalRecords}</span>`
+		if(pageNum==totalPages){
+			$("#nextPage").addClass("page-item disabled");
+			$("#lastPage").addClass("page-item disabled");
+			pageInfo = `<span>Showing rows #  ${totalRecords - numberOfRecordsOfLastPage} to ${totalRecords} of ${totalRecords}</span>`
+		}
+	}
+	$("#pageInfo").append(pageInfo);
+}
+	function validateCheckBox(form){
+		init=0;
+		last=1;
+		totalRecords = 1
+		totalPages = 1
+		pageNum=1;
+		checkedData = new Set();
+		pagination();
+	    $("#genes").find("tbody").empty();
+		var selectedValue = $("input[name=searchParam]:checked").val();
+		var textValue = $("input[name=searchText]").val();
+		if(textValue == "+"){
+			textValue = "%2B";
+		}
+		if(!selectedValue){
+            $("#radio-error").text("Please select a search parameter");   
+            } 
+         else {  
+	         $("#radio-error").empty();
+	         
+	         url = "[[@{/sample_description/api/sample_descriptions/query/runIds}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+	         $.get(url, function(data, status){	
+	         		idSet = new Set(data);
+         	});
+         	console.log(selectedValue, ":", textValue)
+			url = "[[@{/sample_description/api/sample_descriptions/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+			$.get(url, function(data, status){
+				console.log(status)
+				globalData = data;
+				if(data.length==0){
+					pageInfo = `No Records found`
+					init=0;
+					last=0;
+					$("#pageInfo").empty();
+					$("#pageInfo").append(pageInfo);
+				}
+				else{
+					init=0;
+					last=pageSize;
+					if(globalData.length<pageSize){
+						last = globalData.length;
+					}
+					totalRecords = globalData.length;
+					totalPages = Math.ceil(globalData.length/pageSize);
+					numberOfRecordsOfLastPage = totalRecords%pageSize;
+					pagination();
+					renderTable(globalData)
+				}
+			  });	
+         }
+		return false;
+	}
+	
+	$(document).ready (function () {  
+    $('#genes').after ('<div id="nav"></div>');  
+    var rowsShown = 5;  
+    var rowsTotal = $('#data tbody tr').length;  
+    var numPages = rowsTotal/rowsShown;  
+    for (i = 0;i < numPages;i++) {  
+        var pageNum = i + 1;  
+        $('#nav').append ('<a href="#" rel="'+i+'">'+pageNum+'</a> ');  
+    }
+    });
+    
+function checkBox(checkbox){
+	index = checkbox.value;
+	id = checkbox.id;
+	if($(`#${id}:checkbox:checked`).length>0){
+		checkedData.add(id)
+		uncheckedData.delete(id)
+		
+	}else{
+		checkedData.delete(id)
+		uncheckedData.add(id)
+		isCheckAll = false;
+	}
+	if(isExpanded){
+		renderWithGeneInfo(tissue_selected)
+			
+	}else{
+		renderTable(tissue_selected)
+	}
+}
+ 
+function checkBox_expLevel(checkbox){
+	//index = checkbox.value;
+	
+	id = checkbox.id;
+	console.log(id)
+	if($(`#${id}:checkbox:checked`).length>0){
+		if(id=='cb_fpkm') isFpkm = true;
+		if(id=='cb_tpm') isTpm = true;
+
+	}else{
+			if(id=='cb_fpkm') isFpkm = false;
+			if(id=='cb_tpm') isTpm = false;
+	}
+	if(isExpanded){
+		renderWithGeneInfo(tissue_selected)
+			
+	}else{
+		renderTable(tissue_selected)
+	}
+}
+
+
+ function checkAll(checkbox){	 
+ 	if ($(checkbox).is(':checked')) {
+ 		    isCheckAll = true;
+	 		checkedData = new Set(idSet);	
+	 		uncheckedData = new Set(); 		
+
+    } else {
+    	    isCheckAll = false;
+			checkedData = new Set();
+	 		uncheckedData = new Set(idSet);
+ 	}
+ 	if(isExpanded){
+			renderWithGeneInfo(tissue_selected)
+			
+		}else{
+			renderTable(tissue_selected)
+		}
+ 	
+ }
+ 
+ function fetchGenes(btn){
+ 	payload_1 = [...checkedData]
+ 	payload_2 = payload_1.splice(0, Math.floor(payload_1.length/2));
+ 	resposeData_1 = [];
+ 	responseData_2 = [];
+ 	url = "[[@{/sample_description/api/sample_descriptions/download/runIds}]]"
+ 	params = {runIds: payload_1};
+ 	$.post(url, params, function(data, status){
+ 		responseData_1 = data;
+ 		index = responseData_1.indexOf("\n")
+        responseData_1 = responseData_1.substring(index+1, responseData_1.length);
+ 		params = {runIds: payload_2};
+ 		$.post(url, params, function(data, status){
+	 		responseData_2 = data;
+	 		responseData = responseData_2.concat(responseData_1);
+	 		const blob = new Blob([responseData], { type: 'text/csv' });
+	 		const urls = window.URL.createObjectURL(blob);
+	 		const a = document.createElement('a');
+		    a.setAttribute('href', urls);
+		    a.setAttribute('download', 'sample_description.csv'); 
+		    a.click();
+	     	});
+ 	});
+ }
+ 
+</script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+<title>Database Admin Control Panel</title>
+<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+	<div class="container-fluid">
+
+		<div>
+			<nav class="navbar navbar-expand-lg bg-light navbar-light">
+				<a class="navbar-brand" th:href="@{/}"> <img th:src="@{/images/buffalo.svg}" height="100px" width="100px"/>
+				</a>
+				<h1>BUFFEXDB</h1>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</nav>
+		</div>
+		<div>
+			<nav class="navbar navbar-expand-lg bg-dark navbar-dark border text-nowrap fw-bold">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="topNavbar" aria-haspopup="true" aria-expanded="false">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/}">Home</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/about}">About Us</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/downloads}">Downloads</a>
+						</li>
+						<li class="nav-item">
+							<div class="dropdown">
+							  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+							    Database
+							  </a>
+							
+							  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+							    <li><a class="dropdown-item" th:href="@{/database/genes}">Genes</a></li>
+							    <li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
+							    <li><a class="dropdown-item" th:href="@{/database/tissue}">Tissues</a></li>
+							  </ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		
+		<div class="overflow-hidden" style="height:200px">
+		<img  class="img-fluid w-100" th:src="@{/images/buffalols.jpeg}" />
+		
+			
+		</div>
+		<div class="border p-3">
+		<div class="w-50 p-3 ">
+			<div class="mb-3">
+				<h4>View Database</h4>
+			</div>
+			
+			<form th:action="@{/database/view}" method="post">
+					<div class="input-group mb-3">
+						<select class="form-select" aria-label="Default select example" required name="database">
+			  				<option disabled selected>Select Table</option>
+			  				<option th:each="table: ${listDB}" th:value="${table}">[[${table}]]</option>
+						</select>
+ 						<button class="btn btn-outline-secondary" type="submit" id="button-addon2">Submit</button>
+				</div>
+			</form>
+		</div>
+			<div class="text-nowrap p-3">
+			<form id="queryForm" th:action="@{/database/GENES/query/1/false}" method="post" onSubmit="return validateCheckBox(this);">
+				<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
+				<div class="fw-bold ">
+					<span class="align-middle fs-5">Search By: </span>
+				</div>
+				<div class="align-middle mb-3">
+				
+				   <input class="form-check-input" type="radio" name="searchParam" id="geneName" value="gene_name">
+				   
+				   <label class="form-check-label" for="flexRadioDefault1">
+				    GENE NAME
+				   </label>
+				   <input class="form-check-input" type="radio" name="searchParam" id="strand" value="strand">
+				  <label class="form-check-label" for="flexRadioDefault1">
+				    STRAND
+				  </label>
+				   <input class="form-check-input" type="radio" name="searchParam" id="chromosome" value="chromosome">
+				  <label class="form-check-label" for="flexRadioDefault1">
+				    CHROMOSOME
+				  </label>
+				</div>
+				<div class="input-group w-25 mb-2">
+				  <input required type="text" class="form-control" name="searchText" placeholder="Gene, Strand, Chromosome" aria-label="Recipient's username" id="searchText">
+				  <button class="btn btn-outline-secondary" type="submit" id="search">Search</button>
+				</div>
+				<div id="radio-error" class="input-group w-25 fs-6 text-danger" style="height:20px"></div>
+				</form>
+				
+			</div>
+			
+			
+			<div class="overflow-scroll text-nowrap">
+			<table class="table table-striped border mb-0" th:if="${database == 'GENES'}">
+			  <thead class="table-dark">
+			    <tr>
+			      <th th:if="${checkAll and searchText != '+'}"><a class="fa-solid fa-square-check icon-while" th:href="@{${'/database/' + database + '/fetch/' + currentPage +'/' + !checkAll + '?searchText=' + searchText + '&searchParam=' + searchParam}}"></a></th>
+			      <th th:if="${!checkAll and searchText != '+'}"><a class="fa-regular fa-square-check" th:href="@{${'/database/' + database + '/fetch/' + currentPage +'/' + !checkAll + '?searchText=' + searchText + '&searchParam=' + searchParam}}"></a></th>
+			      <th th:if="${checkAll and searchText == '+'}"><a class="fa-solid fa-square-check icon-while" th:href="@{${'/database/' + database + '/fetch/' + currentPage +'/' + !checkAll + '?searchText=%2B' + '&searchParam=' + searchParam}}"></a></th>
+			      <th th:if="${!checkAll and searchText == '+'}"><a class="fa-regular fa-square-check" th:href="@{${'/database/' + database + '/fetch/' + currentPage +'/' + !checkAll + '?searchText=%2B' + '&searchParam=' + searchParam}}"></a></th>
+			      <th scope="col">GENE ID</th>
+			      <th scope="col">GENE NAME</th>
+			      <th scope="col">LOCUS</th>
+			      <th scope="col">STRAND</th>
+			      <th scope="col">CHROMOSOME</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each="gene, iStat: ${listData}">
+<!--  		      <td th:text="${iStat.count}"></td> -->	
+				  <td th:if="${checkAll}"><input class="form-check-input" type="checkbox" name="selectRow" th:value="${gene.geneId}" id="selectIndividual" checked></td>
+				  <td th:if="${!checkAll}"><input class="form-check-input" type="checkbox" name="selectRow" th:value="${gene.geneId}" id="selectIndividual"></td>
+			      <td>[[${gene.geneId}]]</td>
+			      <td>[[${gene.geneName}]]</td>
+			      <td>[[${gene.locus}]]</td>
+			      <td>[[${gene.strand}]]</td>
+			      <td>[[${gene.chromosome}]]</td>
+			  </tbody>
+			</table>
+		
+		<!-- ....................BuffaloSampleDES.................................................. -->
+		<table class="table table-striped border " th:if="${database == 'BUFFALO_SAMPLE_DES'}">
+			  <thead class="table-dark">
+			    <tr>
+			      <th scope="col"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
+			       <th scope="col">RUN</th>
+			      <th scope="col">BIO PROJECT</th>
+			      <th scope="col">BIO SAMPLE</th>
+			      <th scope="col">TISSUE</th>
+			      <th scope="col">ADDITIONAL INFO</th>
+			      <th scope="col">CONDITION/TREATMENT</th>
+			        <th scope="col">SOURCE</th>
+			      <th scope="col">SPECIES</th>
+			      <th scope="col">BREED</th>
+			      <th scope="col">GENDER</th>
+			      <th scope="col">DEVELOPMENT STAGE</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each="buffaloSampleDes, iStat: ${listData}">
+			      <td><input class="form-check-input" type="checkbox" value="" id="cbRowSelect" ></td>
+			      <td>[[${buffaloSampleDes.run}]]</td>
+			      <td>[[${buffaloSampleDes.bioProject}]]</td>
+			      <td>[[${buffaloSampleDes.bioSample}]]</td>
+			      <td>[[${buffaloSampleDes.tissue}]]</td>
+			      <td>[[${buffaloSampleDes.additional_info}]]</td>
+			       <td>[[${buffaloSampleDes.condition_treatment}]]</td>
+			      <td>[[${buffaloSampleDes.source}]]</td>
+			      <td>[[${buffaloSampleDes.species}]]</td>
+			      <td>[[${buffaloSampleDes.breed}]]</td>
+			      <td>[[${buffaloSampleDes.gender}]]</td>
+			      <td>[[${buffaloSampleDes.development_stage}]]</td>
+			  </tbody>
+			</table>
+		</div>
+		</div>
+		
+		<div class="text-center m-1" th:if="${totalItems > 0}">
+			<span>Showing rows #  [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+		</div><div class="text-center m-1" th:unless="${totalItems > 0}">
+			<span>No records found</span>
+		</div>
+		
+		<div class="">
+			<nav class="" th:if="${searchText !='+'}">
+			  <ul class="pagination justify-content-center">
+			   <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{${'/database/' + database +'/fetch/1/' + checkAll + '?searchText=' + searchText + '&searchParam=' + searchParam}}">First</a></li>
+			    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{${'/database/' + database + '/fetch/' + previousPage + '/' + checkAll + '?searchText=' + searchText + '&searchParam=' + searchParam}}">Previous</a></li>
+			   
+			    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{${'/database/' + database + '/fetch/' + nextPage + '/' + checkAll + '?searchText=' + searchText + '&searchParam=' + searchParam}}">Next</a></li>
+			     <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{${'/database/' + database +'/fetch/' +totalPages  + '/' + checkAll + '?searchText=' + searchText + '&searchParam=' + searchParam}}">Last</a></li>
+			  </ul>
+			</nav>
+			<!-- ----------------------------------------- if searchText is a + symbol ------------------------------------------------- -->
+			<nav class="" th:if="${searchText =='+'}">
+			  <ul class="pagination justify-content-center">
+			   <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{${'/database/' + database +'/fetch/1/' + checkAll + '?searchText=%2B' + '&searchParam=' + searchParam}}">First</a></li>
+			    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{${'/database/' + database + '/fetch/' + previousPage + '/' + checkAll + '?searchText=%2B' + '&searchParam=' + searchParam}}">Previous</a></li>
+			   
+			    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{${'/database/' + database + '/fetch/' + nextPage + '/' + checkAll + '?searchText=%2B' + '&searchParam=' + searchParam}}">Next</a></li>
+			     <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"><a class="page-link" th:href="@{${'/database/' + database +'/fetch/' +totalPages  + '/' + checkAll + '?searchText=%2B' + '&searchParam=' + searchParam}}">Last</a></li>
+			  </ul>
+			</nav>
+		</div>
+		<div class="footer">
+			<div class="sub-footer pt-2">
+				<h1>Database - Buffalo Expression DB</h1>
+			</div>
+			<div class="sub-footer">
+				<p>Database Control Panel - Copyright &copy; IARI</p>
+			</div>
+		</div>
+		
+	</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function validateCheckBox(form){
+	
+		var selectedValue = $("input[name=searchParam]:checked").val();  
+		console.log(selectedValue)
+		if(!selectedValue)  
+             {  
+               $("#radio-error").text("Please select a search parameter");   
+                  }  
+            else {  
+            form.submit();
+            }
+		return false;
+	}
+</script>
+</body>
+</html>
