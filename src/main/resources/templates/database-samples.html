@@ -209,13 +209,13 @@ function dropdownSelection(string){
 }
 
 function renderTable(data){
-	
+	console.log(globalData);
 	headerRow = "";
 	if(isCheckAll){
-		headerRow = '<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>RUN</td><td>BIO PROJECT</td><td>BIO SAMPLE</td><td>TISSUE</td><td>ADDITIONAL INFO</td><td>CONDITION TREATMENT</td><td>SOURCE</td><td>SPECIES</td><td>BREED</td><td>GENDER</td><td>DEVELOPMENT STAGE</td></tr>';
+		headerRow = '<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>RUN</td><td>BIO PROJECT</td><td>BIO SAMPLE</td><td>TISSUE</td><td>CATEGORY</td><td>CONDITION TREATMENT</td><td>SUB SPECIES</td><td>BREED</td><td>GENDER</td><td>DEVELOPMENT STAGE</td></tr>';
 	}
 	else{
-		headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>RUN</td><td>BIO PROJECT</td><td>BIO SAMPLE</td><td>TISSUE</td><td>ADDITIONAL INFO</td><td>CONDITION TREATMENT</td><td>SOURCE</td><td>SPECIES</td><td>BREED</td><td>GENDER</td><td>DEVELOPMENT STAGE</td></tr>';
+		headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>RUN</td><td>BIO PROJECT</td><td>BIO SAMPLE</td><td>TISSUE</td><td>CATEGORY</td><td>CONDITION TREATMENT</td><td>SUB SPECIES</td><td>BREED</td><td>GENDER</td><td>DEVELOPMENT STAGE</td></tr>';
 	}
 	$("#genes").find("thead").empty()
    	$("#genes").find("tbody").empty();
@@ -223,10 +223,10 @@ function renderTable(data){
    	for(let i=init;i<last;i++){
    		dataRow = "";
    		if(checkedData.has(globalData[i].run)){
-   			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalData[i].run}></div><td>${globalData[i].run}</td></td><td>${globalData[i].bioProject}</td><td>${globalData[i].bioSample}</td><td>${globalData[i].tissue}</td><td>${globalData[i].additional_info}</td><td>${globalData[i].condition_treatment}</td><td>${globalData[i].source}</td><td>${globalData[i].species}</td><td>${globalData[i].breed}</td><td>${globalData[i].gender}</td><td>${globalData[i].development_stage}</td></tr>`
+   			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalData[i].run}></div><td>${globalData[i].run}</td></td><td>${globalData[i].bioProject}</td><td>${globalData[i].bioSample}</td><td>${globalData[i].tissue}</td><td>${globalData[i].category}</td><td>${globalData[i].condition_treatment}</td><td>${globalData[i].sub_species}</td><td>${globalData[i].breed}</td><td>${globalData[i].gender}</td><td>${globalData[i].development_stage}</td></tr>`
    		}
 		else{
-			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].run}></div><td>${globalData[i].run}</td></td><td><a target=”_blank” href="https://www.ncbi.nlm.nih.gov/bioproject/${globalData[i].bioProject}">${globalData[i].bioProject}</a></td><td><a target=”_blank” href="https://www.ncbi.nlm.nih.gov/biosample/?term=${globalData[i].bioSample}">${globalData[i].bioSample}</a</td><td>${globalData[i].tissue}</td><td>${globalData[i].additional_info}</td><td>${globalData[i].condition_treatment}</td><td>${globalData[i].source}</td><td>${globalData[i].species}</td><td>${globalData[i].breed}</td><td>${globalData[i].gender}</td><td>${globalData[i].development_stage}</td></tr>`
+			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalData[i].run}></div><td>${globalData[i].run}</td></td><td><a target=”_blank” href="https://www.ncbi.nlm.nih.gov/bioproject/${globalData[i].bioProject}">${globalData[i].bioProject}</a></td><td><a target=”_blank” href="https://www.ncbi.nlm.nih.gov/biosample/?term=${globalData[i].bioSample}">${globalData[i].bioSample}</a</td><td>${globalData[i].tissue}</td><td>${globalData[i].category}</td><td>${globalData[i].condition_treatment}</td><td>${globalData[i].sub_species}</td><td>${globalData[i].breed}</td><td>${globalData[i].gender}</td><td>${globalData[i].development_stage}</td></tr>`
 		}
 		$("#genes").find("tbody").append(dataRow);   		 
  	}

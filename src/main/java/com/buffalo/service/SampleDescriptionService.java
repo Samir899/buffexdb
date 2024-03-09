@@ -85,10 +85,10 @@ public class SampleDescriptionService {
 			System.out.println("searchText is :" + searchText);
 			return repo.getSampleByDevelopmentStage(searchText);
 		}
-		if(searchParam.equals("source")) {
-			System.out.println("searchText is :" + searchText);
-			return repo.getSampleBySource(searchText);
-		}
+//		if(searchParam.equals("source")) {
+//			System.out.println("searchText is :" + searchText);
+//			return repo.getSampleBySource(searchText);
+//		}
 		if(searchParam.equals("species")) {
 			System.out.println("searchText is :" + searchText);
 			return repo.getSampleBySpecies(searchText);
@@ -116,10 +116,10 @@ public class SampleDescriptionService {
 
 			return repo.getRunIdByDevelopmentStage(searchText);
 		}
-		if(searchParam.equals("source")) {
-			System.out.println("searchText is :" + searchText);
-			return repo.getRunIdBySource(searchText);
-		}
+//		if(searchParam.equals("source")) {
+//			System.out.println("searchText is :" + searchText);
+//			return repo.getRunIdBySource(searchText);
+//		}
 		if(searchParam.equals("species")) {
 			System.out.println("searchText is :" + searchText);
 			return repo.getRunIdBySpecies(searchText);

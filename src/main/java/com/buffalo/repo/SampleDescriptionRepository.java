@@ -33,17 +33,17 @@ public interface SampleDescriptionRepository extends CrudRepository<SampleDescri
 	@Query("SELECT run FROM SampleDescription u WHERE u.development_stage = :development_stage")
 	public List<String> getRunIdByDevelopmentStage(@Param("development_stage") String development_stage);
 	
-	@Query("SELECT u FROM SampleDescription u WHERE u.source = :source")
-	public List<SampleDescription> getSampleBySource(@Param("source") String source);
+//	@Query("SELECT u FROM SampleDescription u WHERE u.source = :source")
+//	public List<SampleDescription> getSampleBySource(@Param("source") String source);
+//	
+//	@Query("SELECT run FROM SampleDescription u WHERE u.source = :source")
+//	public List<String> getRunIdBySource(@Param("source") String source);
 	
-	@Query("SELECT run FROM SampleDescription u WHERE u.source = :source")
-	public List<String> getRunIdBySource(@Param("source") String source);
+	@Query("SELECT u FROM SampleDescription u WHERE u.sub_species = :sub_species")
+	public List<SampleDescription> getSampleBySpecies(@Param("sub_species") String species);
 	
-	@Query("SELECT u FROM SampleDescription u WHERE u.species = :species")
-	public List<SampleDescription> getSampleBySpecies(@Param("species") String species);
-	
-	@Query("SELECT run FROM SampleDescription u WHERE u.species = :species")
-	public List<String> getRunIdBySpecies(@Param("species") String species);
+	@Query("SELECT run FROM SampleDescription u WHERE u.sub_species = :sub_species")
+	public List<String> getRunIdBySpecies(@Param("sub_species") String sub_species);
 	
 	@Query("SELECT u FROM SampleDescription u WHERE u.tissue = :tissue")
 	public List<SampleDescription> getSampleByTissues(@Param("tissue") String tissue);

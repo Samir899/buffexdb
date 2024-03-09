@@ -21,17 +21,17 @@ public class SampleDescription {
 	@Column(length=60)
 	private String tissue;
 	
-	@Column(length=60)
-	private String additional_info;
+	//@Column(length=60)
+	//private String additional_info;
 	
 	@Column(length=60)
 	private String condition_treatment;
 	
-	@Column(length=60)
-	private String source;
+//	@Column(length=60)
+//	private String source;
 	
 	@Column(length=60)
-	private String species;
+	private String sub_species;
 	
 	@Column(length=60)
 	private String breed;
@@ -42,7 +42,14 @@ public class SampleDescription {
 	@Column(length=60)
 	private String development_stage;
 	
+	@Column(length=60)
+	private String category;
 	
+	@Column(length=60)
+	private String age;
+	
+	@Column(length=60)
+	private String library_layout;
 
 	public SampleDescription() {
 		super();
@@ -53,19 +60,21 @@ public class SampleDescription {
 
 	public SampleDescription(String run, String bioProject, String bioSample, String tissue, String additional_info,
 			String condition_treatment, String source, String species, String breed, String gender,
-			String development_stage) {
+			String development_stage, String library_layout, String category) {
 		super();
 		this.run = run;
 		this.bioProject = bioProject;
 		this.bioSample = bioSample;
 		this.tissue = tissue;
-		this.additional_info = additional_info;
+//		this.additional_info = additional_info;
 		this.condition_treatment = condition_treatment;
-		this.source = source;
-		this.species = species;
+//		this.source = source;
+		this.sub_species = species;
 		this.breed = breed;
 		this.gender = gender;
 		this.development_stage = development_stage;
+		this.library_layout = library_layout;
+		this.category = category;
 	}
 
 
@@ -117,16 +126,16 @@ public class SampleDescription {
 	}
 
 
+//
+//	public String getAdditional_info() {
+//		return additional_info;
+//	}
 
-	public String getAdditional_info() {
-		return additional_info;
-	}
 
 
-
-	public void setAdditional_info(String additional_info) {
-		this.additional_info = additional_info;
-	}
+//	public void setAdditional_info(String additional_info) {
+//		this.additional_info = additional_info;
+//	}
 
 
 
@@ -142,26 +151,26 @@ public class SampleDescription {
 
 
 
-	public String getSource() {
-		return source;
-	}
+//	public String getSource() {
+//		return source;
+//	}
 
 
 
-	public void setSource(String source) {
-		this.source = source;
-	}
+//	public void setSource(String source) {
+//		this.source = source;
+//	}
 
 
 
 	public String getSpecies() {
-		return species;
+		return sub_species;
 	}
 
 
 
-	public void setSpecies(String species) {
-		this.species = species;
+	public void setSpecies(String sub_species) {
+		this.sub_species = sub_species;
 	}
 
 
@@ -213,14 +222,14 @@ public class SampleDescription {
 	        appendFieldValue(dataBuilder, bioProject);
 	        appendFieldValue(dataBuilder, bioSample);
 	        appendFieldValue(dataBuilder, tissue);
-	        appendFieldValue(dataBuilder, additional_info);
+//	        appendFieldValue(dataBuilder, additional_info);
 	        appendFieldValue(dataBuilder, condition_treatment);
-	        appendFieldValue(dataBuilder, source);
-	        appendFieldValue(dataBuilder, species);
+//	        appendFieldValue(dataBuilder, source);
+	        appendFieldValue(dataBuilder, sub_species);
 	        appendFieldValue(dataBuilder, breed);
 	        appendFieldValue(dataBuilder, gender);
 	        appendFieldValue(dataBuilder, development_stage);
-
+	        appendFieldValue(dataBuilder, category);
 	        return dataBuilder.toString();
 	    }
 
