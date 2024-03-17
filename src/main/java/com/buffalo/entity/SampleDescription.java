@@ -79,6 +79,42 @@ public class SampleDescription {
 
 
 
+	public String getSub_species() {
+		return sub_species;
+	}
+
+
+
+	public void setSub_species(String sub_species) {
+		this.sub_species = sub_species;
+	}
+
+
+
+	public String getCategory() {
+		return category;
+	}
+
+
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+
+
+	public String getLibrary_layout() {
+		return library_layout;
+	}
+
+
+
+	public void setLibrary_layout(String library_layout) {
+		this.library_layout = library_layout;
+	}
+
+
+
 	public String getRun() {
 		return run;
 	}

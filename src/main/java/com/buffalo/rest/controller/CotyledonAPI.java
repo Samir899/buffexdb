@@ -53,6 +53,12 @@ public class CotyledonAPI {
     	return service.listAllCotyledon();
     }
     
+    @GetMapping("/cotyledons/err/sum")  
+    public Double getSum() 
+    { 
+    	return service.getSumOfFPKM();
+    }
+    
 //    @GetMapping("/cotyledons/geneId/{geneId}")  
 //    public Cotyledon getCotyledonByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

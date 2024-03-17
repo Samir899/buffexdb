@@ -35,12 +35,11 @@ public class CotyledonService {
 		return (List<Cotyledon>) repo.findAll();
 	}
 	
-
-//	public Cotyledon getCotyledonByGeneId(String geneId) {	
-//	 return repo.getCotyledonByGeneId(geneId);	
-//	}
 	public List<Cotyledon> getCotyledonBySRR(String srr) {	
 		 return repo.getCotyledonBySRR(srr);	
 		}	
-
+	
+	public Double getSumOfFPKM() {	
+		 return repo.getSum();
+		}
 }

@@ -20,5 +20,7 @@ public interface CotyledonRepo extends CrudRepository<Cotyledon, Integer>{
 	@Query("SELECT u FROM Cotyledon u WHERE u.SRR4119663_fpkm = :SRR")
 	public List<Cotyledon> getCotyledonBySRR(@Param("SRR") String SRR);
 	
+	@Query("SELECT sum(SRR4119663_fpkm) FROM Cotyledon")
+	public Double getSum();
 
 }

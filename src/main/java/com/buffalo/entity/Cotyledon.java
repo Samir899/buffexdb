@@ -25,20 +25,18 @@ public class Cotyledon {
 	 @Column(name="SRR4119663_fpkm")
 	 private double SRR4119663_fpkm;
 	 
-	 @Column(name="SRR4119663_tpm")
-	 private double SRR4119663_tpm;
 	 
 	public Cotyledon() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cotyledon(int id, Genes gene, double sRR4119663_fpkm, double sRR4119663_tpm) {
+	public Cotyledon(int id, Genes gene, double sRR4119663_fpkm) {
 		super();
 		this.id = id;
 		this.gene = gene;
 		SRR4119663_fpkm = sRR4119663_fpkm;
-		SRR4119663_tpm = sRR4119663_tpm;
+
 	}
 
 	public int getId() {
@@ -64,15 +62,5 @@ public class Cotyledon {
 	public void setSRR4119663(double sRR4119663_fpkm) {
 		SRR4119663_fpkm = sRR4119663_fpkm;
 	}
-	
-	public double getSRR4119663_tpm() {
-		return SRR4119663_tpm;
-	}
-
-	public void setSRR4119663_tpm(double sRR4119663_tpm) {
-		SRR4119663_fpkm = sRR4119663_tpm;
-	}
-	 
-	 
-	
+	  
 }
