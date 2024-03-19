@@ -46,7 +46,7 @@ public class Cardiac_atriumAPI {
         this.cardiac_atriumService = productService; 
     }
     
-    @GetMapping("/cardiac_atrium")  
+    @GetMapping("/cardiac_atriums")  
     public List<Cardiac_atrium> getAllCardiac_atrium() 
     { 
     	return cardiac_atriumService.listAllCardiac_atrium();

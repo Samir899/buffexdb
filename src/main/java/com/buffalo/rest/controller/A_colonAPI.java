@@ -46,7 +46,7 @@ public class A_colonAPI {
         this.a_colonService = productService; 
     }
     
-    @GetMapping("/a_colon")  
+    @GetMapping("/a_colons")  
     public List<A_colon> getAll() 
     {
     	return a_colonService.listAllA_colon();

@@ -44,7 +44,7 @@ public class DuodenumAPI {
         this.duodenumService = productService; 
     }
     
-    @GetMapping("/duodenum")  
+    @GetMapping("/duodenums")  
     public List<Duodenum> getAll() 
     { 
     	return duodenumService.listAllDuodenum();

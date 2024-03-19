@@ -46,7 +46,7 @@ public class AbomasumAPI {
         this.abomasumService = productService; 
     }
     
-    @GetMapping("/abomasum")  
+    @GetMapping("/abomasums")  
     public List<Abomasum> getAllAbomasum() 
     { 
     	return abomasumService.listAllAbomasum();

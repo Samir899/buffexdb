@@ -46,7 +46,7 @@ public class BloodAPI {
         this.bloodService = productService; 
     }
     
-    @GetMapping("/blood")  
+    @GetMapping("/bloods")  
     public List<Blood> getAllBlood() 
     { 
     	return bloodService.listAllBlood();

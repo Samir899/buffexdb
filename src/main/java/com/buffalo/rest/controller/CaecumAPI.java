@@ -46,7 +46,7 @@ public class CaecumAPI {
         this.caecumService = productService; 
     }
     
-    @GetMapping("/caecum")  
+    @GetMapping("/caecums")  
     public List<Caecum> getAllCaecum() 
     { 
     	return caecumService.listAllCaecum();
