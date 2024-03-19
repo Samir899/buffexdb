@@ -46,7 +46,7 @@ public class CerebellumAPI {
         this.cerebellumService = productService; 
     }
     
-    @GetMapping("/cerebellum")  
+    @GetMapping("/cerebellums")  
     public List<Cerebellum> getAllCerebellum() 
     { 
     	return cerebellumService.listAllCerebellum();

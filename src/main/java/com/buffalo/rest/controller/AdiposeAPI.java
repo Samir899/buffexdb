@@ -44,7 +44,7 @@ public class AdiposeAPI {
         this.adiposeService = productService; 
     }
     
-    @GetMapping("/adipose")  
+    @GetMapping("/adiposes")  
     public List<Adipose> getAll() 
     {
     	return adiposeService.listAllAdipose();
