@@ -198,11 +198,11 @@ var isExpanded = false;
 isTpm = false;
 isFpkm = true;
 var tissue_selected = "";
-var sum_of_fpkm = 0;
+var sum_of_fpkm = {};
 
 
-function getTPM(fpkm){
-	return fpkm*(Math.pow(10, 6)/(sum_of_fpkm));
+function getTPM(fpkm, key){
+	return fpkm*(Math.pow(10, 6)/(sum_of_fpkm[key]));
 }
 
 function hideLoader(){
@@ -222,19 +222,20 @@ $("#select_tissue").change(function(){
 	selectedText = $(this).find(":selected").text();
 	uri = $(this).find(":selected").val();
 
-	url_1 = `[[@{/${uri}/err/sum}]]`
+	url_1 = `[[@{/${uri}/sum}]]`
 	url_2 = `[[@{/${uri}}]]`
 	tissue_selected = selectedText;
 	
-//	$.get(url_1, function(data, status){
-//		sum_of_fpkm = data;		
-//	})
+	$.get(url_1, function(data, status){
+		sum_of_fpkm = data;
+		console.log(sum_of_fpkm);	
+	})
 
 	$.get(url_2,function(data, status){
 		hideLoader();
 		fetchedData = data;
 		globalData = data;
-		renderTableNew("COTYLEDON");
+		renderTableNew();
 		totalRecords = data.length;
               totalPages = Math.ceil(totalRecords/pageSize);
            	numberOfRecordsOfLastPage = totalRecords%pageSize;
@@ -243,7 +244,7 @@ $("#select_tissue").change(function(){
 
 })
 	
-function renderTableNew(data){
+function renderTableNew(){
 	isExpanded=false;	
 	headerRow = "";
 	let object1 = globalData[0];
@@ -306,7 +307,7 @@ function renderTableNew(data){
 					td = td + `<td>${value}</td>`;
 				}
 				if(isTpm){
-				    tpm = getTPM(value);
+				    tpm = getTPM(value, key.toUpperCase());
 					td = td + `<td>${tpm}</td>`;
 				}
 				
