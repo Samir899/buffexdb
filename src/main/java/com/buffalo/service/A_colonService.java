@@ -42,6 +42,10 @@ public class A_colonService {
 	public List<A_colon> listAllA_colon(){
 		return (List<A_colon>) a_colonRepo.findAll();
 	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return a_colonRepo.getSum();
+	}
 //	public Genes getGeneById(String geneId){
 //		return adiposeRepo.getGeneByGeneId(geneId);
 //	}
@@ -143,7 +147,5 @@ public class A_colonService {
 //		return false;
 //	}
 	
-	public Map<String, Double> getFPKMSum() {
-		return a_colonRepo.getSum();
-	}
+	
 }

@@ -52,5 +52,8 @@ public interface A_colonRepository extends CrudRepository<A_colon, Integer>{
 			+ "sum(ERR2354010) as ERR2354010, sum(ERR2354011) as ERR2354011, sum(ERR2354012) as ERR2354012,"
 			+ "sum(ERR2354013) as ERR2354013, sum(ERR2354014) as ERR2354014, sum(ERR2354015) as ERR2354015,"
 			+ "sum(ERR2354016) as ERR2354016, sum(ERR2354017) as ERR2354017, sum(ERR2354018) as ERR2354018 FROM A_colon")
+
 	public Map <String, Double> getSum();
+
+
 }

@@ -168,7 +168,7 @@
 			 </div>
 			 <div class="container overflow-auto">
 					<table class="table table-hover table-bordered" id="popup-table-view">
-		 			 <thead class="table-dark">
+		 			 <thead class="table-bordered">
 		  			</thead>
 		  			<tbody>
 		    
@@ -198,11 +198,11 @@ var isExpanded = false;
 isTpm = false;
 isFpkm = true;
 var tissue_selected = "";
-var sum_of_fpkm = 0;
+var sum_of_fpkm = {};
 
 
-function getTPM(fpkm){
-	return fpkm*(Math.pow(10, 6)/(sum_of_fpkm));
+function getTPM(fpkm, key){
+	return fpkm*(Math.pow(10, 6)/(sum_of_fpkm[key]));
 }
 
 function hideLoader(){
@@ -222,19 +222,20 @@ $("#select_tissue").change(function(){
 	selectedText = $(this).find(":selected").text();
 	uri = $(this).find(":selected").val();
 
-	url_1 = `[[@{/${uri}/err/sum}]]`
+	url_1 = `[[@{/${uri}/sum}]]`
 	url_2 = `[[@{/${uri}}]]`
 	tissue_selected = selectedText;
 	
 	$.get(url_1, function(data, status){
-		sum_of_fpkm = data;		
+		sum_of_fpkm = data;
+		console.log(sum_of_fpkm);	
 	})
 
 	$.get(url_2,function(data, status){
 		hideLoader();
 		fetchedData = data;
 		globalData = data;
-		renderTableNew("COTYLEDON");
+		renderTableNew();
 		totalRecords = data.length;
               totalPages = Math.ceil(totalRecords/pageSize);
            	numberOfRecordsOfLastPage = totalRecords%pageSize;
@@ -243,7 +244,7 @@ $("#select_tissue").change(function(){
 
 })
 	
-function renderTableNew(data){
+function renderTableNew(){
 	isExpanded=false;	
 	headerRow = "";
 	let object1 = globalData[0];
@@ -265,10 +266,10 @@ function renderTableNew(data){
 		else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 	
 			if(isFpkm){
-				td = td + `<td>${key.toUpperCase()} (FPKM)</td>`;
+				td = td + `<td><a onclick="showSampleDescription(this)">${key.toUpperCase()} </a>(FPKM)</td>`;
 			}
 			if(isTpm){
-				td = td + `<td>${key.toUpperCase()} (TPM)</td>`;
+				td = td + `<td><a onclick="showSampleDescription(this)">${key.toUpperCase()}</a> (TPM)</td>`;
 			}		
 		}
 		else{
@@ -306,7 +307,7 @@ function renderTableNew(data){
 					td = td + `<td>${value}</td>`;
 				}
 				if(isTpm){
-				    tpm = getTPM(value);
+				    tpm = getTPM(value, key.toUpperCase());
 					td = td + `<td>${tpm}</td>`;
 				}
 				
@@ -421,20 +422,35 @@ function closePopup(event){
 }
 
 function showSampleDescription(event){
+
+
+
 	runId = event.innerHTML.split("(")[0].trim();
 	document.getElementById("overlay").style.visibility = "visible";
 	headerRow = "";
-	headerRow = '<tr><<td>RUN</td><td>BIO PROJECT</td><td>BIO SAMPLE</td><td>TISSUE</td><td>ADDITIONAL INFO</td><td>CONDITION TREATMENT</td><td>SOURCE</td><td>SPECIES</td><td>BREED</td><td>GENDER</td><td>DEVELOPMENT STAGE</td></tr>';
-	$("#popup-table-view").find("thead").empty()
-   	$("#popup-table-view").find("tbody").empty();
-	$("#popup-table-view").find("thead").append(headerRow);
-	
+	var object1 = {};
 	url = "[[@{/sample_description/api/sample_descriptions/}]]" + runId;
 	$.get(url, function(data, status){
-		dataRow = "";
-		dataRow = `<tr><td>${data.run}</td></td><td>${data.bioProject}</td><td>${data.bioSample}</td><td>${data.tissue}</td><td>${data.additional_info}</td><td>${data.condition_treatment}</td><td>${data.source}</td><td>${data.species}</td><td>${data.breed}</td><td>${data.gender}</td><td>${data.development_stage}</td></tr>`
+		object1 = data;
+		console.log(data);
+		//headerRow = `<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
+		for(const [key, value] of Object.entries(object1)){
+			
+			headerRow = headerRow + `<td class="p-2">${key.toUpperCase()}</td>`;		
+			}
+		$("#popup-table-view").find("thead").empty()
+		$("#popup-table-view").find("tbody").empty();
+		$("#popup-table-view").find("thead").append(headerRow);
+			
+		dataRow="<tr>";
+		//dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.gene.geneId}></div></td>`;
+	
+		for(const [key, value] of Object.entries(object1)){					
+			dataRow = dataRow + `<td class="p-2">${value}</td>`;
+			}
+		dataRow = dataRow + "</tr>";
 		$("#popup-table-view").find("tbody").append(dataRow);  
-	});
+		});
 	
 }
 

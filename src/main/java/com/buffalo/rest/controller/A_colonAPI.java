@@ -53,6 +53,12 @@ public class A_colonAPI {
     	return a_colonService.listAllA_colon();
     }
     
+    @GetMapping("/a_colons/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return a_colonService.getFPKMSum();
+    }
+    
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 
@@ -127,9 +133,5 @@ public class A_colonAPI {
 //	    return obj;
 //    }
     
-    @GetMapping("/a_colons/sum")  
-    public Map<String, Double> getSum() 
-    {
-    	return a_colonService.getFPKMSum();
-    }
+    
 }
