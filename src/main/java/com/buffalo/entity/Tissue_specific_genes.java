@@ -29,13 +29,13 @@ public class Tissue_specific_genes {
 //	 private double Tau_score;
 //	 
 	 @Column(length = 60)
-		private double tau_score;
+	 private double tau_score;
 	 
 	 @Column(length = 60)
-		private String tissue_name;
+	 private String tissue_name;
 	 
 	 @Column(length = 60)
-		private String tissue_specifity;
+	 private String tissue_specifity;
 
 	public Tissue_specific_genes() {
 		super();

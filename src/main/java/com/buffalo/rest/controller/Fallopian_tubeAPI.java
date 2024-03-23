@@ -46,7 +46,7 @@ public class Fallopian_tubeAPI {
         this.fallopian_tubeService = productService; 
     }
     
-    @GetMapping("/fallopian_tube")  
+    @GetMapping("/fallopian_tubes")  
     public List<Fallopian_tube> getAllFallopian_tube() 
     { 
     	return fallopian_tubeService.listAllFallopian_tube();

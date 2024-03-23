@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -141,4 +142,8 @@ public class A_colonService {
 //		if(geneByGeneId != null) return true;
 //		return false;
 //	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return a_colonRepo.getSum();
+	}
 }

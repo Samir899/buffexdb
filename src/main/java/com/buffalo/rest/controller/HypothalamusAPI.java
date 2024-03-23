@@ -46,7 +46,7 @@ public class HypothalamusAPI {
         this.hypothalamusService = productService; 
     }
     
-    @GetMapping("/hypothalamus")  
+    @GetMapping("/hypothalamuss")  
     public List<Hypothalamus> getAllHypothalamus() 
     { 
     	return hypothalamusService.listAllHypothalamus();
