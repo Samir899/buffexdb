@@ -112,6 +112,11 @@ text-align: center;
 	overflow:hidden;
 }
 
+*.topNavBar{
+
+	border-radius:10px;
+}
+
 *.spinning {
 
     -webkit-animation:spin 2s linear infinite;
