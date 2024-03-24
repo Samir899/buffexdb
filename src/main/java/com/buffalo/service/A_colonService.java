@@ -146,4 +146,6 @@ public class A_colonService {
 //		if(geneByGeneId != null) return true;
 //		return false;
 //	}
+	
+	
 }

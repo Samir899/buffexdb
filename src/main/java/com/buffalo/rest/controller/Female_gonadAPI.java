@@ -46,7 +46,7 @@ public class Female_gonadAPI {
         this.female_gonadService = productService; 
     }
     
-    @GetMapping("/female_gonad")  
+    @GetMapping("/female_gonads")  
     public List<Female_gonad> getAllFemale_gonad() 
     { 
     	return female_gonadService.listAllFemale_gonad();

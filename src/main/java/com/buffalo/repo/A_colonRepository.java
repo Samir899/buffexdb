@@ -41,7 +41,6 @@ public interface A_colonRepository extends CrudRepository<A_colon, Integer>{
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
 	
-	
 	@Query("SELECT sum(ERR2352796) as ERR2352796, sum(ERR2352797) as ERR2352797, "
 			+ "sum(ERR2352798) as ERR2352798, sum(ERR2352799) as ERR2352799, sum(ERR2352800) as ERR2352800,"
 			+ "sum(ERR2352801) as ERR2352801, sum(ERR2352802) as ERR2352802, sum(ERR2353150) as ERR2353150,"
@@ -53,5 +52,8 @@ public interface A_colonRepository extends CrudRepository<A_colon, Integer>{
 			+ "sum(ERR2354010) as ERR2354010, sum(ERR2354011) as ERR2354011, sum(ERR2354012) as ERR2354012,"
 			+ "sum(ERR2354013) as ERR2354013, sum(ERR2354014) as ERR2354014, sum(ERR2354015) as ERR2354015,"
 			+ "sum(ERR2354016) as ERR2354016, sum(ERR2354017) as ERR2354017, sum(ERR2354018) as ERR2354018 FROM A_colon")
-	public Map<String, Double> getSum();
+
+	public Map <String, Double> getSum();
+
+
 }

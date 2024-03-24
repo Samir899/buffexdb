@@ -46,7 +46,7 @@ public class Hepatic_lymph_nodeAPI {
         this.hepatic_lymph_nodeService = productService; 
     }
     
-    @GetMapping("/hepatic_lymph_node")  
+    @GetMapping("/hepatic_lymph_nodes")  
     public List<Hepatic_lymph_node> getAllHepatic_lymph_node() 
     { 
     	return hepatic_lymph_nodeService.listAllHepatic_lymph_node();

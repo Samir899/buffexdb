@@ -46,7 +46,7 @@ public class EpididymisAPI {
         this.epididymisService = productService; 
     }
     
-    @GetMapping("/epididymis")  
+    @GetMapping("/epididymiss")  
     public List<Epididymis> getAllEpididymis() 
     { 
     	return epididymisService.listAllEpididymis();

@@ -44,7 +44,7 @@ public class Brain_stemAPI {
         this.brain_stemService = productService; 
     }
     
-    @GetMapping("/brain_stem")  
+    @GetMapping("/brain_stems")  
     public List<Brain_stem> getAllBrain_stem() 
     { 
     	return brain_stemService.listAllBrain_stem();

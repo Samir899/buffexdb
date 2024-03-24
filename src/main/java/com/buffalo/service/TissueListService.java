@@ -28,7 +28,7 @@ public class TissueListService {
 	private TissueListRepo repo;
 	
 	public List<TissueList> listAllTissues(){
-		return (List<TissueList>) repo.findAll();
+		return (List<TissueList>) repo.getTissueList();
 	}
 	
 }

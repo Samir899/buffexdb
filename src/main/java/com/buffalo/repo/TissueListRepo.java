@@ -14,5 +14,7 @@ import com.buffalo.entity.Tissues;
 
 public interface TissueListRepo extends CrudRepository<TissueList, Integer>{
 
+	@Query("SELECT u FROM TissueList u ORDER BY u.tissue")
+	public List<TissueList> getTissueList();
 
 }

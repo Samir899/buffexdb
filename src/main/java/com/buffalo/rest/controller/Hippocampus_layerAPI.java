@@ -46,7 +46,7 @@ public class Hippocampus_layerAPI {
         this.hippocampus_layerService = productService; 
     }
     
-    @GetMapping("/hippocampus_layer")  
+    @GetMapping("/hippocampus_layers")  
     public List<Hippocampus_layer> getAllHippocampus_layer() 
     { 
     	return hippocampus_layerService.listAllHippocampus_layer();

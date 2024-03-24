@@ -44,7 +44,7 @@ public class BrainAPI {
         this.brainService = productService; 
     }
     
-    @GetMapping("/brain")  
+    @GetMapping("/brains")  
     public List<Brain> getAllBrain() 
     { 
     	return brainService.listAllBrain();

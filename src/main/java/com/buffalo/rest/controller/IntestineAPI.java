@@ -44,7 +44,7 @@ public class IntestineAPI {
         this.intestineService = productService; 
     }
     
-    @GetMapping("/intestine")  
+    @GetMapping("/intestines")  
     public List<Intestine> getAllIntestine() 
     { 
     	return intestineService.listAllIntestine();

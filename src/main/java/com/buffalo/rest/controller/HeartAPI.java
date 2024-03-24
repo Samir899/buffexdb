@@ -46,7 +46,7 @@ public class HeartAPI {
         this.heartService = productService; 
     }
     
-    @GetMapping("/heart")  
+    @GetMapping("/hearts")  
     public List<Heart> getAllHeart() 
     { 
     	return heartService.listAllHeart();

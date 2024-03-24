@@ -46,7 +46,7 @@ public class Cerebral_cortexAPI {
         this.cerebral_cortexService = productService; 
     }
     
-    @GetMapping("/cerebral_cortex")  
+    @GetMapping("/cerebral_cortexs")  
     public List<Cerebral_cortex> getAllCerebral_cortex() 
     { 
     	return cerebral_cortexService.listAllCerebral_cortex();

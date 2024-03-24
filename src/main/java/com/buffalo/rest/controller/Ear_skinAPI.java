@@ -46,7 +46,7 @@ public class Ear_skinAPI {
         this.ear_skinService = productService; 
     }
     
-    @GetMapping("/ear_skin")  
+    @GetMapping("/ear_skins")  
     public List<Ear_skin> getAll() 
     { 
     	return ear_skinService.listAllEar_skin();
