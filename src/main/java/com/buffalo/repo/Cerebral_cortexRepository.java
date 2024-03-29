@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,4 +41,8 @@ public interface Cerebral_cortexRepository extends CrudRepository<Cerebral_corte
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum(SRR24057948) as SRR24057948, sum(SRR24057949) as SRR24057949, sum(SRR24057950) as SRR24057950,"
+			+ " sum(SRR24057951) as SRR24057951 FROM Cerebral_cortex")
+	public Map <String, Double> getSum();
 }

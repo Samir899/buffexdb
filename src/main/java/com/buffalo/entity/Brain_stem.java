@@ -26,7 +26,7 @@ public class Brain_stem {
 	 private double SRR24057957;
 	 
 	 @Column(name="SRR24057958")
-	 private double SRR240579578;
+	 private double SRR24057958;
 	 
 	 @Column(name="SRR24057959")
 	 private double SRR24057959;
@@ -39,13 +39,13 @@ public class Brain_stem {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Brain_stem(int id, Genes gene, double sRR24057957, double sRR240579578, double sRR24057959,
+	public Brain_stem(int id, Genes gene, double sRR24057957, double sRR24057958, double sRR24057959,
 			double sRR24057960) {
 		super();
 		this.id = id;
 		this.gene = gene;
 		SRR24057957 = sRR24057957;
-		SRR240579578 = sRR240579578;
+		SRR24057958 = sRR24057958;
 		SRR24057959 = sRR24057959;
 		SRR24057960 = sRR24057960;
 	}
@@ -74,12 +74,12 @@ public class Brain_stem {
 		SRR24057957 = sRR24057957;
 	}
 
-	public double getSRR240579578() {
-		return SRR240579578;
+	public double getSRR24057958() {
+		return SRR24057958;
 	}
 
-	public void setSRR240579578(double sRR240579578) {
-		SRR240579578 = sRR240579578;
+	public void setSRR240579578(double sRR24057958) {
+		SRR24057958 = sRR24057958;
 	}
 
 	public double getSRR24057959() {
@@ -100,7 +100,7 @@ public class Brain_stem {
 
 	@Override
 	public String toString() {
-		return "Brain_stem [id=" + id + ", gene=" + gene + ", SRR24057957=" + SRR24057957 + ", SRR240579578="
-				+ SRR240579578 + ", SRR24057959=" + SRR24057959 + ", SRR24057960=" + SRR24057960 + "]";
+		return "Brain_stem [id=" + id + ", gene=" + gene + ", SRR24057957=" + SRR24057957 + ", SRR24057958="
+				+ SRR24057958 + ", SRR24057959=" + SRR24057959 + ", SRR24057960=" + SRR24057960 + "]";
 	}
 }

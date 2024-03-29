@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -48,6 +49,12 @@ public class AdiposeAPI {
     public List<Adipose> getAll() 
     {
     	return adiposeService.listAllAdipose();
+    }
+    
+    @GetMapping("/adiposes/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return adiposeService.getFPKMSum();
     }
     
 //    @GetMapping("/genes/{geneId}")  

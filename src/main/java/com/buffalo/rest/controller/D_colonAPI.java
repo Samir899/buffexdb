@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -52,6 +53,11 @@ public class D_colonAPI {
     	return d_colonService.listAllD_colon();
     }
     
+    @GetMapping("/d_colons/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return d_colonService.getFPKMSum();
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

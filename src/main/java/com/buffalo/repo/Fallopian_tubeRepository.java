@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.buffalo.entity.Brain;
 import com.buffalo.entity.Fallopian_tube;
 import com.buffalo.entity.Genes;
 
@@ -40,4 +40,7 @@ public interface Fallopian_tubeRepository extends CrudRepository<Fallopian_tube,
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+
 }
+

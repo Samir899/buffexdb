@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,10 @@ public class Adrenal_glandService {
 	
 	public List<Adrenal_gland> listAllAdrenal_gland(){
 		return (List<Adrenal_gland>) adrenal_glandRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return adrenal_glandRepo.getSum();
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

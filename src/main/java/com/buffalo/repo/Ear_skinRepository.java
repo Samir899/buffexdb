@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,4 +41,8 @@ public interface Ear_skinRepository extends CrudRepository<Ear_skin, Integer>{
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum(SRR11842086) as SRR11842086, sum(SRR11842087) as SRR11842087, sum(SRR11842088) as SRR11842088, "
+			+ "sum(SRR11842089) as SRR11842089, sum(SRR11842090) as SRR11842090, sum(SRR11842091) as SRR11842091 FROM Ear_skin")
+	public Map <String, Double> getSum();
 }

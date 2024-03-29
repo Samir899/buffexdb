@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,4 +41,9 @@ public interface PituitaryRepository extends CrudRepository<Pituitary, Integer>{
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum (ERR2352922) as ERR2352922,	sum (ERR2352923) as ERR2352923, sum (ERR2352924) as ERR2352924, sum (ERR2352925) as ERR2352925, sum (ERR2352926) as ERR2352926, sum (ERR2352927) as ERR2352927,"
+			+ "sum (ERR2352928) as ERR2352928, sum (ERR2353764) as ERR2353764, sum (ERR2353765) as ERR2353765, sum (ERR2353766) as ERR2353766, sum (ERR2353767) as ERR2353767, sum (ERR2353768) as ERR2353768,"
+			+ "sum (ERR2353769) as ERR2353769, sum (ERR2353770) as ERR2353770, sum (SRR24057909) as SRR24057909, sum (SRR24057910) as SRR24057910, sum (SRR24057911) as SRR24057911, sum (SRR24057912) as SRR24057912 FROM Pituitary")
+	public Map <String, Double> getSum();
 }

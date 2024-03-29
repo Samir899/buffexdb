@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,10 @@ public class Ear_skinService {
 	
 	public List<Ear_skin> listAllEar_skin(){
 		return (List<Ear_skin>) ear_skinRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return ear_skinRepo.getSum();
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

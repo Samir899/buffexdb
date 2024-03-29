@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -48,6 +49,12 @@ public class BrainAPI {
     public List<Brain> getAllBrain() 
     { 
     	return brainService.listAllBrain();
+    }
+    
+    @GetMapping("/brains/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return brainService.getFPKMSum();
     }
     
 //    @GetMapping("/genes/{geneId}")  

@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,4 +40,7 @@ public interface Brain_stemRepository extends CrudRepository<Brain_stem, Integer
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum(SRR24057957) as SRR24057957, sum(SRR24057958) as SRR24057958, sum(SRR24057959) as SRR24057959, sum(SRR24057960) as SRR24057960 FROM Brain_stem")
+	public Map <String, Double> getSum();
 }

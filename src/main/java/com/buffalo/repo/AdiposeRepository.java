@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,4 +40,10 @@ public interface AdiposeRepository extends CrudRepository<Adipose, Integer>{
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum(SRR6949367) as SRR6949367, sum(SRR6949368) as SRR6949368, sum(SRR6949369) as SRR6949369, sum(SRR6949370) as SRR6949370,"
+			+	"sum(SRR6949371) as SRR6949371, sum(SRR6949372) as SRR6949372, sum(SRR24057941) as SRR24057941, sum(SRR24057952) as SRR24057952,"
+			+ "sum(SRR24057963) as SRR24057963, sum(SRR24057964) as SRR24057964 FROM Adipose")
+	public Map <String, Double> getSum();
+			
 }

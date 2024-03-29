@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -50,6 +51,12 @@ public class EpididymisAPI {
     public List<Epididymis> getAllEpididymis() 
     { 
     	return epididymisService.listAllEpididymis();
+    }
+    
+    @GetMapping("/epididymiss/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return epididymisService.getFPKMSum();
     }
     
 //    @GetMapping("/genes/{geneId}")  
