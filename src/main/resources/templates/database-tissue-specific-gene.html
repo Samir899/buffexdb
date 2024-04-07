@@ -13,7 +13,7 @@
 <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script type="text/javascript"
 	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-
+<script src="https://cdn.plot.ly/plotly-2.30.0.min.js" charset="utf-8"></script>
 </head>
 <body>
 
@@ -51,7 +51,7 @@
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-						<div class="collapse navbar-collapse topNavBar" id="topNavbar" aria-haspopup="true" aria-expanded="false">
+					<div class="collapse navbar-collapse topNavBar" id="topNavbar" aria-haspopup="true" aria-expanded="false">
 					<ul class="navbar-nav">
 						<li class="nav-item">
 							<a class="nav-link fs-5" th:href="@{/}">Home</a>
@@ -82,66 +82,40 @@
 							<a class="nav-link fs-5" th:href="@{/downloads}">Downloads</a>
 						</li>
 					</ul>					
-			</div>	
-<!--  				<div class="btn-group dropstart btn-dropdown-bg">
-					  <button type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
-					    Database
-					  </button>
-				  	<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">				    <li><a class="dropdown-item" th:href="@{/database/genes}">Gene Description</a></li>
-				    <li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
-						    <li><a class="dropdown-item" th:href="@{/database/tissue}">Expressions</a></li>
-				  	</ul>
-				</div> -->	
+			</div>				
 			</nav>
 		</div>
 		
 		<div class="overflow-hidden" style="height:350px">
-		<img  class="img-fluid w-100" th:src="@{/images/genes.jpeg}" />
-		
-			
+		<img  class="img-fluid w-100" th:src="@{/images/genes.jpeg}" />			
 		</div>
 		<div class="border">
 			<div class="p-2">
-			<div class="row w-100" style="height:100px">
-			<div class="col">
-			<form class="" id="queryForm" method="post" onSubmit="return validateCheckBox(this);">
-				<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
-				<div class="input-group mb-2">
-				  <input required type="text" class="form-control" name="searchText" placeholder="Strand, Chromosome" aria-label="Recipient's username" id="searchText">
-				  <button class="btn btn-outline-secondary" type="submit" id="search">Search</button>
-				</div>
-				<div class="align-middle mb-2">
-				   <input class="form-check-input" type="radio" name="searchParam" id="strand" value="strand">
-				  <label class="form-check-label" for="flexRadioDefault1">
-				    STRAND
-				  </label>
-				   <input class="form-check-input" type="radio" name="searchParam" id="chromosome" value="chromosome">
-				  <label class="form-check-label" for="flexRadioDefault1">
-				    CHROMOSOME
-				  </label>
-				</div>
+			<div class="row w-100" >
+				<div class="col">
 				
-				<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px"></div>
-				</form>
+				<select id="select-tissue" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+				  <option selected th:value=${null}>Select Tissue</option>
+				  <option th:each="tissue, iStat: ${tissue_list}" th:value=${iStat.current}>[[${tissue}]]</option>
+				</select>
+			
 				</div>
 				<div class="col">
-					<div class="input-group position-relative ">
-						  <input required placeholder="Type Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
-					</div>
-<!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
-					<div hidden=true id="listContainer" class=" position-absolute bg-light  overflow-auto text-nowrap border rounded-bottom" style="height:200px; width:560px;">
-						  	<div id="listElements" >
-						  	</div>
-					 </div>
-						  
-					</div>
+					<select id='select-specificity' class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+					  <option selected th:value=${null}>Select Specificity</option>
+					  <option th:each="tissue_sp, iStat: ${tissue_sp}" th:value=${tissue_sp}>[[${tissue_sp}]]</option>
+					</select>
 				</div>				
 			</div>
-			
-			<div class="m-2">
-					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
+			<div class="d-flex flex-row">
+				<div class="m-2">
+						<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
+					</div>
+				<div class="m-2">
+					<button type="button" class="btn btn-success" onclick="showPieChart(this)">Show Statistics</button>		
 				</div>
+			</div>
+			
  		<div class="overflow-auto p-2 text-nowrap">
  		<table class="table table-striped border" id="genes">
 			  <thead class="table-dark">
@@ -151,6 +125,12 @@
 			  </tbody>
 			</table>
 		</div>
+		<div class="overlay-loader" id="table_loader_bg">
+	 				<div class="fixed w-100">
+	 					<div class="popup-loader" id="table_loader">
+						</div>
+	 				</div>					
+ 				</div>
 		</div>
 		
 		<div class="mx-auto mt-2" style="width: 500px;">
@@ -165,6 +145,7 @@
 			     <li id="lastPage"><a class="page-link" >Last</a></li>
 			</ul>
 		</div>
+
 		<div class="footer">
 			<div class="sub-footer pt-2">
 				<h1>Database - Buffalo Expression DB</h1>
@@ -174,6 +155,27 @@
 			</div>
 		</div>
 	</div>
+
+<!-- --------------------------------------------------------------------------------------------------------- -->
+		<div class="overlay text-nowrap" id="overlay">
+			<div class="fixed w-100">
+			<div class="popup-piechart border rounded p-3">
+			<div class="close d-flex flex-row-reverse bd-highlight" id="close">
+				<i onclick="closePopup(this)" class="fa-regular fa-rectangle-xmark"></i>
+			</div>
+			 <div class="p-2 d-flex align-items-center">
+			 	<div class="p-2">
+			 		<h3>Statistics</h3>
+			 	</div>		 	 
+			 </div>
+			 <div class="container overflow-auto">
+				<div id='piechart'>
+
+				</div>
+			</div>		
+			</div>
+			</div>		  
+		</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -185,28 +187,170 @@ var totalRecords = 0;
 var totalPages = 0;
 var numberOfRecordsOfLastPage = 0;
 var geneData = [];
-var globalGeneData = [];
+var globalData = [];
 var checkedGeneData = new Set();
 var uncheckedGeneData = new Set();
 var geneIdSet = new Set();
+var isCheckAll = false;
+var checkedData = new Set();
+var pie_chart_values = new Array();
+var pie_chart_labels = new Array();
+var specificity = undefined;
+var tissueName = undefined;
 
-document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
- 	$("#listElements").empty();  
-	var inputVal = document.getElementById("dropdownMenuLink1").value;
-	if(inputVal==""){
-		document.getElementById("listContainer").hidden = true;
-	}
-	else{
-		document.getElementById("listContainer").hidden = false;
-	}
-	var newArray = geneData.filter(function (el) {
-			return el.geneName.startsWith(inputVal);
-			});
-		for(let i=0;i<newArray.length;i++){
-			var anchor = `<div onclick="dropdownSelection('${newArray[i].geneId}')" class="dropdown-list px-2 py-1 fw-bold">${newArray[i].geneName}</div>`
-			$("#listElements").append(anchor);   
-		}
+function renderTable(){
+	init = 0;
+	last = 10;
+	pageNum = 1;
+	renderTableNew();
+	totalRecords = globalData.length;
+    totalPages = Math.ceil(totalRecords/pageSize);
+    numberOfRecordsOfLastPage = totalRecords%pageSize;
+  	pagination();
+  	hideLoader();
+	
+}
+function hideLoader(){
+	$("#table_loader").empty();
+	document.getElementById("table_loader_bg").style.visibility = "hidden";
+}
+
+function renderLoader(){
+	document.getElementById("table_loader_bg").style.visibility = "visible";
+	loader = `<div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div>`;
+	$("#table_loader").append(loader);
+}
+document.getElementById("select-tissue").addEventListener("change", function(event){
+	renderLoader();
+ 	tissueName = event.target.options[event.target.selectedIndex].innerHTML;
+ 	console.log(tissueName)
+ 	if(tissueName && specificity){
+ 		console.log("Both Selected")
+ 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter}]]" + `?tissueName=${tissueName}&tissueSpecificity=${specificity}`
+ 		console.log(url)
+ 		$.get(url, function(data, status){
+ 			console.log(status)
+ 			if(data){
+ 				console.log(data)
+ 				globalData = data;
+ 				renderTable();
+ 			}
+ 			else{
+ 				console.log("0 Records returned")
+ 			}
+ 		
+ 		})
+ 		
+ 	}
+ 	else if(tissueName){
+ 		console.log("Tissue Selected: " + tissueName);
+ 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter/tissueName}]]" + `?tissueName=${tissueName}`
+ 		console.log(url)
+ 		$.get(url, function(data, status){
+ 			console.log(status)
+ 			if(data){
+ 				console.log(data)
+ 				globalData = data;
+ 				renderTable();
+ 			}
+ 			else{
+ 				console.log("0 Records returned")
+ 			}
+ 		})
+ 		
+ 	}
+ 	else if(specificity){
+ 		console.log("specificity Selected")
+ 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter/tissueSpecificity}]]" + `?tissueSpecificity=${specificity}`
+ 		console.log(url)
+ 		$.get(url, function(data, status){
+ 			console.log(status)
+ 			if(data){
+ 				console.log(data)
+ 				globalData = data;
+ 				renderTable();
+ 			}
+ 			else{
+ 				console.log("0 Records returned")
+ 			}
+ 		
+ 		})
+ 	}
+ 	else{
+ 		console.log("Nothing Selected")
+ 	}
 });
+
+document.getElementById("select-specificity").addEventListener("change", function(event){
+	renderLoader();
+ 	specificity = event.target.options[event.target.selectedIndex].innerHTML;
+ 	if(tissueName && specificity){
+ 		console.log("Both Selected")
+ 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter}]]" + `?tissueName=${tissueName}&tissueSpecificity=${specificity}`
+ 		console.log(url)
+ 		$.get(url, function(data, status){
+ 			console.log(status)
+ 			if(data){
+ 				console.log(data)
+ 				globalData = data;
+ 				
+ 				renderTable();
+ 			}
+ 			else{
+ 				console.log("0 Records returned")
+ 			}
+ 		
+ 		})
+ 	}
+ 	else if(tissueName){
+ 		console.log("Tissue Selected")
+ 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter/tissueName}]]" + `?tissueName=${tissueName}`
+ 		console.log(url)
+ 		$.get(url, function(data, status){
+ 			console.log(status)
+ 			if(data){
+ 				console.log(data)
+ 				globalData = data;
+ 				renderTable();
+ 			}
+ 			else{
+ 				console.log("0 Records returned")
+ 			}
+ 		
+ 		})
+ 	}
+ 	else if(specificity){
+ 		console.log("specificity Selected")
+ 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter/tissueSpecificity}]]" + `?tissueSpecificity=${specificity}`
+ 		console.log(url)
+ 		$.get(url, function(data, status){
+ 			console.log(status)
+ 			if(data){
+ 				console.log(data)
+ 				globalData = data;
+ 				renderTable();				
+ 			}
+ 			else{
+ 			console.log("0 Records returned")
+ 			}
+ 		
+ 		})
+ 	}
+ 	else{
+ 		console.log("Nothing Selected")
+ 	}
+ 	
+});
+
+function closePopup(event){
+	document.getElementById("overlay").style.visibility = "hidden";
+}
+
+
+function showPieChart(event){
+	document.getElementById("overlay").style.visibility = "visible";
+}
+
 
 function dropdownSelection(string){
 	document.getElementById("dropdownMenuLink1").value = string;
@@ -215,63 +359,130 @@ function dropdownSelection(string){
 }
 
 $( document ).ready(function() {
+	
 	url = "[[@{/gene/api/genes/geneId/all}]]"
-	$.get(url, function(data, status){
+		$.get(url, function(data, status){
 		uncheckedGeneData = new Set(data);
 		geneIdSet = new Set(data);
-	});
-    url = "[[@{/gene/api/genes}]]"
+		});
+    	url = "[[@{/tissue-specific-gene/api/tissue-specific-genes}]]"
     	$.get(url, function(data, status){
     	geneData = data;
-    	globalGeneData = data;
+    	globalData = data;
     	totalRecords = data.length;
     	totalPages = Math.ceil(totalRecords/pageSize);
     	numberOfRecordsOfLastPage = totalRecords%pageSize;
-    	headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>GENE ID</td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
-    	$("#genes").find("thead").empty()
-    	$("#genes").find("tbody").empty();
-		$("#genes").find("thead").append(headerRow);
-     	for(let i=init;i<last;i++){
-     		dataRow = "";
-     		if(checkedGeneData.has(globalGeneData[i].geneId)){
-     			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-     		}
+    	renderTableNew();
+ 		pagination();
+	});
+	
+	async function fetchCount(specificity){
+		for(val of specificity){
+			url_stat = "[[@{/tissue-specific-gene/api/tissue-specific-genes/stats/}]]" + val;
+			await $.get(url_stat, function(count, status){
+			if(count){
+			 	pie_chart_values.push(count);
+			 }
 			else{
-				dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
+				console.log("Count not found");
+				}
+			});
+		}
+		return Promise.resolve(pie_chart_values);
+	}
+		
+	async function fetchSpecificity(){		
+		url_distinct =  "[[@{/tissue-specific-gene/api/tissue-specific-genes/distinct-specificity}]]"
+		await $.get(url_distinct, function(datas, status){
+			if(datas){
+					pie_chart_labels = datas;
+				}
+			else{
+				console.log("Not found data");
 			}
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
- 	pagination();
-});
+		});
+		return Promise.resolve(pie_chart_labels);
+	}
+	
+	fetchSpecificity().then(
+		function(value) {
+			fetchCount(value).then(
+				function(value) {
+					var data = [{
+	  						values: pie_chart_values,
+	  						labels: pie_chart_labels,
+	  						type: 'pie'
+						}];
+
+						var layout = {
+	  						height: 400,
+	 						width: 500
+						};
+
+						Plotly.newPlot('piechart', data, layout);
+				},
+ 					function(error) {console.log(error);}
+			)
+		 },
+  		function(error) { console.log("NOt found") }
+	)
 });
 
-document.getElementById("btn-searchGeneByName").addEventListener("click", function(event){
-	init=0;
-	last=1;
-	totalRecords = 1
-	totalPages = 1
-	pageNum=1;
-	pagination();
-	checkedGeneData = new Set();
-    $("#genes").find("tbody").empty();
-	searchText = document.getElementById("dropdownMenuLink1").value
-	url = "[[@{/gene/api/genes/}]]" + searchText
-	console.log(url)
-	$.get(url, function(data, status){
-		globalGeneData = [data];
-		if(!data){
-			pageInfo = `No Records found`
-			init=0;
-			last=0;
-			$("#pageInfo").empty();
-			$("#pageInfo").append(pageInfo);
+function renderTableNew(){
+	isExpanded=false;	
+	headerRow = "";
+	let object1 = globalData[0];
+	if(isCheckAll){
+		headerRow = `<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
+	}
+	else{
+		headerRow = `<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
 		}
-		for(let i=init;i<last;i++){
-			dataRow = `<tr><td><div class="form-check"><input class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
-	})
-})
+	for(const [key, value] of Object.entries(object1)){
+		td="";
+		if(key.toUpperCase() == 'ID'){
+			continue;
+		}
+			
+		else{
+			td = `<td>${key.toUpperCase()}</td>`;
+		}
+		headerRow = headerRow + td;
+		}
+	headerRow = headerRow + "</tr>";			
+	$("#genes").find("thead").empty();
+  	$("#genes").find("tbody").empty();
+	$("#genes").find("thead").append(headerRow);
+	for(let i=init;i<last;i++){
+		dataRow="<tr>";
+		object1 = globalData[i];
+		if(!object1){
+			continue;
+		}
+		console.log(object1);
+		if(checkedData.has(object1.geneId)){
+			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.geneId}></div></td>`;
+		}
+		else{
+			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${object1.geneId}></div></td>`;
+		}
+		for(const [key, value] of Object.entries(object1)){		
+			td="";
+			if(key.toUpperCase() == 'ID'){
+				continue;
+			}				
+			else{
+				td = `<td>${value}</td>`;
+			}
+			dataRow = dataRow + td;
+		}
+		dataRow = dataRow + "</tr>";
+
+		$("#genes").find("tbody").append(dataRow);	
+	}
+}
+
+
 
 document.getElementById("firstPage").addEventListener("click", function(event){
 		init = 0;
@@ -280,16 +491,8 @@ document.getElementById("firstPage").addEventListener("click", function(event){
 		pagination();
   		event.preventDefault();
 		$("#genes").find("tbody").empty();
-     	for(let i=init;i<last;i++){
-			dataRow = "";
-     		if(checkedGeneData.has(globalGeneData[i].geneId)){
-     			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-     		}
-			else{
-				dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-			}
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
+		renderTableNew();
+		
 });
 document.getElementById("nextPage").addEventListener("click", function(event){
 		init = init + pageSize;
@@ -300,17 +503,8 @@ document.getElementById("nextPage").addEventListener("click", function(event){
 		pageNum = pageNum + 1;
 		pagination();
   		event.preventDefault();
-    	$("#genes").find("tbody").empty();
-     	for(let i=init;i<last;i++){
-     		if(checkedGeneData.has(globalGeneData[i].geneId)){
-     			console.log("inside checked if")
-     			dataRow = `<tr><td><div class="form-check"><input name="cbSelect" onclick="checkBox(this)" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-     		}
-			else{
-				dataRow = `<tr><td><div class="form-check"><input name="cbSelect" onclick="checkBox(this)" class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-			}
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
+  		
+		renderTableNew();
 
 });
 document.getElementById("lastPage").addEventListener("click", function(event){
@@ -321,17 +515,7 @@ document.getElementById("lastPage").addEventListener("click", function(event){
 		pageNum = totalPages;
 		pagination();
   		event.preventDefault();
-    	$("#genes").find("tbody").empty();
-     	for(let i=new_init;i<new_last ;i++){
-			dataRow = "";
-     		if(checkedGeneData.has(globalGeneData[i].geneId)){
-     			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-     		}
-			else{
-				dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-			}
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
+  		renderTableNew();
 });
 document.getElementById("previousPage").addEventListener("click", function(event){
 		pageNum = pageNum - 1;
@@ -345,21 +529,9 @@ document.getElementById("previousPage").addEventListener("click", function(event
 		}
 		pagination();
   		event.preventDefault();
-    	$("#genes").find("tbody").empty();
-
-     	for(let i=init;i<last;i++){
-     		dataRow = "";
-     		if(checkedGeneData.has(globalGeneData[i].geneId)){
-     			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-     		}
-			else{
-				dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-			}
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
+  		renderTableNew();
  	
 });
-
 function pagination(){
 	var pageInfo = "";
 	$("#pageInfo").empty();
@@ -450,16 +622,16 @@ function pagination(){
 		return false;
 	}
 	
-	$(document).ready (function () {  
-    $('#genes').after ('<div id="nav"></div>');  
-    var rowsShown = 5;  
-    var rowsTotal = $('#data tbody tr').length;  
-    var numPages = rowsTotal/rowsShown;  
-    for (i = 0;i < numPages;i++) {  
-        var pageNum = i + 1;  
-        $('#nav').append ('<a href="#" rel="'+i+'">'+pageNum+'</a> ');  
-    }
-    });
+$(document).ready (function () {  
+   $('#genes').after ('<div id="nav"></div>');  
+   var rowsShown = 5;  
+   var rowsTotal = $('#data tbody tr').length;  
+   var numPages = rowsTotal/rowsShown;  
+   for (i = 0;i < numPages;i++) {  
+       var pageNum = i + 1;  
+       $('#nav').append ('<a href="#" rel="'+i+'">'+pageNum+'</a> ');  
+   }
+   });
     
 function checkBox(checkbox){
 	index = checkbox.value;

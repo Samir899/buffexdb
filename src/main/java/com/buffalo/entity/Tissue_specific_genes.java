@@ -17,10 +17,9 @@ public class Tissue_specific_genes {
 	 @Column(name="id")
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
-	 
-	@ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	
+	@Column(name="geneId")
+	private String geneId;
 	
 	@Column(length = 60)
 	private String geneName;
@@ -42,11 +41,11 @@ public class Tissue_specific_genes {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Tissue_specific_genes(int id, Genes gene, String geneName, double tau_score, String tissue_name,
+	public Tissue_specific_genes(int id, String geneId, String geneName, double tau_score, String tissue_name,
 			String tissue_specifity) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		this.geneName = geneName;
 		this.tau_score = tau_score;
 		this.tissue_name = tissue_name;
@@ -61,12 +60,14 @@ public class Tissue_specific_genes {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	
+
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public String getGeneName() {
@@ -103,7 +104,7 @@ public class Tissue_specific_genes {
 
 	@Override
 	public String toString() {
-		return "Tissue_specific_genes [id=" + id + ", gene=" + gene + ", geneName=" + geneName + ", tau_score="
+		return "Tissue_specific_genes [id=" + id + ", gene=" + ", geneName=" + geneName + ", tau_score="
 				+ tau_score + ", tissue_name=" + tissue_name + ", tissue_specifity=" + tissue_specifity + "]";
 	}
 	 
