@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,4 +41,10 @@ public interface Longissimus_dorsiRepository extends CrudRepository<Longissimus_
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum(SRR8318866) as SRR8318866, sum(SRR8318867) as SRR8318867, sum(SRR8318868) as SRR8318868,"
+			+ " sum(SRR12023710) as SRR12023710, sum(SRR12023712) as SRR12023712, sum(SRR12023714) as SRR12023714,"
+			+ " sum(SRR12023715) as SRR12023715 FROM Longissimus_dorsi")
+	
+	public Map <String, Double> getSum();
 }

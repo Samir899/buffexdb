@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Hypothalamus;
 
@@ -40,4 +40,9 @@ public interface HypothalamusRepository extends CrudRepository<Hypothalamus, Int
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum(SRR24057944) as SRR24057944, sum(SRR24057945) as SRR24057945, sum(SRR24057946) as SRR24057946,"
+			+ " sum(SRR24057947) as SRR24057947, sum(SRR15721742) as SRR15721742 FROM Hypothalamus")
+	
+	public Map <String, Double> getSum();
 }

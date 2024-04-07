@@ -53,7 +53,11 @@ public class Fallopian_tubeAPI {
     	return fallopian_tubeService.listAllFallopian_tube();
     }
     
-   
+    @GetMapping("/fallopian_tubes/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return fallopian_tubeService.getFPKMSum();
+    }
     
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 

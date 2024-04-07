@@ -1,15 +1,13 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.buffalo.entity.Brain;
-import com.buffalo.entity.Genes;
 import com.buffalo.entity.Muscle;
 
 public interface MuscleRepository extends CrudRepository<Muscle, Integer>{
@@ -40,4 +38,10 @@ public interface MuscleRepository extends CrudRepository<Muscle, Integer>{
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum(SRR13435634) as SRR13435634, sum(SRR13435635) as SRR13435635, sum(SRR13435636) as SRR13435636, "
+			+ "sum(SRR13435637) as SRR13435637, sum(SRR13435638) as SRR13435638, sum(SRR10312259) as SRR10312259,"
+			+ " sum(SRR10312260) as SRR10312260, sum(SRR10312261) as SRR10312261, sum(SRR15721759) as SRR15721759,"
+			+ " sum(SRR13435639) as SRR13435639 FROM Muscle")
+	public Map <String, Double> getSum();
 }

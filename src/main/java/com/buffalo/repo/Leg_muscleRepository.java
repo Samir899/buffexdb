@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Leg_muscle;
 
@@ -40,4 +40,7 @@ public interface Leg_muscleRepository extends CrudRepository<Leg_muscle, Integer
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum(SRR15721747) as SRR15721747, sum(SRR15721760) as SRR15721760 FROM Leg_muscle")
+	public Map <String, Double> getSum();
 }

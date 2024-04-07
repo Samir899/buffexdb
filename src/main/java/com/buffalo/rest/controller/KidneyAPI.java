@@ -47,7 +47,7 @@ public class KidneyAPI {
         this.kidneyService = productService; 
     }
     
-    @GetMapping("/Kidneys")  
+    @GetMapping("/kidneys")  
     public List<Kidney> getAllKidney() 
     { 
     	return kidneyService.listAllKidney();

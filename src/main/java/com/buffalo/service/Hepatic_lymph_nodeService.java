@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,10 @@ public class Hepatic_lymph_nodeService {
 	
 	public List<Hepatic_lymph_node> listAllHepatic_lymph_node(){
 		return (List<Hepatic_lymph_node>) hepatic_lymph_nodeRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return hepatic_lymph_nodeRepo.getSum();
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

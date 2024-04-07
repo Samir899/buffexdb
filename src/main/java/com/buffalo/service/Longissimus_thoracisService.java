@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,10 @@ public class Longissimus_thoracisService {
 	
 	public List<Longissimus_thoracis> listAllLongissimus_thoracis(){
 		return (List<Longissimus_thoracis>) longissimus_thoracisRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return longissimus_thoracisRepo.getSum();
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

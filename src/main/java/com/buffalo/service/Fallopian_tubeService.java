@@ -46,7 +46,9 @@ public class Fallopian_tubeService {
 		return (List<Fallopian_tube>) fallopian_tubeRepo.findAll();
 	}
 	
-	
+	public Map<String, Double> getFPKMSum() {
+		return fallopian_tubeRepo.getSum();
+	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);
 //	}

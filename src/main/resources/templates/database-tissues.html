@@ -235,6 +235,10 @@ $("#select_tissue").change(function(){
 		hideLoader();
 		fetchedData = data;
 		globalData = data;
+		console.log("data fetched")
+		console.log(data)
+		console.log(status)
+		console.log(globalData)
 		renderTableNew();
 		totalRecords = data.length;
               totalPages = Math.ceil(totalRecords/pageSize);
@@ -286,6 +290,7 @@ function renderTableNew(){
 	for(let i=init;i<last;i++){
 		dataRow="<tr>";
 		object1 = globalData[i];
+		console.log(object1)
 		if(checkedData.has(object1.gene.geneId)){
 			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.gene.geneId}></div></td>`;
 		}
@@ -375,6 +380,7 @@ function renderWithGeneInfoNew(data){
 	   	for(let i=init;i<last;i++){
 			dataRow="<tr>";
 			object1 = globalData[i];
+			console.log(object1)
 			if(checkedData.has(object1.gene.geneId)){
 				dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.gene.geneId}></div></td>`;
 			}
