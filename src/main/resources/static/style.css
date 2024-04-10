@@ -119,12 +119,14 @@ i:hover{
 	background: rgb(21,245,186);
 	border-radius: 5px;
 }
+
 *.footer{
 background: rgb(21,245,186);
 background: linear-gradient(90deg, rgba(21,245,186) 0%, rgba(9,9,121,1) 100%, rgb(38,80,115) 100%);
 color:white;
 padding:10px;
 }
+
 *.sub-footer{
 	
 text-align: center;
