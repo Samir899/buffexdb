@@ -19,9 +19,9 @@ public class Blood {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR14879259") 
 	 private double SRR14879259;
@@ -113,7 +113,7 @@ public class Blood {
 	}
 
 
-	public Blood(int id, Genes gene, double sRR14879259, double sRR14879260, double sRR14879261, double sRR14879263,
+	public Blood(int id, String geneId, double sRR14879259, double sRR14879260, double sRR14879261, double sRR14879263,
 			double sRR14879264, double sRR14879265, double sRR14879267, double sRR14879268, double sRR14879269,
 			double sRR14879270, double sRR14879271, double sRR20281532, double sRR20281533, double sRR20281534,
 			double sRR23563044, double sRR23563045, double sRR23563046, double sRR23563047, double sRR23563048,
@@ -121,7 +121,7 @@ public class Blood {
 			double sRR8494329, double sRR8494332, double sRR8494334, double sRR8494335) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR14879259 = sRR14879259;
 		SRR14879260 = sRR14879260;
 		SRR14879261 = sRR14879261;
@@ -160,12 +160,12 @@ public class Blood {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return this.geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGene(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR14879259() {
@@ -394,7 +394,7 @@ public class Blood {
 
 	@Override
 	public String toString() {
-		return "Blood [id=" + id + ", gene=" + gene + ", SRR14879259=" + SRR14879259 + ", SRR14879260=" + SRR14879260
+		return "Blood [id=" + id + ", geneId=" + geneId + ", SRR14879259=" + SRR14879259 + ", SRR14879260=" + SRR14879260
 				+ ", SRR14879261=" + SRR14879261 + ", SRR14879263=" + SRR14879263 + ", SRR14879264=" + SRR14879264
 				+ ", SRR14879265=" + SRR14879265 + ", SRR14879267=" + SRR14879267 + ", SRR14879268=" + SRR14879268
 				+ ", SRR14879269=" + SRR14879269 + ", SRR14879270=" + SRR14879270 + ", SRR14879271=" + SRR14879271

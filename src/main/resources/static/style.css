@@ -34,8 +34,8 @@ i:hover{
 
 }
 *.overlay{
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
@@ -44,7 +44,7 @@ i:hover{
 }
 
 *.overlay-loader{
-  width: 100%;
+  width: 100vw;
   height: 100%;
   position: absolute;
   top: 0;
@@ -52,6 +52,10 @@ i:hover{
   background: rgba(38,80,115, 0.8);
   visibility: hidden;
   z-index:3;
+}
+*.parent{
+	position: relative;
+	height: 100%;
 }
 *.overlay-loader-pie{
   width: 100%;
@@ -84,6 +88,15 @@ i:hover{
 	color:white;
 	
 }
+*.popup-heatmap{
+	background: rgba(38,80,115);
+	margin:50px auto;
+	max-width: 80%;
+	width: fit-content;
+	color:white;
+	overflow:auto;
+	
+} 
 #piechart{
 	z-index:3;
 }
@@ -158,4 +171,11 @@ text-align: center;
         -webkit-transform: rotateY(180deg); 
         transform:rotateY(180deg); 
     } 
+}
+
+*.heatmap-container{
+	padding-bottom: 10px;
+	overflow:scroll;
+	height: 400px;
+	width: fit-content;
 }

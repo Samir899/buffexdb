@@ -13,8 +13,10 @@
 <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script type="text/javascript"
 	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script src="https://cdn.plot.ly/plotly-2.30.0.min.js" charset="utf-8"></script>
 </head>
 <body>
+	<div class="parent">
 	<div class="container-fluid">
 		<div>
 			<div class="nav-bg">
@@ -44,7 +46,7 @@
 				</div>
 			</div>
 		</div>
-				<div class="nav-with-button-bg">
+		<div class="nav-with-button-bg">
 			<nav class="navbar navbar-expand-lg text-nowrap fw-bold">
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -80,23 +82,14 @@
 							<a class="nav-link fs-5" th:href="@{/downloads}">Downloads</a>
 						</li>
 					</ul>					
-			</div>				
-<!--  				<div class="btn-group dropstart btn-dropdown-bg">
-					  <button type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
-					    Database
-					  </button>
-				  	<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">				    <li><a class="dropdown-item" th:href="@{/database/genes}">Gene Description</a></li>
-				    <li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
-						    <li><a class="dropdown-item" th:href="@{/database/tissue}">Expressions</a></li>
-				  	</ul>
-				</div> -->	
+			</div>					
 			</nav>
 		</div>
 		<div class="overflow-hidden" style="height:350px">
 		<img  class="img-fluid w-100" th:src="@{/images/dna-made.jpg}" />		
 		</div>
 		<div class="border">
-			<div class="p-2">
+			<div class="p-2 d-grid gap-3">
 				<div class="row">
 					<div class="col">
 						<div class="row">
@@ -132,6 +125,13 @@
 						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col ">
+						<div class="d-flex justify-content-start" id="btn_heatmap" style="visibility:hidden;">
+							<button type="button" class="btn btn-success" onclick="showHeatMap(this)">Show Heat Map</button>		
+						</div>
+					</div>
+				</div>
 			</div>
 	 		<div class="overflow-auto text-nowrap p-2">
 	 			<div>
@@ -143,12 +143,12 @@
 					  </tbody>
 					</table>
 				</div>
-	 			<div class="overlay-loader" id="table_loader_bg">
+<!--  	 			<div class="overlay-loader" id="table_loader_bg">
 	 				<div class="fixed w-100">
 	 					<div class="popup-loader" id="table_loader">
 						</div>
 	 				</div>					
- 				</div>
+ 				</div >-->
 			</div>
 		</div>
 		
@@ -199,6 +199,38 @@
 			</div>
 			</div>		  
 		</div>
+			<div class="overlay text-nowrap" id="overlay-heatmap">
+			<div class="fixed w-100">
+			<div class="popup-heatmap border rounded p-3">
+			<div class="close d-flex flex-row-reverse bd-highlight" id="close-heatmap">
+				<i onclick="closeHeatMap(this)" class="fa-regular fa-rectangle-xmark"></i>
+			</div>
+			 <div class="p-2 d-flex justify-content-center align-items-center gap-3">
+			 	<div>
+			 		<h3>Heat Map</h3>
+			 	</div>
+			 	<div class="">
+			 		<div class="input-group">
+					  <input type="number" step="any" class="form-control" placeholder="From" aria-label="From" value="1" aria-describedby="button-addon2" id="from">
+					  <input type="number" step="any" class="form-control" placeholder="to" aria-label="to" value="10" aria-describedby="button-addon2" id="to">
+					  <button class="btn btn-success" type="button" id="btn-fpkm-range">Submit</button>
+					</div>
+			 	</div> 	 
+			 </div>
+			 <div class="heatmap-container">
+			 	<div id="tester" style="width:fit-content;height:fit-content;" class="" ></div>
+			 </div>
+			 
+				
+			</div>
+			</div>		  
+		</div>
+	</div>
+	<div class="overlay-loader" id="table_loader_bg">
+	 				<div class="fixed w-100">
+	 					<div class="popup-loader" id="table_loader"></div>
+					</div>
+	</div>
 	</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -220,7 +252,83 @@ isTpm = false;
 isFpkm = true;
 var tissue_selected = "";
 var sum_of_fpkm = {};
+var geneIds = new Array();
+var expressionKeys = new Array();
+var expressionValues = new Array();
 
+function plotHeatMap(){
+	var customColorScale = [
+	      [0, 'rgb(122,162,227)'],  // Define color for minimum value
+	      [1, 'rgb(248,246,227)']        // Define color for maximum value
+	    ];
+	var layout = {
+	      title: `Heat Map - ${tissue_selected}`,
+	      margin: {
+	        t: 50,  // Increase top margin
+	        l: 150,  // Increase left margin
+	        b: 100,
+	      },
+		  height: 800,  // Increase height
+	      width: 1000,
+//	      coloraxis: {
+//	        colorscale: customColorScale  // Apply custom color scale
+//	      }
+	    };
+	var data = [
+	  {
+	    z: [...expressionValues],
+	    x: [...expressionKeys],
+	    y: [...geneIds],
+	    type: 'heatmap',
+	    hoverongaps: false
+	  }
+	];
+	$('#tester').empty()
+	Plotly.newPlot('tester', data, layout);
+	
+}
+
+
+
+
+async function perpareHeatMap(lowerLimit=1, upperLimit=10){
+
+	geneIds = []
+	expressionKeys = []
+	expressionValues = []
+	selectedText = $('#select_tissue').find(":selected").text();
+	uri =  $('#select_tissue').find(":selected").val();
+	url_1 = `[[@{/${uri}/sorted}]]` + `?lowerLimit=${lowerLimit}&upperLimit=${upperLimit}`
+
+	await $.get(url_1, function(data, status){
+	console.log(data)
+		if(data && data.length !=0){
+			object1 = data[0];
+			for(const [key, value] of Object.entries(object1)){	
+				if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
+						expressionKeys.push(key.toUpperCase());
+						}
+				}
+			for(object of data){
+				expression = new Array()
+				for(const [key, value] of Object.entries(object)){	
+						if(key.toUpperCase() == 'GENEID'){
+							geneIds.push(value.replace('gene-', ""))
+						}
+						if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
+							expression.push(value);
+						}				
+					}
+					expressionValues.push(expression);
+			}
+			plotHeatMap();
+		}
+		else{
+			alert("No Data Found")
+		}
+	
+	})
+}
 
 function getTPM(fpkm, key){
 	let result = fpkm*(Math.pow(10, 6)/(sum_of_fpkm[key]));	
@@ -266,14 +374,32 @@ $("#select_tissue").change(function(){
               totalPages = Math.ceil(totalRecords/pageSize);
            	numberOfRecordsOfLastPage = totalRecords%pageSize;
 		pagination();
+		perpareHeatMap();
 	})
 
 })
+
+function showHeatMap(){
 	
+	document.getElementById("overlay-heatmap").style.visibility = "visible";
+
+}
+
+document.getElementById("btn-fpkm-range").addEventListener("click", function(event){
+	lowerLimit = $('#from').val();
+	upperLimit = $('#to').val();
+	perpareHeatMap(lowerLimit, upperLimit);
+
+
+});
+
 function renderTableNew(){
 	isExpanded=false;	
 	headerRow = "";
 	let object1 = globalData[0];
+	
+	document.getElementById("btn_heatmap").style.visibility = "visible";
+	
 	if(isCheckAll){
 		headerRow = `<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
 	}
@@ -312,12 +438,14 @@ function renderTableNew(){
 	for(let i=init;i<last;i++){
 		dataRow="<tr>";
 		object1 = globalData[i];
-		console.log(object1)
-		if(checkedData.has(object1.gene.geneId)){
-			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.gene.geneId}></div></td>`;
+
+		
+		if(checkedData.has(object1.geneId)){
+			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.geneId}></div></td>`;
+
 		}
 		else{
-			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${object1.gene.geneId}></div></td>`;
+			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${object1.geneId}></div></td>`;
 		}
 		for(const [key, value] of Object.entries(object1)){		
 			td="";
@@ -448,7 +576,9 @@ function renderWithGeneInfoNew(data){
 function closePopup(event){
 	document.getElementById("overlay").style.visibility = "hidden";
 }
-
+function closeHeatMap(event){
+	document.getElementById("overlay-heatmap").style.visibility = "hidden";
+}
 function showSampleDescription(event){
 
 
