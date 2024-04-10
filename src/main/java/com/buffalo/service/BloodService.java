@@ -44,6 +44,9 @@ public class BloodService {
 	public List<Blood> listAllBlood(){
 		return (List<Blood>) bloodRepo.findAll();
 	}
+	public List<Blood> getBloodSorted(double lowerLimit, double upperLimit){
+		return (List<Blood>) bloodRepo.getBloodSorted(lowerLimit, upperLimit);
+	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);
 //	}

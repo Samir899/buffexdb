@@ -51,7 +51,11 @@ public class BloodAPI {
     { 
     	return bloodService.listAllBlood();
     }
-    
+    @GetMapping("/bloods/sorted")  
+    public List<Blood> getBloodSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return bloodService.getBloodSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 
