@@ -25,44 +25,43 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.buffalo.entity.Blood;
-import com.buffalo.entity.Brain_stem;
-import com.buffalo.entity.GeneList;
-import com.buffalo.entity.Genes;
-import com.buffalo.service.Brain_stemService;
-import com.buffalo.service.GeneService;
-import com.buffalo.tables.ListingTables;
-import com.buffalo.utilities.Utilities;
+
+import com.buffalo.entity.Liver_B;
+
+import com.buffalo.service.Liver_BService;
 
 @RestController
-@RequestMapping("/brain_stem/api") 
-public class Brain_stemAPI { 
+@RequestMapping("/liver_B/api") 
+public class Liver_BAPI { 
   
 	@Autowired
-    private Brain_stemService brain_stemService;
+    private Liver_BService liver_BService;
   
-    public Brain_stemAPI(Brain_stemService productService) 
+    public Liver_BAPI(Liver_BService productService) 
     { 
-        this.brain_stemService = productService; 
+        this.liver_BService = productService; 
     }
     
-    @GetMapping("/brain_stems")  
-    public List<Brain_stem> getAllBrain_stem() 
+    @GetMapping("/liver_Bs")  
+    public List<Liver_B> getAllLiver_B() 
     { 
-    	return brain_stemService.listAllBrain_stem();
+    	return liver_BService.listAllLiver_B();
     }
+
     
-    @GetMapping("/brain_stems/sum")  
+    @GetMapping("/liver_Bs/sum")  
     public Map<String, Double> getSum() 
     {
-    	return brain_stemService.getFPKMSum();
+    	return liver_BService.getFPKMSum();
     }
     
-    @GetMapping("/brain_stems/sorted")  
-    public List<Brain_stem> getBrain_stemSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+
+    @GetMapping("/liver_Bs/sorted")  
+    public List<Liver_B> getLiver_BSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
     { 
-    	return brain_stemService.getBrain_stemSorted(lowerLimit, upperLimit);
+    	return liver_BService.getLiver_BSorted(lowerLimit, upperLimit);
     }
+
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

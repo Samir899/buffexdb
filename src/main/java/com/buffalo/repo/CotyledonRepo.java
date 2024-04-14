@@ -17,10 +17,10 @@ public interface CotyledonRepo extends CrudRepository<Cotyledon, Integer>{
 //	@Query("SELECT u FROM Cotyledon u WHERE u.geneId = :geneId")
 //	public Cotyledon getCotyledonByGeneId(@Param("geneId") String geneId);
 	
-	@Query("SELECT u FROM Cotyledon u WHERE u.SRR4119663_fpkm = :SRR")
+	@Query("SELECT u FROM Cotyledon u WHERE u.SRR4119663 = :SRR")
 	public List<Cotyledon> getCotyledonBySRR(@Param("SRR") String SRR);
 	
-	@Query("SELECT sum(SRR4119663_fpkm) FROM Cotyledon")
+	@Query("SELECT sum(SRR4119663) FROM Cotyledon")
 	public Double getSum();
 
 }

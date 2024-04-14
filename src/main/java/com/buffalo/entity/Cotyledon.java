@@ -18,12 +18,11 @@ public class Cotyledon {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
-	 @Column(name="SRR4119663_fpkm")
-	 private double SRR4119663_fpkm;
+	 @Column(name="SRR4119663")
+	 private double SRR4119663;
 	 
 	 
 	public Cotyledon() {
@@ -31,11 +30,11 @@ public class Cotyledon {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cotyledon(int id, Genes gene, double sRR4119663_fpkm) {
+	public Cotyledon(int id, String geneId, double sRR4119663) {
 		super();
 		this.id = id;
-		this.gene = gene;
-		SRR4119663_fpkm = sRR4119663_fpkm;
+		this.geneId = geneId;
+		this.SRR4119663 = sRR4119663;
 
 	}
 
@@ -47,20 +46,25 @@ public class Cotyledon {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setString(String geneId) {
+		this.geneId = geneId;
 	}
 
-	public double getSRR4119663_fpkm() {
-		return SRR4119663_fpkm;
+	public double getSRR4119663() {
+		return SRR4119663;
 	}
 
-	public void setSRR4119663(double sRR4119663_fpkm) {
-		SRR4119663_fpkm = sRR4119663_fpkm;
+	public void setSRR4119663(double sRR4119663) {
+		SRR4119663 = sRR4119663;
+	}
+
+	@Override
+	public String toString() {
+		return "Cotyledon [id=" + id + ", geneId=" + geneId + ", SRR4119663=" + SRR4119663 + "]";
 	}
 	  
 }

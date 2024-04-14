@@ -12,22 +12,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.buffalo.entity.Blood;
-import com.buffalo.entity.Brain_stem;
+import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
-import com.buffalo.repo.Brain_stemRepository;
+import com.buffalo.entity.Liver_A;
+import com.buffalo.repo.BrainRepository;
 import com.buffalo.repo.GeneRepoPagingAndSorting;
 import com.buffalo.repo.GeneRepository;
+import com.buffalo.repo.Liver_ARepository;
 
 import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class Brain_stemService {
+public class Liver_AService {
 	
 	public final int GENE_PER_PAGE = 10;
 	
 	@Autowired
-	private Brain_stemRepository brain_stemRepo;
+	private Liver_ARepository liver_ARepo;
 	
 //	@Autowired
 //	private GeneRepoPagingAndSorting geneRepoPaging;
@@ -41,16 +43,16 @@ public class Brain_stemService {
 //		return geneRepo.save(gene);
 //	}
 	
-	public List<Brain_stem> listAllBrain_stem(){
-		return (List<Brain_stem>) brain_stemRepo.findAll();
+	public List<Liver_A> listAllLiver_A(){
+		return (List<Liver_A>) liver_ARepo.findAll();
 	}
 	
 	public Map<String, Double> getFPKMSum() {
-		return brain_stemRepo.getSum();
+		return liver_ARepo.getSum();
 	}
 	
-	public List<Brain_stem> getBrain_stemSorted(double lowerLimit, double upperLimit){
-		return (List<Brain_stem>) brain_stemRepo.getBrain_stemSorted(lowerLimit, upperLimit);
+	public List<Liver_A> getLiver_ASorted(double lowerLimit, double upperLimit){
+		return (List<Liver_A>) liver_ARepo.getLiver_ASorted(lowerLimit, upperLimit);
 
 	}
 //	public Genes getGeneById(String geneId){
