@@ -83,15 +83,7 @@
 						</li>
 					</ul>					
 			</div>	
-<!--  				<div class="btn-group dropstart btn-dropdown-bg">
-					  <button type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
-					    Database
-					  </button>
-				  	<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">				    <li><a class="dropdown-item" th:href="@{/database/genes}">Gene Description</a></li>
-				    <li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
-						    <li><a class="dropdown-item" th:href="@{/database/tissue}">Expressions</a></li>
-				  	</ul>
-				</div> -->	
+
 			</nav>
 		</div>
 		
@@ -185,10 +177,11 @@ var totalRecords = 0;
 var totalPages = 0;
 var numberOfRecordsOfLastPage = 0;
 var geneData = [];
-var globalGeneData = [];
-var checkedGeneData = new Set();
-var uncheckedGeneData = new Set();
+var globalData = [];
+var checkedData = new Set();
+var uncheckedData = new Set();
 var geneIdSet = new Set();
+var isCheckAll = false;
 
 document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
  	$("#listElements").empty();  
@@ -200,7 +193,7 @@ document.getElementById("dropdownMenuLink1").addEventListener("input", function(
 		document.getElementById("listContainer").hidden = false;
 	}
 	var newArray = geneData.filter(function (el) {
-			return el.geneName.startsWith(inputVal);
+			return el.geneName.startsWith(inputVal.toUpperCase());
 			});
 		for(let i=0;i<newArray.length;i++){
 			var anchor = `<div onclick="dropdownSelection('${newArray[i].geneId}')" class="dropdown-list px-2 py-1 fw-bold">${newArray[i].geneName}</div>`
@@ -214,6 +207,87 @@ function dropdownSelection(string){
 	$("#listElements").empty()
 }
 
+function renderTableNew(){
+	isExpanded=false;	
+	headerRow = "";
+	let object1 = globalData[0];
+	
+	if(isCheckAll){
+		headerRow = `<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
+	}
+	else{
+		headerRow = `<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
+		}
+	for(const [key, value] of Object.entries(object1)){
+		td="";
+		if(key.toUpperCase() == 'GENE'){
+			td = `<td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td>`;
+		}
+		else if(key.toUpperCase() == 'ID'){
+			continue;
+		}
+			
+		else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
+	
+			if(isFpkm){
+				td = td + `<td><a onclick="showSampleDescription(this)">${key.toUpperCase()} </a>(FPKM)</td>`;
+			}
+			if(isTpm){
+				td = td + `<td><a onclick="showSampleDescription(this)">${key.toUpperCase()}</a> (TPM)</td>`;
+			}		
+		}
+		else{
+			td = `<td>${key.toUpperCase()}</td>`;
+		}
+		headerRow = headerRow + td;
+		}
+	headerRow = headerRow + "</tr>";			
+	$("#genes").find("thead").empty();
+  	$("#genes").find("tbody").empty();
+	$("#genes").find("thead").append(headerRow);
+	
+	
+	for(let i=init;i<last;i++){
+		dataRow="<tr>";
+		object1 = globalData[i];
+		if(checkedData.has(object1.geneId)){
+			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.geneId}></div></td>`;
+		}
+		else{
+			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${object1.geneId}></div></td>`;
+		}
+		for(const [key, value] of Object.entries(object1)){		
+			td="";
+			if(key.toUpperCase() == 'GENE'){
+				td = `<td>${value.geneId}</td>`;
+			}
+			else if(key.toUpperCase() == 'ID'){
+				continue;
+			}				
+			else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
+				
+				if(isFpkm){
+					
+					td = td + `<td>${value}</td>`;
+				}
+				if(isTpm){
+				    tpm = getTPM(value, key.toUpperCase());
+					td = td + `<td>${tpm}</td>`;
+				}
+				
+			}
+			else{
+				td = `<td>${value}</td>`;
+			}
+			dataRow = dataRow + td;
+		}
+		dataRow = dataRow + "</tr>";
+
+		$("#genes").find("tbody").append(dataRow);	
+	}
+}
+
+
 $( document ).ready(function() {
 	url = "[[@{/gene/api/genes/geneId/all}]]"
 	$.get(url, function(data, status){
@@ -223,25 +297,12 @@ $( document ).ready(function() {
     url = "[[@{/gene/api/genes}]]"
     	$.get(url, function(data, status){
     	geneData = data;
-    	globalGeneData = data;
+    	globalData = data;
     	totalRecords = data.length;
     	totalPages = Math.ceil(totalRecords/pageSize);
     	numberOfRecordsOfLastPage = totalRecords%pageSize;
-    	headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>GENE ID</td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
-    	$("#genes").find("thead").empty()
-    	$("#genes").find("tbody").empty();
-		$("#genes").find("thead").append(headerRow);
-     	for(let i=init;i<last;i++){
-     		dataRow = "";
-     		if(checkedGeneData.has(globalGeneData[i].geneId)){
-     			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-     		}
-			else{
-				dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-			}
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
- 	pagination();
+    	renderTableNew();
+ 		pagination();
 });
 });
 
@@ -252,13 +313,11 @@ document.getElementById("btn-searchGeneByName").addEventListener("click", functi
 	totalPages = 1
 	pageNum=1;
 	pagination();
-	checkedGeneData = new Set();
-    $("#genes").find("tbody").empty();
+	checkedData = new Set();
 	searchText = document.getElementById("dropdownMenuLink1").value
 	url = "[[@{/gene/api/genes/}]]" + searchText
-	console.log(url)
 	$.get(url, function(data, status){
-		globalGeneData = [data];
+		globalData = [data];
 		if(!data){
 			pageInfo = `No Records found`
 			init=0;
@@ -266,97 +325,64 @@ document.getElementById("btn-searchGeneByName").addEventListener("click", functi
 			$("#pageInfo").empty();
 			$("#pageInfo").append(pageInfo);
 		}
-		for(let i=init;i<last;i++){
-			dataRow = `<tr><td><div class="form-check"><input class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
+		else{
+			renderTableNew();
+		}
 	})
 })
 
 document.getElementById("firstPage").addEventListener("click", function(event){
-		init = 0;
-		last = 10;
-		pageNum = 1;
-		pagination();
-  		event.preventDefault();
-		$("#genes").find("tbody").empty();
-     	for(let i=init;i<last;i++){
-			dataRow = "";
-     		if(checkedGeneData.has(globalGeneData[i].geneId)){
-     			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-     		}
-			else{
-				dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-			}
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
+        if(pageNum>1){
+			init = 0;
+			last = 10;
+			pageNum = 1;
+			pagination();
+	  		event.preventDefault();
+			renderTableNew();
+		}
 });
 document.getElementById("nextPage").addEventListener("click", function(event){
-		init = init + pageSize;
-		last = last + pageSize;
-		if(last>totalRecords){
-			last = last - numberOfRecordsOfLastPage; 
-		}
-		pageNum = pageNum + 1;
-		pagination();
-  		event.preventDefault();
-    	$("#genes").find("tbody").empty();
-     	for(let i=init;i<last;i++){
-     		if(checkedGeneData.has(globalGeneData[i].geneId)){
-     			console.log("inside checked if")
-     			dataRow = `<tr><td><div class="form-check"><input name="cbSelect" onclick="checkBox(this)" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-     		}
-			else{
-				dataRow = `<tr><td><div class="form-check"><input name="cbSelect" onclick="checkBox(this)" class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
+		if(pageNum!=totalPages){
+			init = init + pageSize;
+			last = last + pageSize;
+			if(last>totalRecords){
+				last = last - numberOfRecordsOfLastPage; 
 			}
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
+			pageNum = pageNum + 1;
+			pagination();
+	  		event.preventDefault();
+	    	renderTableNew()
+    	}
 
 });
 document.getElementById("lastPage").addEventListener("click", function(event){
-		var new_init = totalRecords - numberOfRecordsOfLastPage;
-		var new_last = totalRecords;
-		init = new_init;
-		last = new_last;
-		pageNum = totalPages;
-		pagination();
-  		event.preventDefault();
-    	$("#genes").find("tbody").empty();
-     	for(let i=new_init;i<new_last ;i++){
-			dataRow = "";
-     		if(checkedGeneData.has(globalGeneData[i].geneId)){
-     			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-     		}
-			else{
-				dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-			}
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
+		if(pageNum!=totalPages){
+			var new_init = totalRecords - numberOfRecordsOfLastPage;
+			var new_last = totalRecords;
+			init = new_init;
+			last = new_last;
+			pageNum = totalPages;
+			pagination();
+	  		event.preventDefault();
+	    	renderTableNew();
+	    	}
 });
 document.getElementById("previousPage").addEventListener("click", function(event){
-		pageNum = pageNum - 1;
-		init = init - pageSize;
 		
-		if(pageNum == totalPages - 1){
-			last = last - Math.ceil(pageSize/2);
-		}
-		else{
-			last = last - 10;
-		}
-		pagination();
-  		event.preventDefault();
-    	$("#genes").find("tbody").empty();
-
-     	for(let i=init;i<last;i++){
-     		dataRow = "";
-     		if(checkedGeneData.has(globalGeneData[i].geneId)){
-     			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-     		}
-			else{
-				dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" class="form-check-input" type="checkbox" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
+		if(pageNum>1){
+			pageNum = pageNum - 1;
+			init = init - pageSize;
+			
+			if(pageNum == totalPages - 1){
+				last = last - Math.ceil(pageSize/2);
 			}
-			$("#genes").find("tbody").append(dataRow);   		 
- 	}
+			else{
+				last = last - 10;
+			}
+			pagination();
+	  		event.preventDefault();
+	    	renderTableNew()
+	    	}
  	
 });
 
@@ -395,7 +421,7 @@ function pagination(){
 		totalRecords = 1
 		totalPages = 1
 		pageNum=1;
-		checkedGeneData = new Set();
+		checkedData = new Set();
 		pagination();
 	    $("#genes").find("tbody").empty();
 		var selectedValue = $("input[name=searchParam]:checked").val();
@@ -412,13 +438,12 @@ function pagination(){
             url = "[[@{/gene/api/genes/query/geneIds}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
             $.get(url, function(data, status){	
             		geneIdSet = new Set(data);
-            		console.log(geneIdSet)
             	});
             
 			url = "[[@{/gene/api/genes/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
 			$.get(url, function(data, status){
 			
-				globalGeneData = data;
+				globalData = data;
 				
 				if(data.length==0){
 					pageInfo = `No Records found`
@@ -430,20 +455,14 @@ function pagination(){
 				else{
 					init=0;
 					last=pageSize;
-					if(globalGeneData.length<pageSize){
-						last = globalGeneData.length;
+					if(globalData.length<pageSize){
+						last = globalData.length;
 					}
-					totalRecords = globalGeneData.length;
-					totalPages = Math.ceil(globalGeneData.length/pageSize);
+					totalRecords = globalData.length;
+					totalPages = Math.ceil(globalData.length/pageSize);
 					numberOfRecordsOfLastPage = totalRecords%pageSize;
 					pagination();
-					headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>GENE ID</td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
-			    	$("#genes").find("thead").empty();
-					$("#genes").find("thead").append(headerRow);
-					for(let i=init;i<last;i++){
-			  			dataRow = `<tr><td><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-						$("#genes").find("tbody").append(dataRow);   		 
- 					}
+					renderTableNew();
 				}
 			  });	
             }
@@ -465,39 +484,36 @@ function checkBox(checkbox){
 	index = checkbox.value;
 	geneId = checkbox.id;
 	if($(`#${geneId}:checkbox:checked`).length>0){
-		checkedGeneData.add(geneId)
-		uncheckedGeneData.delete(geneId)
+		checkedData.add(geneId)
+		uncheckedData.delete(geneId)
 		
 	}else{
-		headerRow = '<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead"></div></td><td>GENE ID</td><td>GENE NAME</td><td>CHROMOSOME</td><td>STRAND</td><td>LOCUS</td></tr>';
-    	$("#genes").find("thead").empty()
-		$("#genes").find("thead").append(headerRow);
-		checkedGeneData.delete(geneId)
-		uncheckedGeneData.add(geneId)
+		checkedData.delete(geneId)
+		uncheckedData.add(geneId)
+		
 	}
+	renderTableNew()
 }
  
- function checkAll(checkbox){	 
+ function checkAll(checkbox){
+ 		 
  	if ($(checkbox).is(':checked')) {
  	   $("input[name='cbSelect']").attr('checked', true);
- 	   		console.log() 		
-	 		checkedGeneData = geneIdSet;	
-	 		uncheckedGeneData = new Set(); 		
-    	$("#genes").find("tbody").empty();
-    	
-     	for(let i=init;i<last;i++){
-			dataRow = `<tr><td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${globalGeneData[i].geneId}></div></td><td>${globalGeneData[i].geneId}</td><td>${globalGeneData[i].geneName}</td><td>${globalGeneData[i].chromosome}</td><td>${globalGeneData[i].strand}</td><td>${globalGeneData[i].locus}</td></tr>`
-			$("#genes").find("tbody").append(dataRow);  		 
-			}
+			isCheckAll = true; 		
+	 		checkedData = new Set(geneIdSet);	
+	 		uncheckedData = new Set(); 		
+    		
     } else {
         $("input[name='cbSelect']").attr('checked', false);
-			checkedGeneData = new Set();
-	 		uncheckedGeneData = geneIdSet;
+        	isCheckAll = false;
+			checkedData = new Set();
+	 		uncheckedData = new Set(geneIdSet);
  	}
+ 	renderTableNew();
  }
  
  function fetchGenes(btn){
- 	payload_1 = [...checkedGeneData]
+ 	payload_1 = [...checkedData]
  	payload_2 = payload_1.splice(0, Math.floor(payload_1.length/2));
  	resposeData_1 = [];
  	responseData_2 = [];
@@ -505,6 +521,7 @@ function checkBox(checkbox){
  	params = {geneIds: payload_1};
  	$.post(url, params, function(data, status){
  		responseData_1 = data;
+ 		console.log(data)
  		index = responseData_1.indexOf("\n")
         responseData_1 = responseData_1.substring(index+1, responseData_1.length);
  		params = {geneIds: payload_2};
