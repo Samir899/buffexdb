@@ -71,7 +71,7 @@
 							          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 							            <li><a class="dropdown-item" th:href="@{/database/genes}">Gene Description</a></li>
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
-								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expressions</a></li>
+								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expression data</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
 							          </ul>
 							        </li>
@@ -180,7 +180,7 @@
 			</div>
 			 <div class="p-2 d-flex align-items-center">
 			 	<div class="p-2">
-			 		<h3>Sample Description</h3>
+			 		<h3 id='popup-desc'>Sample Description</h3>
 			 	</div>
 			 	<div class="p-2">
 			 		<i class="fa-solid fa-download"></i>
@@ -207,7 +207,7 @@
 			</div>
 			 <div class="p-2 d-flex justify-content-center align-items-center gap-3">
 			 	<div>
-			 		<h3>Heat Map</h3>
+			 		<h3>Select FPKM Range</h3>
 			 	</div>
 			 	<div class="">
 			 		<div class="input-group">
@@ -263,6 +263,15 @@ function plotHeatMap(){
 	    ];
 	var layout = {
 	      title: `Heat Map - ${tissue_selected}`,
+	      xaxis: {
+	        title: 'X - SRA Run ID'
+	      		},
+      		yaxis: {
+        		title: 'Y - Gene Names'
+      			},
+   			zaxis: {
+        		title: 'Z - FPKM Values'
+      			},
 	      margin: {
 	        t: 50,  // Increase top margin
 	        l: 150,  // Increase left margin
@@ -382,6 +391,7 @@ $("#select_tissue").change(function(){
 function showHeatMap(){
 	
 	document.getElementById("overlay-heatmap").style.visibility = "visible";
+	document.getElementById("overlay-heatmap").style.zIndex = "10";
 
 }
 
@@ -409,7 +419,7 @@ function renderTableNew(){
 	for(const [key, value] of Object.entries(object1)){
 		td="";
 		if(key.toUpperCase() == 'GENE'){
-			td = `<td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td>`;
+			td = `<td><div>GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td>`;
 		}
 		else if(key.toUpperCase() == 'ID'){
 			continue;
@@ -449,8 +459,8 @@ function renderTableNew(){
 		}
 		for(const [key, value] of Object.entries(object1)){		
 			td="";
-			if(key.toUpperCase() == 'GENE'){
-				td = `<td>${value.geneId}</td>`;
+			if(key.toUpperCase() == 'GENEID'){
+				td = `<td><a style="color:blue;" onclick="showGeneDescription(this)">${value}</a></td>`;
 			}
 			else if(key.toUpperCase() == 'ID'){
 				continue;
@@ -485,105 +495,48 @@ function collapse(){
 	renderTableNew(tissue_selected)
 }
 
-function renderWithGeneInfoNew(data){
-		isExpanded = true;
-		headerRow = "";
-		let object1 = globalData[0];
-		if(isCheckAll){
-			headerRow = `<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
-		}
-		else{
-			headerRow = `<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
-		}
-		for(const [key, value] of Object.entries(object1)){
-			td="";
-		if(key.toUpperCase() == 'ID'){
-				continue;
-		}
-		else if(key.toUpperCase() == 'GENE'){
-				object2 = globalData[0].gene;
-				for(const [geneKey, geneValue] of Object.entries(object2)){
-					if(geneKey.toUpperCase()=='GENEID'){
-						td = td + `<td><div onclick="collapse(this)">GENE ID <i class="fa-solid fa-circle-minus ml-5"></i></div></td>`;
-					}
-					else{
-						td = td + `<td>${geneKey.toUpperCase()}</td>`
-						}
-			}
-		}
-		else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){	
-				if(isFpkm){
-					td = td + `<td>${key.toUpperCase()} (FPKM)</td>`;
-				}
-				if(isTpm){
-					td = td + `<td>${key.toUpperCase()} (TPM)</td>`;
-				}		
-		}
-		else{
-			td = `<td>${key.toUpperCase()}</td>`;
-		}
-		headerRow = headerRow + td;		
-	}
-	$("#genes").find("thead").empty()
-   	$("#genes").find("tbody").empty();
-	$("#genes").find("thead").append(headerRow);
-	   	for(let i=init;i<last;i++){
-			dataRow="<tr>";
-			object1 = globalData[i];
-			console.log(object1)
-			if(checkedData.has(object1.gene.geneId)){
-				dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.gene.geneId}></div></td>`;
-			}
-			else{
-				dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${object1.gene.geneId}></div></td>`;
-			}
-			for(const [key, value] of Object.entries(object1)){		
-				td="";
-				if(key.toUpperCase() == 'GENE'){
-					object2 = globalData[i].gene;
-					for(const [geneKey, geneValue] of Object.entries(object2)){
-						td = td + `<td>${geneValue}</td>`
 
-					}
-				}
-				else if(key.toUpperCase() == 'ID'){
-					continue;
-				}				
-				else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
-
-				
-					if(isFpkm){
-						
-						td = td + `<td>${value}</td>`;
-					}
-					if(isTpm){
-					    tpm = getTPM(value);
-						td = td + `<td>${tpm}</td>`;
-					}
-				
-				}
-			else{
-				td = `<td>${value}</td>`;
-			}
-			dataRow = dataRow + td;
-		}
-		dataRow = dataRow + "</tr>";
-
-		$("#genes").find("tbody").append(dataRow);	
-	}
-		
-}
 function closePopup(event){
 	document.getElementById("overlay").style.visibility = "hidden";
 }
 function closeHeatMap(event){
 	document.getElementById("overlay-heatmap").style.visibility = "hidden";
+	document.getElementById("overlay-heatmap").style.zIndex = "-2";
+}
+function showGeneDescription(event){
+	
+	let geneId = event.innerHTML.split("(")[0].trim();
+	console.log(geneId)
+	headerRow = "";
+	var object1 = {};
+	document.getElementById("popup-desc").innerHTML = "Gene Description";
+	document.getElementById("overlay").style.visibility = "visible";
+	url = "[[@{/gene/api/genes/}]]" + geneId;
+	$.get(url, function(data, status){
+		object1 = data;
+		console.log(data);
+		
+		for(const [key, value] of Object.entries(object1)){	
+			headerRow = headerRow + `<td class="p-2">${key.toUpperCase()}</td>`;		
+			}
+		$("#popup-table-view").find("thead").empty()
+		$("#popup-table-view").find("tbody").empty();
+		$("#popup-table-view").find("thead").append(headerRow);
+			
+		dataRow="<tr>";
+		//dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.gene.geneId}></div></td>`;
+	
+		for(const [key, value] of Object.entries(object1)){					
+			dataRow = dataRow + `<td class="p-2">${value}</td>`;
+			}
+		dataRow = dataRow + "</tr>";
+		$("#popup-table-view").find("tbody").append(dataRow);  
+			
+	})
 }
 function showSampleDescription(event){
-
-
-
 	runId = event.innerHTML.split("(")[0].trim();
+	document.getElementById("popup-desc").innerHTML = "Sample Description";
 	document.getElementById("overlay").style.visibility = "visible";
 	headerRow = "";
 	var object1 = {};
@@ -622,70 +575,80 @@ $( document ).ready(function() {
 });
 
 document.getElementById("firstPage").addEventListener("click", function(event){
-		init = 0;
-		last = 10;
-		pageNum = 1;
-		pagination();
-  		event.preventDefault();
-		$("#genes").find("tbody").empty();
-		if(isExpanded){
-			expand(tissue_selected);
-			
-		}else{
-			collapse(tissue_selected);
+		if(pageNum>1){
+			init = 0;
+			last = 10;
+			pageNum = 1;
+			pagination();
+	  		event.preventDefault();
+			$("#genes").find("tbody").empty();
+			if(isExpanded){
+				expand(tissue_selected);
+				
+			}else{
+				collapse(tissue_selected);
+			}
 		}
 		
 });
 document.getElementById("nextPage").addEventListener("click", function(event){
-		init = init + pageSize;
-		last = last + pageSize;
-		if(last>totalRecords){
-			last = last - numberOfRecordsOfLastPage; 
-		}
-		pageNum = pageNum + 1;
-		pagination();
-  		event.preventDefault();
-  		
-		if(isExpanded){
-			expand(tissue_selected);
-			
-		}else{
-			collapse(tissue_selected);
+
+		if(pageNum!=totalPages){
+			init = init + pageSize;
+			last = last + pageSize;
+			if(last>totalRecords){
+				last = last - numberOfRecordsOfLastPage; 
+			}
+			pageNum = pageNum + 1;
+			pagination();
+	  		event.preventDefault();
+	  		
+			if(isExpanded){
+				expand(tissue_selected);
+				
+			}else{
+				collapse(tissue_selected);
+			}
 		}
 
 });
 document.getElementById("lastPage").addEventListener("click", function(event){
-		var new_init = totalRecords - numberOfRecordsOfLastPage;
-		var new_last = totalRecords;
-		init = new_init;
-		last = new_last;
-		pageNum = totalPages;
-		pagination();
-  		event.preventDefault();
-  		if(isExpanded){
-			expand(tissue_selected);
-			
-		}else{
-			collapse(tissue_selected);
+		if(pageNum!=totalPages){
+			var new_init = totalRecords - numberOfRecordsOfLastPage;
+			var new_last = totalRecords;
+			init = new_init;
+			last = new_last;
+			pageNum = totalPages;
+			pagination();
+	  		event.preventDefault();
+	  		if(isExpanded){
+				expand(tissue_selected);
+				
+			}else{
+				collapse(tissue_selected);
+			}
 		}
 });
 document.getElementById("previousPage").addEventListener("click", function(event){
-		pageNum = pageNum - 1;
-		init = init - pageSize;
-		
-		if(pageNum == totalPages - 1){
-			last = last - Math.ceil(pageSize/2);
-		}
-		else{
-			last = last - 10;
-		}
-		pagination();
-  		event.preventDefault();
-  		if(isExpanded){
-			expand(tissue_selected);
+
+		if(pageNum>1){
+			pageNum = pageNum - 1;
+			init = init - pageSize;
 			
-		}else{
-			collapse(tissue_selected);
+			if(pageNum == totalPages - 1){
+				last = last - Math.ceil(pageSize/2);
+			}
+			else{
+				last = last - 10;
+			}
+			pagination();
+	  		event.preventDefault();
+	  		if(isExpanded){
+				expand(tissue_selected);
+				
+			}else{
+				collapse(tissue_selected);
+			}
 		}
  	
 });

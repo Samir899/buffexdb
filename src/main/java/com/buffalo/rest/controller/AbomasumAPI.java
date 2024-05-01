@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buffalo.entity.Abomasum;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -57,6 +58,12 @@ public class AbomasumAPI {
     public Map<String, Double> getSum() 
     {
     	return abomasumService.getFPKMSum();
+    }
+    
+    @GetMapping("/abomasums/sorted")  
+    public List<Abomasum> getAbomasumSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return abomasumService.getAbomasumSorted(lowerLimit, upperLimit);
     }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 

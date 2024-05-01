@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,9 +16,8 @@ public class Adrenal_gland {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352768")
 	 private double ERR2352768;
@@ -186,7 +183,7 @@ public class Adrenal_gland {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Adrenal_gland(int id, Genes gene, double eRR2352768, double eRR2352769, double eRR2352770, double eRR2352771,
+	public Adrenal_gland(int id, String geneId, double eRR2352768, double eRR2352769, double eRR2352770, double eRR2352771,
 			double eRR2352772, double eRR2352773, double eRR2352774, double eRR2353050, double eRR2353051,
 			double eRR2353052, double eRR2353053, double eRR2353054, double eRR2353055, double eRR2353056,
 			double eRR2353058, double eRR2353603, double eRR2353604, double eRR2353605, double eRR2353606,
@@ -199,7 +196,7 @@ public class Adrenal_gland {
 			double sRR24057897, double sRR24057908, double sRR24057919, double sRR24057930) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352768 = eRR2352768;
 		ERR2352769 = eRR2352769;
 		ERR2352770 = eRR2352770;
@@ -263,12 +260,12 @@ public class Adrenal_gland {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352768() {
@@ -697,7 +694,7 @@ public class Adrenal_gland {
 
 	@Override
 	public String toString() {
-		return "Adrenal_gland [id=" + id + ", gene=" + gene + ", ERR2352768=" + ERR2352768 + ", ERR2352769="
+		return "Adrenal_gland [id=" + id + ", geneId=" + geneId + ", ERR2352768=" + ERR2352768 + ", ERR2352769="
 				+ ERR2352769 + ", ERR2352770=" + ERR2352770 + ", ERR2352771=" + ERR2352771 + ", ERR2352772="
 				+ ERR2352772 + ", ERR2352773=" + ERR2352773 + ", ERR2352774=" + ERR2352774 + ", ERR2353050="
 				+ ERR2353050 + ", ERR2353051=" + ERR2353051 + ", ERR2353052=" + ERR2353052 + ", ERR2353053="

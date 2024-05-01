@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buffalo.entity.Adipose;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
 import com.buffalo.service.AdiposeService;
@@ -57,6 +58,11 @@ public class AdiposeAPI {
     	return adiposeService.getFPKMSum();
     }
     
+    @GetMapping("/adiposes/sorted")  
+    public List<Adipose> getAdiposeSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return adiposeService.getAdiposeSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

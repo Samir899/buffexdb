@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Cerebral_cortex;
 import com.buffalo.entity.Genes;
@@ -48,6 +49,11 @@ public class Cerebral_cortexService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return cerebral_cortexRepo.getSum();
+	}
+	
+	public List<Cerebral_cortex> getCerebral_cortexSorted(double lowerLimit, double upperLimit){
+		return (List<Cerebral_cortex>) cerebral_cortexRepo.getCerebral_cortexSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

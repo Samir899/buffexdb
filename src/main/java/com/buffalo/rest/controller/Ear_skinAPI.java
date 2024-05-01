@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Ear_skin;
 import com.buffalo.entity.GeneList;
@@ -57,6 +58,12 @@ public class Ear_skinAPI {
     public Map<String, Double> getSum() 
     {
     	return ear_skinService.getFPKMSum();
+    }
+    
+    @GetMapping("/ear_skins/sorted")  
+    public List<Ear_skin> getEar_skinSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return ear_skinService.getEar_skinSorted(lowerLimit, upperLimit);
     }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 

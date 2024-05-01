@@ -18,9 +18,8 @@ public class Ear_skin {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR11842086")
 	 private double SRR11842086;
@@ -45,11 +44,11 @@ public class Ear_skin {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Ear_skin(int id, Genes gene, double sRR11842086, double sRR11842087, double sRR11842088, double sRR11842089,
+	public Ear_skin(int id, String geneId, double sRR11842086, double sRR11842087, double sRR11842088, double sRR11842089,
 			double sRR11842090, double sRR11842091) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR11842086 = sRR11842086;
 		SRR11842087 = sRR11842087;
 		SRR11842088 = sRR11842088;
@@ -66,12 +65,12 @@ public class Ear_skin {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR11842086() {
@@ -124,7 +123,7 @@ public class Ear_skin {
 
 	@Override
 	public String toString() {
-		return "Ear_skin [id=" + id + ", gene=" + gene + ", SRR11842086=" + SRR11842086 + ", SRR11842087=" + SRR11842087
+		return "Ear_skin [id=" + id + ", geneId=" + geneId + ", SRR11842086=" + SRR11842086 + ", SRR11842087=" + SRR11842087
 				+ ", SRR11842088=" + SRR11842088 + ", SRR11842089=" + SRR11842089 + ", SRR11842090=" + SRR11842090
 				+ ", SRR11842091=" + SRR11842091 + "]";
 	}

@@ -18,10 +18,8 @@ public class Caecum {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
-	 
+	@Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352775")
 	 private double ERR2352775;
@@ -124,7 +122,7 @@ public class Caecum {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Caecum(int id, Genes gene, double eRR2352775, double eRR2352776, double eRR2352777, double eRR2352778,
+	public Caecum(int id, String geneId, double eRR2352775, double eRR2352776, double eRR2352777, double eRR2352778,
 			double eRR2352779, double eRR2352780, double eRR2352781, double eRR2353123, double eRR2353124,
 			double eRR2353125, double eRR2353126, double eRR2353127, double eRR2353128, double eRR2353129,
 			double eRR2353130, double eRR2353131, double eRR2353610, double eRR2353611, double eRR2353612,
@@ -133,7 +131,7 @@ public class Caecum {
 			double eRR2353998, double eRR2353999, double eRR2354000) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352775 = eRR2352775;
 		ERR2352776 = eRR2352776;
 		ERR2352777 = eRR2352777;
@@ -176,12 +174,12 @@ public class Caecum {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352775() {
@@ -442,7 +440,7 @@ public class Caecum {
 
 	@Override
 	public String toString() {
-		return "Caecum [id=" + id + ", gene=" + gene + ", ERR2352775=" + ERR2352775 + ", ERR2352776=" + ERR2352776
+		return "Caecum [id=" + id + ", geneId=" + geneId + ", ERR2352775=" + ERR2352775 + ", ERR2352776=" + ERR2352776
 				+ ", ERR2352777=" + ERR2352777 + ", ERR2352778=" + ERR2352778 + ", ERR2352779=" + ERR2352779
 				+ ", ERR2352780=" + ERR2352780 + ", ERR2352781=" + ERR2352781 + ", ERR2353123=" + ERR2353123
 				+ ", ERR2353124=" + ERR2353124 + ", ERR2353125=" + ERR2353125 + ", ERR2353126=" + ERR2353126

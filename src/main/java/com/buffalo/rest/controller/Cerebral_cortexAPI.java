@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Cerebral_cortex;
 import com.buffalo.entity.GeneList;
@@ -59,6 +60,11 @@ public class Cerebral_cortexAPI {
     	return cerebral_cortexService.getFPKMSum();
     }
     
+    @GetMapping("/cerebral_cortexs/sorted")  
+    public List<Cerebral_cortex> getCerebral_cortexSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return cerebral_cortexService.getCerebral_cortexSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

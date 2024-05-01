@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain_stem;
 import com.buffalo.entity.Endometrium;
 import com.buffalo.entity.GeneList;
@@ -57,6 +58,12 @@ public class EndometriumAPI {
     public Map<String, Double> getSum() 
     {
     	return endometriumService.getFPKMSum();
+    }
+    
+    @GetMapping("/endometriums/sorted")  
+    public List<Endometrium> getEndometriumSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return endometriumService.getEndometriumSorted(lowerLimit, upperLimit);
     }
     
 //    @GetMapping("/genes/{geneId}")  

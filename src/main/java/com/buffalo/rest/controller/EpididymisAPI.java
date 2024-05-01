@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Epididymis;
 import com.buffalo.entity.GeneList;
@@ -59,6 +60,11 @@ public class EpididymisAPI {
     	return epididymisService.getFPKMSum();
     }
     
+    @GetMapping("/epididymiss/sorted")  
+    public List<Epididymis> getEpididymisSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return epididymisService.getEpididymisSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

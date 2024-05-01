@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Epididymis;
 import com.buffalo.entity.Genes;
@@ -48,6 +49,11 @@ public class EpididymisService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return epididymisRepo.getSum();
+	}
+	
+	public List<Epididymis> getEpididymisSorted(double lowerLimit, double upperLimit){
+		return (List<Epididymis>) epididymisRepo.getEpididymisSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

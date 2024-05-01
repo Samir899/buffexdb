@@ -9,11 +9,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Cerebellum;
 import com.buffalo.entity.Genes;
 
 public interface CerebellumRepository extends CrudRepository<Cerebellum, Integer>{
+	
+	@Query("SELECT u FROM Cerebellum u WHERE u.ERR2353617>=:lowerLimit and u.ERR2353618>=:lowerLimit and u.ERR2353619>=:lowerLimit and u.ERR2353620>=:lowerLimit and u.ERR2353621>=:lowerLimit and u.ERR2353622>=:lowerLimit and u.ERR2353623>=:lowerLimit and u.ERR2354001>=:lowerLimit and u.ERR2354002>=:lowerLimit and u.ERR2354003>=:lowerLimit and u.ERR2354004>=:lowerLimit and u.ERR2354005>=:lowerLimit and u.ERR2354006>=:lowerLimit and u.ERR2354007>=:lowerLimit and u.ERR2354008>=:lowerLimit and u.ERR2354009>=:lowerLimit and u.ERR2352782>=:lowerLimit and u.ERR2352783>=:lowerLimit and u.ERR2352784>=:lowerLimit and u.ERR2352785>=:lowerLimit and u.ERR2352786>=:lowerLimit and u.ERR2352787>=:lowerLimit and u.ERR2352788>=:lowerLimit and u.ERR2353132>=:lowerLimit and u.ERR2353133>=:lowerLimit and u.ERR2353134>=:lowerLimit and u.ERR2353135>=:lowerLimit and u.ERR2353136>=:lowerLimit and u.ERR2353137>=:lowerLimit and u.ERR2353138>=:lowerLimit and u.ERR2353139>=:lowerLimit and u.ERR2353140>=:lowerLimit and u.SRR15721751>=:lowerLimit and u.SRR24057953>=:lowerLimit and u.SRR24057954>=:lowerLimit and u.SRR24057955>=:lowerLimit and u.SRR24057956>=:lowerLimit and "
+			+ "u.ERR2353617<=:upperLimit and u.ERR2353618<=:upperLimit and u.ERR2353619<=:upperLimit and u.ERR2353620<=:upperLimit and u.ERR2353621<=:upperLimit and u.ERR2353622<=:upperLimit and u.ERR2353623<=:upperLimit and u.ERR2354001<=:upperLimit and u.ERR2354002<=:upperLimit and u.ERR2354003<=:upperLimit and u.ERR2354004<=:upperLimit and u.ERR2354005<=:upperLimit and u.ERR2354006<=:upperLimit and u.ERR2354007<=:upperLimit and u.ERR2354008<=:upperLimit and u.ERR2354009<=:upperLimit and u.ERR2352782<=:upperLimit and u.ERR2352783<=:upperLimit and u.ERR2352784<=:upperLimit and u.ERR2352785<=:upperLimit and u.ERR2352786<=:upperLimit and u.ERR2352787<=:upperLimit and u.ERR2352788<=:upperLimit and u.ERR2353132<=:upperLimit and u.ERR2353133<=:upperLimit and u.ERR2353134<=:upperLimit and u.ERR2353135<=:upperLimit and u.ERR2353136<=:upperLimit and u.ERR2353137<=:upperLimit and u.ERR2353138<=:upperLimit and u.ERR2353139<=:upperLimit and u.ERR2353140<=:upperLimit and u.SRR15721751<=:upperLimit and u.SRR24057953<=:upperLimit and u.SRR24057954<=:upperLimit and u.SRR24057955<=:upperLimit and u.SRR24057956<=:upperLimit "
+			+ "ORDER BY ERR2353617, ERR2353618, ERR2353619, ERR2353620, ERR2353621, ERR2353622, ERR2353623, ERR2354001, ERR2354002, ERR2354003, ERR2354004, ERR2354005, ERR2354006, ERR2354007, ERR2354008, ERR2354009, ERR2352782, ERR2352783, ERR2352784, ERR2352785, ERR2352786, ERR2352787, ERR2352788, ERR2353132, ERR2353133, ERR2353134, ERR2353135, ERR2353136, ERR2353137, ERR2353138, ERR2353139, ERR2353140, SRR15721751, SRR24057953, SRR24057954, SRR24057955, SRR24057956 LIMIT 50")
+	public List<Cerebellum> getCerebellumSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

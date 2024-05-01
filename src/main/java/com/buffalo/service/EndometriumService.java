@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Endometrium;
 import com.buffalo.repo.EndometriumRepository;
 import jakarta.transaction.Transactional;
@@ -37,6 +39,11 @@ public class EndometriumService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return endometriumRepo.getSum();
+	}
+	
+	public List<Endometrium> getEndometriumSorted(double lowerLimit, double upperLimit){
+		return (List<Endometrium>) endometriumRepo.getEndometriumSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

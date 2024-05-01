@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.buffalo.entity.Abomasum;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.repo.AbomasumRepository;
@@ -48,6 +49,11 @@ public class AbomasumService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return abomasumRepo.getSum();
+	}
+	
+	public List<Abomasum> getAbomasumSorted(double lowerLimit, double upperLimit){
+		return (List<Abomasum>) abomasumRepo.getAbomasumSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

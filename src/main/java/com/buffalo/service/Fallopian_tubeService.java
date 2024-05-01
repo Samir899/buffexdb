@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Fallopian_tube;
 import com.buffalo.entity.Genes;
@@ -48,6 +49,11 @@ public class Fallopian_tubeService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return fallopian_tubeRepo.getSum();
+	}
+	
+	public List<Fallopian_tube> getFallopian_tubeSorted(double lowerLimit, double upperLimit){
+		return (List<Fallopian_tube>) fallopian_tubeRepo.getFallopian_tubeSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

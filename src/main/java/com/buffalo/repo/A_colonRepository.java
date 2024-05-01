@@ -10,9 +10,15 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.buffalo.entity.A_colon;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 
 public interface A_colonRepository extends CrudRepository<A_colon, Integer>{
+	
+	@Query("SELECT u FROM A_colon u WHERE u.ERR2353631>=:lowerLimit and u.ERR2353632>=:lowerLimit and u.ERR2353633>=:lowerLimit and u.ERR2353634>=:lowerLimit and u.ERR2353635>=:lowerLimit and u.ERR2353636>=:lowerLimit and u.ERR2353637>=:lowerLimit and u.ERR2354010>=:lowerLimit and u.ERR2354011>=:lowerLimit and u.ERR2354012>=:lowerLimit and u.ERR2354013>=:lowerLimit and u.ERR2354014>=:lowerLimit and u.ERR2354015>=:lowerLimit and u.ERR2354016>=:lowerLimit and u.ERR2354017>=:lowerLimit and u.ERR2354018>=:lowerLimit and u.ERR2352796>=:lowerLimit and u.ERR2352797>=:lowerLimit and u.ERR2352798>=:lowerLimit and u.ERR2352799>=:lowerLimit and u.ERR2352800>=:lowerLimit and u.ERR2352801>=:lowerLimit and u.ERR2352802>=:lowerLimit and u.ERR2353150>=:lowerLimit and u.ERR2353151>=:lowerLimit and u.ERR2353152>=:lowerLimit and u.ERR2353153>=:lowerLimit and u.ERR2353154>=:lowerLimit and u.ERR2353155>=:lowerLimit and u.ERR2353156>=:lowerLimit and u.ERR2353157>=:lowerLimit and u.ERR2353158>=:lowerLimit and "
+			+ "u.ERR2353631<=:upperLimit and u.ERR2353632<=:upperLimit and u.ERR2353633<=:upperLimit and u.ERR2353634<=:upperLimit and u.ERR2353635<=:upperLimit and u.ERR2353636<=:upperLimit and u.ERR2353637<=:upperLimit and u.ERR2354010<=:upperLimit and u.ERR2354011<=:upperLimit and u.ERR2354012<=:upperLimit and u.ERR2354013<=:upperLimit and u.ERR2354014<=:upperLimit and u.ERR2354015<=:upperLimit and u.ERR2354016<=:upperLimit and u.ERR2354017<=:upperLimit and u.ERR2354018<=:upperLimit and u.ERR2352796<=:upperLimit and u.ERR2352797<=:upperLimit and u.ERR2352798<=:upperLimit and u.ERR2352799<=:upperLimit and u.ERR2352800<=:upperLimit and u.ERR2352801<=:upperLimit and u.ERR2352802<=:upperLimit and u.ERR2353150<=:upperLimit and u.ERR2353151<=:upperLimit and u.ERR2353152<=:upperLimit and u.ERR2353153<=:upperLimit and u.ERR2353154<=:upperLimit and u.ERR2353155<=:upperLimit and u.ERR2353156<=:upperLimit and u.ERR2353157<=:upperLimit and u.ERR2353158<=:upperLimit "
+			+ "ORDER BY ERR2353631, ERR2353632, ERR2353633, ERR2353634, ERR2353635, ERR2353636, ERR2353637, ERR2354010, ERR2354011, ERR2354012, ERR2354013, ERR2354014, ERR2354015, ERR2354016, ERR2354017, ERR2354018, ERR2352796, ERR2352797, ERR2352798, ERR2352799, ERR2352800, ERR2352801, ERR2352802, ERR2353150, ERR2353151, ERR2353152, ERR2353153, ERR2353154, ERR2353155, ERR2353156, ERR2353157, ERR2353158 LIMIT 50")
+	public List<A_colon> getA_colonSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

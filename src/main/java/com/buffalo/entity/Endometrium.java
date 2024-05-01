@@ -18,9 +18,8 @@ public class Endometrium {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	@Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR315635")
 	 private double ERR315635;
@@ -30,10 +29,10 @@ public class Endometrium {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Endometrium(int id, Genes gene, double eRR315635) {
+	public Endometrium(int id, String geneId, double eRR315635) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR315635 = eRR315635;
 	}
 
@@ -45,12 +44,12 @@ public class Endometrium {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR315635() {
@@ -63,7 +62,7 @@ public class Endometrium {
 
 	@Override
 	public String toString() {
-		return "Endometrium [id=" + id + ", gene=" + gene + ", ERR315635=" + ERR315635 + "]";
+		return "Endometrium [id=" + id + ", geneId=" + geneId + ", ERR315635=" + ERR315635 + "]";
 	}
 	 
 }

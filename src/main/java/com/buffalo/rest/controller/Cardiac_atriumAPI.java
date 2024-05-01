@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Cardiac_atrium;
 import com.buffalo.entity.GeneList;
@@ -57,6 +58,12 @@ public class Cardiac_atriumAPI {
     public Map<String, Double> getSum() 
     {
     	return cardiac_atriumService.getFPKMSum();
+    }
+    
+    @GetMapping("/cardiac_atriums/sorted")  
+    public List<Cardiac_atrium> getCardiac_atriumSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return cardiac_atriumService.getCardiac_atriumSorted(lowerLimit, upperLimit);
     }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 

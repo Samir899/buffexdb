@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Caecum;
 import com.buffalo.entity.Genes;
@@ -48,6 +49,11 @@ public class CaecumService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return caecumRepo.getSum();
+	}
+	
+	public List<Caecum> getCaecumSorted(double lowerLimit, double upperLimit){
+		return (List<Caecum>) caecumRepo.getCaecumSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

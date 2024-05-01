@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Cardiac_atrium;
 import com.buffalo.entity.Genes;
@@ -48,6 +49,11 @@ public class Cardiac_atriumService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return cardiac_atriumRepo.getSum();
+	}
+	
+	public List<Cardiac_atrium> getCardiac_atriumSorted(double lowerLimit, double upperLimit){
+		return (List<Cardiac_atrium>) cardiac_atriumRepo.getCardiac_atriumSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

@@ -9,12 +9,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Cerebral_cortex;
 import com.buffalo.entity.Genes;
 
 public interface Cerebral_cortexRepository extends CrudRepository<Cerebral_cortex, Integer>{
-
+	
+	@Query("SELECT u FROM Cerebral_cortex u WHERE u.SRR24057948>=:lowerLimit and u.SRR24057949>=:lowerLimit and u.SRR24057950>=:lowerLimit and u.SRR24057951>=:SRR24057951 and "
+			+ "u.SRR24057948<=:upperLimit and u.SRR24057949<=:upperLimit and u.SRR24057950<=:upperLimit and u.SRR24057951<=:upperLimit "
+			+ "ORDER BY SRR24057948, SRR24057949, SRR24057950, SRR24057951 LIMIT 50")
+	public List<Cerebral_cortex> getCerebral_cortexSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);
 //	

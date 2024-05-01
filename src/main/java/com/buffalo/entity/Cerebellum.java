@@ -17,9 +17,8 @@ public class Cerebellum {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352782")
 	 private double ERR2352782;
@@ -427,10 +426,10 @@ public class Cerebellum {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cerebellum(int id, Genes gene, double eRR2352782, double eRR2352783, double eRR2352784, double eRR2352785, double eRR2352786, double eRR2352787, double eRR2352788, double eRR2353132, double eRR2353133, double eRR2353134, double eRR2353135, double eRR2353136, double eRR2353137, double eRR2353138, double eRR2353139, double eRR2353140, double eRR2353617, double eRR2353618, double eRR2353619, double eRR2353620, double eRR2353621, double eRR2353622, double eRR2353623, double eRR2354001, double eRR2354002, double eRR2354003, double eRR2354004, double eRR2354005, double eRR2354006, double	eRR2354007, double eRR2354008, double eRR2354009, double sRR15721751, double sRR24057953, double sRR24057954, double sRR24057955, double sRR24057956) {
+	public Cerebellum(int id, String geneId, double eRR2352782, double eRR2352783, double eRR2352784, double eRR2352785, double eRR2352786, double eRR2352787, double eRR2352788, double eRR2353132, double eRR2353133, double eRR2353134, double eRR2353135, double eRR2353136, double eRR2353137, double eRR2353138, double eRR2353139, double eRR2353140, double eRR2353617, double eRR2353618, double eRR2353619, double eRR2353620, double eRR2353621, double eRR2353622, double eRR2353623, double eRR2354001, double eRR2354002, double eRR2354003, double eRR2354004, double eRR2354005, double eRR2354006, double	eRR2354007, double eRR2354008, double eRR2354009, double sRR15721751, double sRR24057953, double sRR24057954, double sRR24057955, double sRR24057956) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352782 = eRR2352782;
 		ERR2352783 = eRR2352783;
 		ERR2352784 = eRR2352784;
@@ -478,12 +477,12 @@ public class Cerebellum {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352782() {
@@ -496,7 +495,7 @@ public class Cerebellum {
 
 	@Override
 	public String toString() {
-		return "Cerebellum [id=" + id + ", gene=" + gene + ", ERR2352782=" + ERR2352782 + "]";
+		return "Cerebellum [id=" + id + ", geneId=" + geneId + ", ERR2352782=" + ERR2352782 + "]";
 	}
 	 
 }

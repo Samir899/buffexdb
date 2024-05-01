@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Heart;
@@ -50,6 +51,10 @@ public class HeartService {
 		return heartRepo.getSum();
 	}
 	
+	public List<Heart> getHeartSorted(double lowerLimit, double upperLimit){
+		return (List<Heart>) heartRepo.getHeartSorted(lowerLimit, upperLimit);
+
+	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);
 //	}

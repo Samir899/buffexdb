@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,9 +15,8 @@ public class Brain {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR15721738")
 	 private double SRR15721738;
@@ -50,11 +47,11 @@ public class Brain {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Brain(int id, Genes gene, double sRR15721738, double sRR15721741, double sRR15721752, double sRR15721753,
+	public Brain(int id, String geneId, double sRR15721738, double sRR15721741, double sRR15721752, double sRR15721753,
 			double sRR15721754, double sRR15721756, double sRR15721757, double sRR15721761) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR15721738 = sRR15721738;
 		SRR15721741 = sRR15721741;
 		SRR15721752 = sRR15721752;
@@ -73,12 +70,12 @@ public class Brain {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR15721738() {
@@ -147,7 +144,7 @@ public class Brain {
 
 	@Override
 	public String toString() {
-		return "Brain [id=" + id + ", gene=" + gene + ", SRR15721738=" + SRR15721738 + ", SRR15721741=" + SRR15721741
+		return "Brain [id=" + id + ", geneId=" + geneId + ", SRR15721738=" + SRR15721738 + ", SRR15721741=" + SRR15721741
 				+ ", SRR15721752=" + SRR15721752 + ", SRR15721753=" + SRR15721753 + ", SRR15721754=" + SRR15721754
 				+ ", SRR15721756=" + SRR15721756 + ", SRR15721757=" + SRR15721757 + ", SRR15721761=" + SRR15721761
 				+ "]";

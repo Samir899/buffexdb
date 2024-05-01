@@ -5,9 +5,16 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Endometrium;
 
 public interface EndometriumRepository extends CrudRepository<Endometrium, Integer>{
+	
+	@Query("SELECT u FROM Endometrium u WHERE u.ERR315635>=:lowerLimit and u.ERR315635<=:upperLimit "
+			+ "ORDER BY ERR315635 LIMIT 100")
+	public List<Endometrium> getEndometriumSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

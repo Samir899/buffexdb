@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Ear_skin;
 import com.buffalo.entity.Genes;
@@ -48,6 +49,11 @@ public class Ear_skinService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return ear_skinRepo.getSum();
+	}
+	
+	public List<Ear_skin> getEar_skinSorted(double lowerLimit, double upperLimit){
+		return (List<Ear_skin>) ear_skinRepo.getEar_skinSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

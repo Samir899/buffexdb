@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+<title>Database Admin Control Panel</title>
+<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+</head>
+<body>
+
+	<div class="container-fluid">
+		<div>
+			<div class="nav-bg">
+				<div class="row">
+					<div class="col">
+						<nav class="navbar navbar-expand-lg text-white nav-border-style">
+							<div>
+								<a class="navbar-brand" th:href="@{/}"> <img th:src="@{/images/icar.png}" height="100px" width="100px" class='spinning'/>
+								</a>
+							</div>
+							<h1 class="mx-5 px-5">BUFFEXDB</h1>
+								
+						</nav>
+					</div>
+					<div class="col">
+						<div class="d-flex align-items-center text-white">
+						
+						<marquee behavior="scroll" direction="left"><h1>Buffalo Expression Database</h1></marquee>
+						<div class="d-flex align-items-center justify-content-end pt-2 px-5">
+						    
+							<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/iasris.jpeg}" height="100px" width="100px"/>
+							</a>
+						</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="nav-with-button-bg">
+			<nav class="navbar navbar-expand-lg text-nowrap fw-bold">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+						<div class="collapse navbar-collapse topNavBar" id="topNavbar" aria-haspopup="true" aria-expanded="false">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link fs-5" th:href="@{/}">Home</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link fs-5" th:href="@{/about}">Teams</a>
+						</li>
+						
+						<li class="nav-item text-white fs-5">
+							 <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+							      <ul class="navbar-nav">
+							        <li class="nav-item dropdown">
+							          <a class="nav-link dropdown-toggle fs-5" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							            Browse
+							          </a>
+							          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							            <li><a class="dropdown-item" th:href="@{/database/genes}">Gene Description</a></li>
+								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
+								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expression Data</a></li>
+								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
+							          </ul>
+							        </li>
+							      </ul>
+							  </div>
+							</li>
+						<li class="nav-item">
+							<a class="nav-link fs-5" th:href="@{/downloads}">Downloads</a>
+						</li>
+					</ul>					
+			</div>	
+
+			</nav>
+		</div>
+		
+		<div class="overflow-hidden" style="height:500px">
+		<img  class="img-fluid w-100" th:src="@{/images/buff_ai_1.jpg}" />
+		
+			
+		</div>
+		<div class="border">
+			<div class="p-2">
+			<div class="row w-100" style="height:100px">
+			<div class="col">
+			<form class="" id="queryForm" method="post" onSubmit="return validateCheckBox(this);">
+				<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
+				<div class="input-group mb-2">
+				  <input required type="text" class="form-control" name="searchText" placeholder="Strand, Chromosome" aria-label="Recipient's username" id="searchText">
+				  <button class="btn btn-outline-secondary" type="submit" id="search">Search</button>
+				</div>
+				<div class="align-middle mb-2">
+				   <input class="form-check-input" type="radio" name="searchParam" id="strand" value="strand">
+				  <label class="form-check-label" for="flexRadioDefault1">
+				    STRAND
+				  </label>
+				   <input class="form-check-input" type="radio" name="searchParam" id="chromosome" value="chromosome">
+				  <label class="form-check-label" for="flexRadioDefault1">
+				    CHROMOSOME
+				  </label>
+				</div>
+				
+				<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px"></div>
+				</form>
+				</div>
+				<div class="col">
+					<div class="input-group position-relative ">
+						  <input required placeholder="Type Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
+					</div>
+<!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
+					<div hidden=true id="listContainer" class=" position-absolute bg-light  overflow-auto text-nowrap border rounded-bottom" style="height:200px; width:560px;">
+						  	<div id="listElements" >
+						  	</div>
+					 </div>
+						  
+					</div>
+				</div>				
+			</div>
+			
+			<div class="m-2">
+					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
+				</div>
+ 		<div class="overflow-auto p-2 text-nowrap">
+ 		<table class="table table-striped border" id="pathways">
+			  <thead class="table-dark">
+				  
+			  </thead>
+			  <tbody>
+			    
+			  </tbody>
+			</table>
+		</div>
+		</div>
+		
+		<div class="mx-auto mt-2" style="width: 500px;">
+			<div class="justify-content-center text-center" id="pageInfo" >
+		
+			</div>
+		 	<ul class="pagination justify-content-center">
+			   <li id="firstPage"><a class="page-link">First</a></li>
+			    <li id="previousPage"><a class="page-link">Previous</a></li>
+			   
+			    <li id="nextPage"><a class="page-link" >Next</a></li>
+			     <li id="lastPage"><a class="page-link" >Last</a></li>
+			</ul>
+		</div>
+		<div class="footer">
+			<div class="sub-footer pt-2">
+				<h1>Database - Buffalo Expression DB</h1>
+			</div>
+			<div class="sub-footer">
+				<p>Database Control Panel - Copyright &copy; IASRI</p>
+			</div>
+		</div>
+	</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script type="text/javascript">
+var	init = 0;
+var	last = 10;
+var pageSize = 10;
+var pageNum = 1;
+var totalRecords = 0;
+var totalPages = 0;
+var numberOfRecordsOfLastPage = 0;
+var geneData = [];
+var globalData = [];
+var checkedData = new Set();
+var uncheckedData = new Set();
+var geneIdSet = new Set();
+var isCheckAll = false;
+
+document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
+ 	$("#listElements").empty();  
+	var inputVal = document.getElementById("dropdownMenuLink1").value;
+	if(inputVal==""){
+		document.getElementById("listContainer").hidden = true;
+	}
+	else{
+		document.getElementById("listContainer").hidden = false;
+	}
+	var newArray = geneData.filter(function (el) {
+			return el.geneName.startsWith(inputVal.toUpperCase());
+			});
+		for(let i=0;i<newArray.length;i++){
+			var anchor = `<div onclick="dropdownSelection('${newArray[i].geneId}')" class="dropdown-list px-2 py-1 fw-bold">${newArray[i].geneName}</div>`
+			$("#listElements").append(anchor);   
+		}
+});
+
+function dropdownSelection(string){
+	document.getElementById("dropdownMenuLink1").value = string;
+	document.getElementById("listContainer").hidden = true;
+	$("#listElements").empty()
+}
+
+function renderTableNew(){
+	isExpanded=false;	
+	headerRow = "";
+	let object1 = globalData[0];
+	
+	if(isCheckAll){
+		headerRow = `<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
+	}
+	else{
+		headerRow = `<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
+		}
+	for(const [key, value] of Object.entries(object1)){
+		td="";
+		if(key.toUpperCase() == 'GENE'){
+			td = `<td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td>`;
+		}
+		else if(key.toUpperCase() == 'ID'){
+			continue;
+		}
+			
+		else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
+	
+			if(isFpkm){
+				td = td + `<td><a onclick="showSampleDescription(this)">${key.toUpperCase()} </a>(FPKM)</td>`;
+			}
+			if(isTpm){
+				td = td + `<td><a onclick="showSampleDescription(this)">${key.toUpperCase()}</a> (TPM)</td>`;
+			}		
+		}
+		else{
+			td = `<td>${key.toUpperCase()}</td>`;
+		}
+		headerRow = headerRow + td;
+		}
+	headerRow = headerRow + "</tr>";			
+	$("#pathways").find("thead").empty();
+  	$("#pathways").find("tbody").empty();
+	$("#pathways").find("thead").append(headerRow);
+	
+	
+	for(let i=init;i<last;i++){
+		dataRow="<tr>";
+		object1 = globalData[i];
+		if(checkedData.has(object1.geneId)){
+			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.geneId}></div></td>`;
+		}
+		else{
+			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${object1.geneId}></div></td>`;
+		}
+		for(const [key, value] of Object.entries(object1)){		
+			td="";
+			if(key.toUpperCase() == 'GENE'){
+				td = `<td>${value.geneId}</td>`;
+			}
+			else if(key.toUpperCase() == 'ID'){
+				continue;
+			}				
+			else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
+				
+				if(isFpkm){
+					
+					td = td + `<td>${value}</td>`;
+				}
+				if(isTpm){
+				    tpm = getTPM(value, key.toUpperCase());
+					td = td + `<td>${tpm}</td>`;
+				}
+				
+			}
+			else{
+				td = `<td>${value}</td>`;
+			}
+			dataRow = dataRow + td;
+		}
+		dataRow = dataRow + "</tr>";
+
+		$("#pathways").find("tbody").append(dataRow);	
+	}
+}
+
+
+$( document ).ready(function() {
+	url = "[[@{/pathways/api/pathwayss/geneId/all}]]"
+	$.get(url, function(data, status){
+		uncheckedGeneData = new Set(data);
+		geneIdSet = new Set(data);
+	});
+    url = "[[@{/pathways/api/pathwayss}]]"
+    	$.get(url, function(data, status){
+    	geneData = data;
+    	globalData = data;
+    	totalRecords = data.length;
+    	totalPages = Math.ceil(totalRecords/pageSize);
+    	numberOfRecordsOfLastPage = totalRecords%pageSize;
+    	renderTableNew();
+ 		pagination();
+});
+});
+
+document.getElementById("btn-searchGeneByName").addEventListener("click", function(event){
+	init=0;
+	last=1;
+	totalRecords = 1
+	totalPages = 1
+	pageNum=1;
+	pagination();
+	checkedData = new Set();
+	searchText = document.getElementById("dropdownMenuLink1").value
+	url = "[[@{/pathways/api/pathwayss/}]]" + searchText
+	$.get(url, function(data, status){
+		globalData = [data];
+		if(!data){
+			pageInfo = `No Records found`
+			init=0;
+			last=0;
+			$("#pageInfo").empty();
+			$("#pageInfo").append(pageInfo);
+		}
+		else{
+			renderTableNew();
+		}
+	})
+})
+
+document.getElementById("firstPage").addEventListener("click", function(event){
+        if(pageNum>1){
+			init = 0;
+			last = 10;
+			pageNum = 1;
+			pagination();
+	  		event.preventDefault();
+			renderTableNew();
+		}
+});
+document.getElementById("nextPage").addEventListener("click", function(event){
+		if(pageNum!=totalPages){
+			init = init + pageSize;
+			last = last + pageSize;
+			if(last>totalRecords){
+				last = last - numberOfRecordsOfLastPage; 
+			}
+			pageNum = pageNum + 1;
+			pagination();
+	  		event.preventDefault();
+	    	renderTableNew()
+    	}
+
+});
+document.getElementById("lastPage").addEventListener("click", function(event){
+		if(pageNum!=totalPages){
+			var new_init = totalRecords - numberOfRecordsOfLastPage;
+			var new_last = totalRecords;
+			init = new_init;
+			last = new_last;
+			pageNum = totalPages;
+			pagination();
+	  		event.preventDefault();
+	    	renderTableNew();
+	    	}
+});
+document.getElementById("previousPage").addEventListener("click", function(event){
+		
+		if(pageNum>1){
+			pageNum = pageNum - 1;
+			init = init - pageSize;
+			
+			if(pageNum == totalPages - 1){
+				last = last - Math.ceil(pageSize/2);
+			}
+			else{
+				last = last - 10;
+			}
+			pagination();
+	  		event.preventDefault();
+	    	renderTableNew()
+	    	}
+ 	
+});
+
+function pagination(){
+	var pageInfo = "";
+	$("#pageInfo").empty();
+	if(pageNum<=1){
+		$("#firstPage").addClass("page-item disabled");
+		$("#previousPage").addClass("page-item disabled");
+		$("#nextPage").removeClass("disabled");
+		$("#lastPage").removeClass("disabled");	
+		pageInfo = `<span>Showing rows #  ${init+1} to ${last} of ${totalRecords}</span>`
+		if(pageNum==totalPages){
+			$("#nextPage").addClass("page-item disabled");
+			$("#lastPage").addClass("page-item disabled");
+			pageInfo = `<span>Showing rows #  ${1} to ${totalRecords} of ${totalRecords}</span>`		
+		}
+	}
+	else if(pageNum>1){
+		$("#firstPage").removeClass("disabled");
+		$("#previousPage").removeClass("disabled");
+		$("#nextPage").removeClass("disabled");
+		$("#lastPage").removeClass("disabled");
+		pageInfo = `<span>Showing rows #  ${init+1} to ${last} of ${totalRecords}</span>`
+		if(pageNum==totalPages){
+			$("#nextPage").addClass("page-item disabled");
+			$("#lastPage").addClass("page-item disabled");
+			pageInfo = `<span>Showing rows #  ${totalRecords - numberOfRecordsOfLastPage} to ${totalRecords} of ${totalRecords}</span>`
+		}
+	}
+	$("#pageInfo").append(pageInfo);
+}
+	function validateCheckBox(form){
+		init=0;
+		last=1;
+		totalRecords = 1
+		totalPages = 1
+		pageNum=1;
+		checkedData = new Set();
+		pagination();
+	    $("#pathways").find("tbody").empty();
+		var selectedValue = $("input[name=searchParam]:checked").val();
+		var textValue = $("input[name=searchText]").val();
+		if(textValue == "+"){
+			textValue = "%2B";
+		}
+		if(!selectedValue){
+            $("#radio-error").text("Please select a search parameter");   
+            } 
+            else {  
+            $("#radio-error").empty();
+            
+            url = "[[@{/pathways/api/pathwayss/query/geneIds}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+            $.get(url, function(data, status){	
+            		geneIdSet = new Set(data);
+            	});
+            
+			url = "[[@{/pathways/api/pathwayss/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+			$.get(url, function(data, status){
+			
+				globalData = data;
+				
+				if(data.length==0){
+					pageInfo = `No Records found`
+					init=0;
+					last=0;
+					$("#pageInfo").empty();
+					$("#pageInfo").append(pageInfo);
+				}
+				else{
+					init=0;
+					last=pageSize;
+					if(globalData.length<pageSize){
+						last = globalData.length;
+					}
+					totalRecords = globalData.length;
+					totalPages = Math.ceil(globalData.length/pageSize);
+					numberOfRecordsOfLastPage = totalRecords%pageSize;
+					pagination();
+					renderTableNew();
+				}
+			  });	
+            }
+		return false;
+	}
+	
+	$(document).ready (function () {  
+    $('#pathways').after ('<div id="nav"></div>');  
+    var rowsShown = 5;  
+    var rowsTotal = $('#data tbody tr').length;  
+    var numPages = rowsTotal/rowsShown;  
+    for (i = 0;i < numPages;i++) {  
+        var pageNum = i + 1;  
+        $('#nav').append ('<a href="#" rel="'+i+'">'+pageNum+'</a> ');  
+    }
+    });
+    
+function checkBox(checkbox){
+	index = checkbox.value;
+	geneId = checkbox.id;
+	if($(`#${geneId}:checkbox:checked`).length>0){
+		checkedData.add(geneId)
+		uncheckedData.delete(geneId)
+		
+	}else{
+		checkedData.delete(geneId)
+		uncheckedData.add(geneId)
+		
+	}
+	renderTableNew()
+}
+ 
+ function checkAll(checkbox){
+ 		 
+ 	if ($(checkbox).is(':checked')) {
+ 	   $("input[name='cbSelect']").attr('checked', true);
+			isCheckAll = true; 		
+	 		checkedData = new Set(geneIdSet);	
+	 		uncheckedData = new Set(); 		
+    		
+    } else {
+        $("input[name='cbSelect']").attr('checked', false);
+        	isCheckAll = false;
+			checkedData = new Set();
+	 		uncheckedData = new Set(geneIdSet);
+ 	}
+ 	renderTableNew();
+ }
+ 
+ function fetchPathways(btn){
+ 	payload_1 = [...checkedData]
+ 	payload_2 = payload_1.splice(0, Math.floor(payload_1.length/2));
+ 	resposeData_1 = [];
+ 	responseData_2 = [];
+ 	url = "[[@{/pathways/api/pathwayss/download/geneIds}]]"
+ 	params = {geneIds: payload_1};
+ 	$.post(url, params, function(data, status){
+ 		responseData_1 = data;
+ 		console.log(data)
+ 		index = responseData_1.indexOf("\n")
+        responseData_1 = responseData_1.substring(index+1, responseData_1.length);
+ 		params = {geneIds: payload_2};
+ 		$.post(url, params, function(data, status){
+	 		responseData_2 = data;
+	 		responseData = responseData_2.concat(responseData_1);
+	 		const blob = new Blob([responseData], { type: 'text/csv' });
+	 		const urls = window.URL.createObjectURL(blob);
+	 		const a = document.createElement('a');
+		    a.setAttribute('href', urls);
+		    a.setAttribute('download', 'pathways.csv'); 
+		    a.click();
+	     	});
+ 	});
+ }
+ 
+</script>
+</body>
+</html>

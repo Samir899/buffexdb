@@ -19,9 +19,8 @@ public class Fallopian_tube {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	@Column(name = "geneId")
+	 String geneId;
 
 	 @Column(name="ERR2352810")
 	 private double ERR2352810;
@@ -103,7 +102,7 @@ public class Fallopian_tube {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Fallopian_tube(int id, Genes gene, double eRR2352810, double eRR2352811, double eRR2352812,
+	public Fallopian_tube(int id, String geneId, double eRR2352810, double eRR2352811, double eRR2352812,
 			double eRR2352813, double eRR2352814, double eRR2352815, double eRR2352816, double eRR2353168,
 			double eRR2353169, double eRR2353170, double eRR2353171, double eRR2353172, double eRR2353173,
 			double eRR2353174, double eRR2353175, double eRR2353176, double eRR2354465, double eRR2354466,
@@ -111,7 +110,7 @@ public class Fallopian_tube {
 			double eRR2354472, double eRR2354473) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352810 = eRR2352810;
 		ERR2352811 = eRR2352811;
 		ERR2352812 = eRR2352812;
@@ -147,12 +146,12 @@ public class Fallopian_tube {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352810() {
@@ -357,7 +356,7 @@ public class Fallopian_tube {
 
 	@Override
 	public String toString() {
-		return "Fallopian_tube [id=" + id + ", gene=" + gene + ", ERR2352810=" + ERR2352810 + ", ERR2352811="
+		return "Fallopian_tube [id=" + id + ", geneId=" + geneId + ", ERR2352810=" + ERR2352810 + ", ERR2352811="
 				+ ERR2352811 + ", ERR2352812=" + ERR2352812 + ", ERR2352813=" + ERR2352813 + ", ERR2352814="
 				+ ERR2352814 + ", ERR2352815=" + ERR2352815 + ", ERR2352816=" + ERR2352816 + ", ERR2353168="
 				+ ERR2353168 + ", ERR2353169=" + ERR2353169 + ", ERR2353170=" + ERR2353170 + ", ERR2353171="
