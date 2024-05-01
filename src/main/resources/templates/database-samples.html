@@ -239,7 +239,12 @@ function renderTableNew(){
 		else if(key.toUpperCase() == 'ID'){
 			continue;
 		}
-			
+		else if(key.toUpperCase() == 'BIOPROJECT'){
+			td = `<td>BIO PROJECT</td>`;
+		}
+		else if(key.toUpperCase() == 'BIOSAMPLE'){
+			td = `<td>BIO SAMPLE</td>`;
+		}
 		else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 	
 			if(isFpkm){
@@ -250,7 +255,7 @@ function renderTableNew(){
 			}		
 		}
 		else{
-			td = `<td>${key.toUpperCase()}</td>`;
+			td = `<td>${key.toUpperCase().replace('_', ' ')}</td>`;
 		}
 		headerRow = headerRow + td;
 		}
@@ -289,6 +294,12 @@ function renderTableNew(){
 					td = td + `<td>${tpm}</td>`;
 				}
 				
+			}
+			else if(key.toUpperCase() == 'BIOPROJECT'){
+				td = `<td><a target=”_blank” href="https://www.ncbi.nlm.nih.gov/bioproject/${value}">${value}</td>`;
+			}
+			else if(key.toUpperCase() == 'BIOSAMPLE'){
+				td = `<td><a target=”_blank” href="https://www.ncbi.nlm.nih.gov/biosample/${value}">${value}</td>`;
 			}
 			else{
 				td = `<td>${value}</td>`;
