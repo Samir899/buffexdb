@@ -18,9 +18,8 @@ public class Heart {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352817")
 	 private double ERR2352817;
@@ -405,7 +404,7 @@ public class Heart {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Heart(int id, Genes gene, double eRR2352817, double eRR2352973, double eRR2352974, double eRR2352975,
+	public Heart(int id, String geneId, double eRR2352817, double eRR2352973, double eRR2352974, double eRR2352975,
 			double eRR2352976, double eRR2352977, double eRR2352978, double eRR2352979, double eRR2353310,
 			double eRR2353311, double eRR2353312, double eRR2353313, double eRR2353314, double eRR2353315,
 			double eRR2353316, double eRR2353317, double eRR2353318, double eRR2353319, double eRR2353320,
@@ -433,7 +432,7 @@ public class Heart {
 			double sRR24057942, double sRR24057943) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352817 = eRR2352817;
 		ERR2352973 = eRR2352973;
 		ERR2352974 = eRR2352974;
@@ -570,12 +569,12 @@ public class Heart {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352817() {
@@ -1588,7 +1587,7 @@ public class Heart {
 
 	@Override
 	public String toString() {
-		return "Heart [id=" + id + ", gene=" + gene + ", ERR2352817=" + ERR2352817 + ", ERR2352973=" + ERR2352973
+		return "Heart [id=" + id + ", geneId=" + geneId + ", ERR2352817=" + ERR2352817 + ", ERR2352973=" + ERR2352973
 				+ ", ERR2352974=" + ERR2352974 + ", ERR2352975=" + ERR2352975 + ", ERR2352976=" + ERR2352976
 				+ ", ERR2352977=" + ERR2352977 + ", ERR2352978=" + ERR2352978 + ", ERR2352979=" + ERR2352979
 				+ ", ERR2353310=" + ERR2353310 + ", ERR2353311=" + ERR2353311 + ", ERR2353312=" + ERR2353312

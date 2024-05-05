@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain_stem;
 import com.buffalo.entity.Genes;
 import com.buffalo.repo.Brain_stemRepository;
@@ -41,6 +43,15 @@ public class Brain_stemService {
 	
 	public List<Brain_stem> listAllBrain_stem(){
 		return (List<Brain_stem>) brain_stemRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return brain_stemRepo.getSum();
+	}
+	
+	public List<Brain_stem> getBrain_stemSorted(double lowerLimit, double upperLimit){
+		return (List<Brain_stem>) brain_stemRepo.getBrain_stemSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

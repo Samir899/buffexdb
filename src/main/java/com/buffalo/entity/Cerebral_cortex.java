@@ -18,9 +18,8 @@ public class Cerebral_cortex {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR24057948")
 	 private double SRR24057948;
@@ -39,11 +38,11 @@ public class Cerebral_cortex {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cerebral_cortex(int id, Genes gene, double sRR24057948, double sRR24057949, double sRR24057950,
+	public Cerebral_cortex(int id, String geneId, double sRR24057948, double sRR24057949, double sRR24057950,
 			double sRR24057951) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR24057948 = sRR24057948;
 		SRR24057949 = sRR24057949;
 		SRR24057950 = sRR24057950;
@@ -58,12 +57,12 @@ public class Cerebral_cortex {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR24057948() {
@@ -100,7 +99,7 @@ public class Cerebral_cortex {
 
 	@Override
 	public String toString() {
-		return "Cerebral_cortex [id=" + id + ", gene=" + gene + ", SRR24057948=" + SRR24057948 + ", SRR24057949="
+		return "Cerebral_cortex [id=" + id + ", geneId=" + geneId + ", SRR24057948=" + SRR24057948 + ", SRR24057949="
 				+ SRR24057949 + ", SRR24057950=" + SRR24057950 + ", SRR24057951=" + SRR24057951 + "]";
 	}
 }

@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buffalo.entity.Adrenal_gland;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -52,6 +54,17 @@ public class Adrenal_glandAPI {
     	return adrenal_glandService.listAllAdrenal_gland();
     }
     
+    @GetMapping("/adrenal_glands/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return adrenal_glandService.getFPKMSum();
+    }
+    
+    @GetMapping("/adrenal_glands/sorted")  
+    public List<Adrenal_gland> getAdrenal_glandSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return adrenal_glandService.getAdrenal_glandSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

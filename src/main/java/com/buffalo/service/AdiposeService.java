@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.buffalo.entity.Adipose;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.repo.AdiposeRepository;
 import com.buffalo.repo.GeneRepoPagingAndSorting;
@@ -38,6 +40,15 @@ public class AdiposeService {
 	
 	public List<Adipose> listAllAdipose(){
 		return (List<Adipose>) adiposeRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return adiposeRepo.getSum();
+	}
+	
+	public List<Adipose> getAdiposeSorted(double lowerLimit, double upperLimit){
+		return (List<Adipose>) adiposeRepo.getAdiposeSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return adiposeRepo.getGeneByGeneId(geneId);

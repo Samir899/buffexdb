@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -50,6 +51,12 @@ public class Leg_muscleAPI {
     public List<Leg_muscle> getAllLeg_muscle() 
     { 
     	return leg_muscleService.listAllLeg_muscle();
+    }
+    
+    @GetMapping("/leg_muscles/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return leg_muscleService.getFPKMSum();
     }
     
 //    @GetMapping("/genes/{geneId}")  

@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.D_colon;
 import com.buffalo.entity.Duodenum;
 import com.buffalo.entity.Genes;
@@ -43,6 +45,15 @@ public class D_colonService {
 	
 	public List<D_colon> listAllD_colon(){
 		return (List<D_colon>) d_colonRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return d_colonRepo.getSum();
+	}
+	
+	public List<D_colon> getD_colonSorted(double lowerLimit, double upperLimit){
+		return (List<D_colon>) d_colonRepo.getD_colonSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

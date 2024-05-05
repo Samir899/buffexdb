@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Caecum;
 import com.buffalo.entity.Genes;
@@ -43,6 +45,15 @@ public class CaecumService {
 	
 	public List<Caecum> listAllCaecum(){
 		return (List<Caecum>) caecumRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return caecumRepo.getSum();
+	}
+	
+	public List<Caecum> getCaecumSorted(double lowerLimit, double upperLimit){
+		return (List<Caecum>) caecumRepo.getCaecumSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

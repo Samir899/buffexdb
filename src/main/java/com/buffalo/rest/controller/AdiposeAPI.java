@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buffalo.entity.Adipose;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
 import com.buffalo.service.AdiposeService;
@@ -50,6 +52,17 @@ public class AdiposeAPI {
     	return adiposeService.listAllAdipose();
     }
     
+    @GetMapping("/adiposes/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return adiposeService.getFPKMSum();
+    }
+    
+    @GetMapping("/adiposes/sorted")  
+    public List<Adipose> getAdiposeSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return adiposeService.getAdiposeSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

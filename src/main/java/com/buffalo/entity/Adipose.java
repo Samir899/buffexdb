@@ -5,8 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,9 +16,8 @@ public class Adipose {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR24057941")
 	 private double SRR24057941;
@@ -56,12 +54,12 @@ public class Adipose {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Adipose(int id, Genes gene, double sRR24057941, double sRR24057952, double sRR24057963, double sRR24057964,
+	public Adipose(int id, String geneId, double sRR24057941, double sRR24057952, double sRR24057963, double sRR24057964,
 			double sRR6949367, double sRR6949368, double sRR6949369, double sRR6949370, double sRR6949371,
 			double sRR6949372) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR24057941 = sRR24057941;
 		SRR24057952 = sRR24057952;
 		SRR24057963 = sRR24057963;
@@ -76,7 +74,7 @@ public class Adipose {
 
 	@Override
 	public String toString() {
-		return "Adipose [id=" + id + ", gene=" + gene + ", SRR24057941=" + SRR24057941 + ", SRR24057952=" + SRR24057952
+		return "Adipose [id=" + id + ", geneId=" + geneId + ", SRR24057941=" + SRR24057941 + ", SRR24057952=" + SRR24057952
 				+ ", SRR24057963=" + SRR24057963 + ", SRR24057964=" + SRR24057964 + ", SRR6949367=" + SRR6949367
 				+ ", SRR6949368=" + SRR6949368 + ", SRR6949369=" + SRR6949369 + ", SRR6949370=" + SRR6949370
 				+ ", SRR6949371=" + SRR6949371 + ", SRR6949372=" + SRR6949372 + "]";
@@ -90,12 +88,12 @@ public class Adipose {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR24057941() {

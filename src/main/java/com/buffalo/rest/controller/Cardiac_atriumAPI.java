@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Cardiac_atrium;
 import com.buffalo.entity.GeneList;
@@ -52,6 +54,17 @@ public class Cardiac_atriumAPI {
     	return cardiac_atriumService.listAllCardiac_atrium();
     }
     
+    @GetMapping("/cardiac_atriums/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return cardiac_atriumService.getFPKMSum();
+    }
+    
+    @GetMapping("/cardiac_atriums/sorted")  
+    public List<Cardiac_atrium> getCardiac_atriumSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return cardiac_atriumService.getCardiac_atriumSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.buffalo.entity.Abomasum;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.repo.AbomasumRepository;
@@ -43,6 +45,15 @@ public class AbomasumService {
 	
 	public List<Abomasum> listAllAbomasum(){
 		return (List<Abomasum>) abomasumRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return abomasumRepo.getSum();
+	}
+	
+	public List<Abomasum> getAbomasumSorted(double lowerLimit, double upperLimit){
+		return (List<Abomasum>) abomasumRepo.getAbomasumSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

@@ -14,15 +14,14 @@ import jakarta.persistence.Table;
 public class A_colon {
 
 	@Id
-	 @Column(name="id")
-	 @GeneratedValue(strategy = GenerationType.AUTO)
-	  private int id;
+    @Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	 private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	@Column(name = "geneId")
+	 String geneId;
 	 
-	 @Column(name="ERR2352796")
+	@Column(name="ERR2352796")
 	 private double ERR2352796;
 	 
 	@Column(name="ERR2352797")
@@ -123,7 +122,7 @@ public class A_colon {
 		// TODO Auto-generated constructor stub
 	}
 
-	public A_colon(int id, Genes gene, double eRR2352796, double eRR2352797, double eRR2352798, double eRR2352799,
+	public A_colon(int id, String geneId, double eRR2352796, double eRR2352797, double eRR2352798, double eRR2352799,
 			double eRR2352800, double eRR2352801, double eRR2352802, double eRR2353150, double eRR2353151,
 			double eRR2353152, double eRR2353153, double eRR2353154, double eRR2353155, double eRR2353156,
 			double eRR2353157, double eRR2353158, double eRR2353631, double eRR2353632, double eRR2353633,
@@ -132,7 +131,7 @@ public class A_colon {
 			double eRR2354016, double eRR2354017, double eRR2354018) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352796 = eRR2352796;
 		ERR2352797 = eRR2352797;
 		ERR2352798 = eRR2352798;
@@ -175,12 +174,12 @@ public class A_colon {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352796() {
@@ -441,7 +440,7 @@ public class A_colon {
 
 	@Override
 	public String toString() {
-		return "A_colon [id=" + id + ", gene=" + gene + ", ERR2352796=" + ERR2352796 + ", ERR2352797=" + ERR2352797
+		return "A_colon [id=" + id + ", geneId=" + geneId + ", ERR2352796=" + ERR2352796 + ", ERR2352797=" + ERR2352797
 				+ ", ERR2352798=" + ERR2352798 + ", ERR2352799=" + ERR2352799 + ", ERR2352800=" + ERR2352800
 				+ ", ERR2352801=" + ERR2352801 + ", ERR2352802=" + ERR2352802 + ", ERR2353150=" + ERR2353150
 				+ ", ERR2353151=" + ERR2353151 + ", ERR2353152=" + ERR2353152 + ", ERR2353153=" + ERR2353153

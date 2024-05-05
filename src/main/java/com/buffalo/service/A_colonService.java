@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 
 import com.buffalo.entity.A_colon;
 import com.buffalo.entity.Adipose;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.repo.A_colonRepository;
 import com.buffalo.repo.AdiposeRepository;
@@ -45,6 +46,11 @@ public class A_colonService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return a_colonRepo.getSum();
+	}
+	
+	public List<A_colon> getA_colonSorted(double lowerLimit, double upperLimit){
+		return (List<A_colon>) a_colonRepo.getA_colonSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return adiposeRepo.getGeneByGeneId(geneId);

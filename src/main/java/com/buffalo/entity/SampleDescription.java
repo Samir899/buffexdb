@@ -276,4 +276,9 @@ public class SampleDescription {
 	            dataBuilder.append("").append(",");
 	        }
 	    }
+	    
+	    private String generateBioSampleLink() {
+	        // Assuming bioSample is a member variable of the class
+	        return "<a href=\"https://www.ncbi.nlm.nih.gov/biosample/" + bioSample + "\">bioSample</a>";
+	    }
 }

@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -50,6 +51,12 @@ public class Longissimus_dorsiAPI {
     public List<Longissimus_dorsi> getAllLongissimus_dorsi() 
     { 
     	return longissimus_dorsiService.listAllLongissimus_dorsi();
+    }
+    
+    @GetMapping("/longissimus_dorsis/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return longissimus_dorsiService.getFPKMSum();
     }
     
 //    @GetMapping("/genes/{geneId}")  

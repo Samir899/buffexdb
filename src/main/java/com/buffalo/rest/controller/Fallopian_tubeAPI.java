@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Fallopian_tube;
 import com.buffalo.entity.GeneList;
@@ -52,6 +54,18 @@ public class Fallopian_tubeAPI {
     	return fallopian_tubeService.listAllFallopian_tube();
     }
     
+    @GetMapping("/fallopian_tubes/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return fallopian_tubeService.getFPKMSum();
+    }
+    
+    @GetMapping("/fallopian_tubes/sorted")  
+    public List<Fallopian_tube> getFallopian_tubeSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return fallopian_tubeService.getFallopian_tubeSorted(lowerLimit, upperLimit);
+    }
+
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

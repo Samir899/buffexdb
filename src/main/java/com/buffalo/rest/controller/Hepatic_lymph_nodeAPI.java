@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -50,6 +51,12 @@ public class Hepatic_lymph_nodeAPI {
     public List<Hepatic_lymph_node> getAllHepatic_lymph_node() 
     { 
     	return hepatic_lymph_nodeService.listAllHepatic_lymph_node();
+    }
+    
+    @GetMapping("/hepatic_lymph_nodes/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return hepatic_lymph_nodeService.getFPKMSum();
     }
     
 //    @GetMapping("/genes/{geneId}")  

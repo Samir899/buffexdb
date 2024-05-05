@@ -18,9 +18,8 @@ public class Abomasum {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	@Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352761")
 	 private double ERR2352761;
@@ -207,7 +206,7 @@ public class Abomasum {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Abomasum(int id, Genes gene, double eRR2352761, double eRR2352762, double eRR2352763, double eRR2352764,
+	public Abomasum(int id, String geneId, double eRR2352761, double eRR2352762, double eRR2352763, double eRR2352764,
 			double eRR2352765, double eRR2352766, double eRR2352767, double eRR2353041, double eRR2353042,
 			double eRR2353043, double eRR2353044, double eRR2353045, double eRR2353046, double eRR2353047,
 			double eRR2353048, double eRR2353049, double eRR2353596, double eRR2353597, double eRR2353598,
@@ -222,7 +221,7 @@ public class Abomasum {
 			double eRR315618) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352761 = eRR2352761;
 		ERR2352762 = eRR2352762;
 		ERR2352763 = eRR2352763;
@@ -293,12 +292,12 @@ public class Abomasum {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352761() {
@@ -783,7 +782,7 @@ public class Abomasum {
 
 	@Override
 	public String toString() {
-		return "Abomasum [id=" + id + ", gene=" + gene + ", ERR2352761=" + ERR2352761 + ", ERR2352762=" + ERR2352762
+		return "Abomasum [id=" + id + ", geneId=" + geneId + ", ERR2352761=" + ERR2352761 + ", ERR2352762=" + ERR2352762
 				+ ", ERR2352763=" + ERR2352763 + ", ERR2352764=" + ERR2352764 + ", ERR2352765=" + ERR2352765
 				+ ", ERR2352766=" + ERR2352766 + ", ERR2352767=" + ERR2352767 + ", ERR2353041=" + ERR2353041
 				+ ", ERR2353042=" + ERR2353042 + ", ERR2353043=" + ERR2353043 + ", ERR2353044=" + ERR2353044

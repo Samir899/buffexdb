@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.buffalo.entity.Adrenal_gland;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.repo.Adrenal_glandRepository;
@@ -43,6 +45,15 @@ public class Adrenal_glandService {
 	
 	public List<Adrenal_gland> listAllAdrenal_gland(){
 		return (List<Adrenal_gland>) adrenal_glandRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return adrenal_glandRepo.getSum();
+	}
+	
+	public List<Adrenal_gland> getAdrenal_glandSorted(double lowerLimit, double upperLimit){
+		return (List<Adrenal_gland>) adrenal_glandRepo.getAdrenal_glandSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

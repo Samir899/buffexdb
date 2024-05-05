@@ -186,14 +186,14 @@
 			      <th scope="col">SPECIES</th>
 			      <th scope="col">BREED</th>
 			      <th scope="col">GENDER</th>
-			      <th scope="col">DEVELOPMENT STAGE</th>
+			      <th scope="col">DEVELOPMENT STAGES</th>
 			    </tr>
 			  </thead>
 			  <tbody>
 			    <tr th:each="buffaloSampleDes, iStat: ${listData}">
 			      <td><input class="form-check-input" type="checkbox" value="" id="cbRowSelect" ></td>
 			      <td>[[${buffaloSampleDes.run}]]</td>
-			      <td>[[${buffaloSampleDes.bioProject}]]</td>
+			     <!-- <td>[[${buffaloSampleDes.bioProject}]]</td> -->
 			      <td>[[${buffaloSampleDes.bioSample}]]</td>
 			      <td>[[${buffaloSampleDes.tissue}]]</td>
 			      <td>[[${buffaloSampleDes.additional_info}]]</td>
@@ -230,7 +230,7 @@
 				<h1>Database - Buffalo Expression DB</h1>
 			</div>
 			<div class="sub-footer">
-				<p>Database Control Panel - Copyright &copy; IARI</p>
+				<p>Database Control Panel - Copyright &copy; IASRI</p>
 			</div>
 		</div>
 		

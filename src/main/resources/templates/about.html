@@ -69,7 +69,7 @@
 							          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 							            <li><a class="dropdown-item" th:href="@{/database/genes}">Gene Description</a></li>
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
-								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expressions</a></li>
+								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expression data</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
 							          </ul>
 							        </li>
@@ -84,21 +84,139 @@
 	
 			</nav>
 		</div>
-		<div class="overflow-hidden" style="height:350px">
-			<img  class="img-fluid w-100" th:src="@{/images/about.jpeg}" />
 		
-			
-		</div>
+		<!--<div class="overflow-hidden" style="height:350px">
+			<img  class="img-fluid w-100" th:src="@{/images/about.jpeg}" />			
+		</div> -->
+		<!-- Team Section -->
+    <section id="team" class="team section">
+
+      <!-- Section Title -->
+      <div class="container section-title text-center" data-aos="fade-up">
+		  <div class="title-box">
+        	<h2>Our Team Members</h2>
+     	 </div>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="member">
+              <img class="img-fluid w-10" th:src="@{/images/team1.jpg}" alt="team1"/>
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Naina Kumari</h4>
+                  <span>Ph.D. Research Scholar</span><br>
+                  <span>Division of Agricultural Bioinformatics, ICAR-IASRI</span>
+                  <span>nainakmr20@gmail.com</span>
+                </div>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
+          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="member">
+              <img class="img-fluid w-10" th:src="@{/images/samir.jpg}" alt="team2"/>
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Samir Kumar</h4>
+                  <span>Full Stack Web Developer</span> <br>
+                  <span>B.tech, Cochin University of Science and Technology</span> <br>
+                  <span>sameerkmr823@gmail.com</span>
+                </div>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
+          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="member">
+              <img class="img-fluid w-10" th:src="@{/images/sarika.png}" alt="team3"/>
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Dr. Sarika</h4>
+                  <span>Principal Scientist</span> <br>
+                  <span>Division of Agricultural Bioinformatics, ICAR-IASRI</span> <br>
+                  <span>sarika@icar.gov.in</span>
+                </div>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
+          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="member">
+              <img class="img-fluid w-10" th:src="@{/images/iquebal.jpg}" alt="team4"/>
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Dr. M.A. Iquebal</h4>
+                  <span>Principal Scientist</span> <br>
+                  <span>Division of Agricultural Bioinformatics, ICAR-IASRI</span> <br>
+                  <span>ma.iquebal@icar.gov.in</span>
+                </div>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+		<div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="member">
+              <img class="img-fluid w-10" th:src="@{/images/iquebal.jpg}" alt="team4"/>
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Dr. Dinesh Kumar</h4>
+                  <span>Principal Scientist</span> <br>
+                  <span>Division of Agricultural Bioinformatics, ICAR-IASRI</span> <br>
+                  <span></span>
+                </div>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+        </div>
+
+      </div>
+
+    </section><!-- /Team Section -->
+
 		<div class="footer">
 			<div class="sub-footer pt-2">
 				<h1>Database - Buffalo Expression DB</h1>
 			</div>
 			<div class="sub-footer">
-				<p>Database Control Panel - Copyright &copy; IARI</p>
+				<p>Database Control Panel - Copyright &copy; IASRI</p>
 			</div>
 		</div>
 		
 	</div>
+	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buffalo.entity.A_colon;
 import com.buffalo.entity.Adipose;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
 import com.buffalo.service.A_colonService;
@@ -57,6 +58,12 @@ public class A_colonAPI {
     public Map<String, Double> getSum() 
     {
     	return a_colonService.getFPKMSum();
+    }
+    
+    @GetMapping("/a_colons/sorted")  
+    public List<A_colon> getA_colonSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return a_colonService.getA_colonSorted(lowerLimit, upperLimit);
     }
     
 //    @GetMapping("/genes/{geneId}")  

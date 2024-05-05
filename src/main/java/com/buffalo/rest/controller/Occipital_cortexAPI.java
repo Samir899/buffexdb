@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,12 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.buffalo.entity.Brain;
-import com.buffalo.entity.GeneList;
-import com.buffalo.entity.Genes;
+
 import com.buffalo.entity.Occipital_cortex;
-import com.buffalo.service.BrainService;
-import com.buffalo.service.GeneService;
+
 import com.buffalo.service.Occipital_cortexService;
 import com.buffalo.tables.ListingTables;
 import com.buffalo.utilities.Utilities;
@@ -51,6 +49,13 @@ public class Occipital_cortexAPI {
     { 
     	return occipital_cortexService.listAllOccipital_cortex();
     }
+    
+    @GetMapping("/occipital_cortexs/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return occipital_cortexService.getFPKMSum();
+    }
+    
     
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 

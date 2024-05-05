@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,4 +40,7 @@ public interface IntestineRepository extends CrudRepository<Intestine, Integer>{
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum(ERR315620) as ERR315620 FROM Intestine")
+	public Map <String, Double> getSum();
 }

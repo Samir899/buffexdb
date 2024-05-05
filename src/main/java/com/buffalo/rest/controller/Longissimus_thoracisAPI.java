@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -50,6 +51,12 @@ public class Longissimus_thoracisAPI {
     public List<Longissimus_thoracis> getAllLongissimus_thoracis() 
     { 
     	return longissimus_thoracisService.listAllLongissimus_thoracis();
+    }
+    
+    @GetMapping("/longissimus_thoraciss/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return longissimus_thoracisService.getFPKMSum();
     }
     
 //    @GetMapping("/genes/{geneId}")  

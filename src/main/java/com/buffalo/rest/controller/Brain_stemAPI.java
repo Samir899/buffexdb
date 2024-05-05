@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain_stem;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -50,6 +52,17 @@ public class Brain_stemAPI {
     	return brain_stemService.listAllBrain_stem();
     }
     
+    @GetMapping("/brain_stems/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return brain_stemService.getFPKMSum();
+    }
+    
+    @GetMapping("/brain_stems/sorted")  
+    public List<Brain_stem> getBrain_stemSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return brain_stemService.getBrain_stemSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 
