@@ -1,5 +1,7 @@
 package com.buffalo.rest.controller;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,15 +29,15 @@ public class CorpusLuteumAPI {
     }
     
     
-    @GetMapping("/corpusluteums/err/{err}")  
-    public List<CorpusLuteum> getCotyledonByERR(@PathVariable(name = "err")String err) 
-    { 
-    	return service.getCorpusLuteumByERR(err);
-    }
+//    @GetMapping("/corpusluteums/err/{err}")  
+//    public List<CorpusLuteum> getCotyledonByERR(@PathVariable(name = "err")String err) 
+//    { 
+//    	return service.getCorpusLuteumByERR(err);
+//    }
     
     @GetMapping("/corpusluteums/err/sum")  
-    public Double getSum() 
+    public  Map <String, Double> getSum() 
     { 
-    	return service.getSumOfFPKM();
+    	return service.getSum();
     }
 }

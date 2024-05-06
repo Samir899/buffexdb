@@ -85,6 +85,10 @@ public class SampleDescriptionService {
 			System.out.println("searchText is :" + searchText);
 			return repo.getSampleByDevelopmentStage(searchText);
 		}
+		if(searchParam.equals("category")) {
+			System.out.println("searchText is :" + searchText);
+			return repo.getSampleByCategory(searchText);
+		}
 //		if(searchParam.equals("source")) {
 //			System.out.println("searchText is :" + searchText);
 //			return repo.getSampleBySource(searchText);
@@ -115,6 +119,10 @@ public class SampleDescriptionService {
 		if(searchParam.equals("development_stage")) {
 
 			return repo.getRunIdByDevelopmentStage(searchText);
+		}
+		if(searchParam.equals("category")) {
+
+			return repo.getRunIdByCategory(searchText);
 		}
 //		if(searchParam.equals("source")) {
 //			System.out.println("searchText is :" + searchText);

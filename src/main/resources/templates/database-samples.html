@@ -73,6 +73,7 @@
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expressions</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
+							            <li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Classification</a></li>
 							          </ul>
 							        </li>
 							      </ul>
@@ -119,6 +120,10 @@
 				  <label class="form-check-label" for="flexRadioDefault1">
 				    TISSUES
 				  </label>
+				  <input class="form-check-input" type="radio" name="searchParam" id="category" value="category">
+				  <label class="form-check-label" for="flexRadioDefault1">
+				    CATEGORY
+				  </label>
 				</div>
 				
 				<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px"></div>
@@ -143,7 +148,7 @@
 					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
 				</div>
  		<div class="overflow-auto text-nowrap p-2">
- 		<table class="table table-striped border" id="genes">
+ 		<table class="table table-striped border table-bordered" id="genes">
 			  <thead class="table-dark">
 			  </thead>
 			  <tbody>

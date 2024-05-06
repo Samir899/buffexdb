@@ -73,6 +73,7 @@
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expression data</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
+							            <li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Classification</a></li>
 							          </ul>
 							        </li>
 							      </ul>
@@ -407,14 +408,15 @@ function renderTableNew(){
 	isExpanded=false;	
 	headerRow = "";
 	let object1 = globalData[0];
-	
+	geneIdCol="";
+	checkbox = "";
 	document.getElementById("btn_heatmap").style.visibility = "visible";
 	
 	if(isCheckAll){
-		headerRow = `<tr><td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
+		checkbox = `<td><div class="form-check"><input checked="true" onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
 	}
 	else{
-		headerRow = `<tr><td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
+		checkbox = `<td><div class="form-check"><input onclick="checkAll(this)" class="form-check-input" type="checkbox" value="head" id="checkAll" name="cbSelectHead" ></div></td>`;
 		}
 	for(const [key, value] of Object.entries(object1)){
 		td="";
@@ -424,7 +426,24 @@ function renderTableNew(){
 		else if(key.toUpperCase() == 'ID'){
 			continue;
 		}
-			
+		else if(key.toUpperCase() == 'LIVERB'){
+			object2 = object1.liverB;
+			for(const [k, v] of Object.entries(object2)){
+				if(k.toUpperCase().includes("ERR") || k.toUpperCase().includes("SRR")){
+					if(isFpkm){
+						td = td + `<td><a onclick="showSampleDescription(this)">${k.toUpperCase()} </a>(FPKM)</td>`;
+					}
+					if(isTpm){
+						td = td + `<td><a onclick="showSampleDescription(this)">${k.toUpperCase()}</a> (TPM)</td>`;
+					}		
+				}
+				else if(k.toUpperCase() == "GENEID"){
+					geneIdCol = `<td>${k.toUpperCase()}</td>`;
+					
+				}
+				
+			}
+		}
 		else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 	
 			if(isFpkm){
@@ -439,23 +458,23 @@ function renderTableNew(){
 		}
 		headerRow = headerRow + td;
 		}
-	headerRow = headerRow + "</tr>";			
+	headerRow = "<tr>" + checkbox + geneIdCol+ headerRow + "</tr>";			
 	$("#genes").find("thead").empty();
   	$("#genes").find("tbody").empty();
 	$("#genes").find("thead").append(headerRow);
 	
 	
 	for(let i=init;i<last;i++){
-		dataRow="<tr>";
+		dataRow="";
 		object1 = globalData[i];
 
 		
 		if(checkedData.has(object1.geneId)){
-			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.geneId}></div></td>`;
+			checkbox=`<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.geneId}></div></td>`;
 
 		}
 		else{
-			dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${object1.geneId}></div></td>`;
+			checkbox=`<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${object1.geneId}></div></td>`;
 		}
 		for(const [key, value] of Object.entries(object1)){		
 			td="";
@@ -464,6 +483,24 @@ function renderTableNew(){
 			}
 			else if(key.toUpperCase() == 'ID'){
 				continue;
+			}
+			else if(key.toUpperCase() == 'LIVERB'){
+				object2 = object1.liverB;
+				for(const [k, v] of Object.entries(object2)){
+					if(k.toUpperCase().includes("ERR") || k.toUpperCase().includes("SRR")){
+						if(isFpkm){
+							td = td + `<td>${v}</td>`;
+						}
+						if(isTpm){
+							td = td + `<td>${v}</td>`;
+						}		
+					}
+				   else if(k.toUpperCase() == "GENEID"){
+						geneIdCol = `<td><a style="color:blue;" onclick="showGeneDescription(this)">${v}</a></td>`;
+					
+					}
+					
+				}
 			}				
 			else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 				
@@ -482,7 +519,7 @@ function renderTableNew(){
 			}
 			dataRow = dataRow + td;
 		}
-		dataRow = dataRow + "</tr>";
+		dataRow = "<tr>" + checkbox + geneIdCol + dataRow + "</tr>";
 
 		$("#genes").find("tbody").append(dataRow);	
 	}
@@ -572,6 +609,11 @@ $( document ).ready(function() {
 		uncheckedData = new Set(data);
 		idSet = data;
 	});
+//	url = "[[@{/liver_A/api/liver_As}]]"
+//	$.get(url, function(data, status){
+//		console.log(status);
+//		console.log(data);
+//	})
 });
 
 document.getElementById("firstPage").addEventListener("click", function(event){

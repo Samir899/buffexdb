@@ -33,6 +33,12 @@ public interface SampleDescriptionRepository extends CrudRepository<SampleDescri
 	@Query("SELECT run FROM SampleDescription u WHERE u.development_stage = :development_stage")
 	public List<String> getRunIdByDevelopmentStage(@Param("development_stage") String development_stage);
 	
+	@Query("SELECT u FROM SampleDescription u WHERE u.category = :category")
+	public List<SampleDescription> getSampleByCategory(@Param("category") String category);
+	
+	@Query("SELECT run FROM SampleDescription u WHERE u.category = :category")
+	public List<String> getRunIdByCategory(@Param("category") String category);
+	
 //	@Query("SELECT u FROM SampleDescription u WHERE u.source = :source")
 //	public List<SampleDescription> getSampleBySource(@Param("source") String source);
 //	
