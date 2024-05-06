@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Pineal_gland;
 
 import com.buffalo.repo.Pineal_glandRepository;
@@ -39,6 +41,11 @@ public class Pineal_glandService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return pineal_glandRepo.getSum();
+	}
+	
+	public List<Pineal_gland> getPineal_glandSorted(double lowerLimit, double upperLimit){
+		return (List<Pineal_gland>) pineal_glandRepo.getPineal_glandSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

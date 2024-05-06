@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Mesentric_lymph_node;
 import com.buffalo.repo.Mesentric_lymph_nodeRepository;
 
@@ -38,6 +40,11 @@ public class Mesentric_lymph_nodeService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return mesentric_lymph_nodeRepo.getSum();
+	}
+	
+	public List<Mesentric_lymph_node> getMesentric_lymph_nodeSorted(double lowerLimit, double upperLimit){
+		return (List<Mesentric_lymph_node>) mesentric_lymph_nodeRepo.getMesentric_lymph_nodeSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

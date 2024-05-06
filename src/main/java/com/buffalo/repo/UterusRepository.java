@@ -7,11 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Uterus;
 
 public interface UterusRepository extends CrudRepository<Uterus, Integer>{
 
+	@Query("SELECT u FROM Uterus u WHERE u.SRR15721749>=:lowerLimit and u.SRR15721749<=:upperLimit "
+			+ "ORDER BY SRR15721749 LIMIT 100")
+	public List<Uterus> getUterusSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
+	
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);
 //	

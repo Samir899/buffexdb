@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -57,6 +58,12 @@ public class HypothalamusAPI {
     public Map<String, Double> getSum() 
     {
     	return hypothalamusService.getFPKMSum();
+    }
+    
+    @GetMapping("/hypothalamuss/sorted")  
+    public List<Hypothalamus> getHypothalamusSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return hypothalamusService.getHypothalamusSorted(lowerLimit, upperLimit);
     }
     
 //    @GetMapping("/genes/{geneId}")  

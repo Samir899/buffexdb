@@ -17,10 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Uterus;
 
 import com.buffalo.service.UterusService;
@@ -50,6 +50,11 @@ public class UterusAPI {
     	return uterusService.getFPKMSum();
     }
     
+    @GetMapping("/uteruss/sorted")  
+    public List<Uterus> getUterusSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return uterusService.getUterusSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

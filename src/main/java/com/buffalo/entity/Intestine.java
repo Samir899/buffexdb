@@ -25,12 +25,12 @@ public class Intestine {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR315620() {
@@ -43,19 +43,18 @@ public class Intestine {
 
 	@Override
 	public String toString() {
-		return "Intestine [id=" + id + ", gene=" + gene + ", ERR315620=" + ERR315620 + "]";
+		return "Intestine [id=" + id + ", geneId=" + geneId + ", ERR315620=" + ERR315620 + "]";
 	}
 
-	public Intestine(int id, Genes gene, double eRR315620) {
+	public Intestine(int id, String geneId, double eRR315620) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR315620 = eRR315620;
 	}
 
-	@ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR315620")
 	 private double ERR315620;

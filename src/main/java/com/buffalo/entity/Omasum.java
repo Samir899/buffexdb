@@ -18,9 +18,8 @@ public class Omasum {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352711")
 	 private double ERR2352711;
@@ -201,7 +200,7 @@ public class Omasum {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Omasum(int id, Genes gene, double eRR2352711, double eRR2352712, double eRR2352713, double eRR2352714,
+	public Omasum(int id, String geneId, double eRR2352711, double eRR2352712, double eRR2352713, double eRR2352714,
 			double eRR2352715, double eRR2352716, double eRR2352717, double eRR2352718, double eRR2352719,
 			double eRR2352892, double eRR2352893, double eRR2352894, double eRR2352895, double eRR2352896,
 			double eRR2352897, double eRR2352898, double eRR2353374, double eRR2353375, double eRR2353376,
@@ -215,7 +214,7 @@ public class Omasum {
 			double eRR2354844, double eRR2354845, double eRR2354846, double eRR2354847) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352711 = eRR2352711;
 		ERR2352712 = eRR2352712;
 		ERR2352713 = eRR2352713;
@@ -284,12 +283,12 @@ public class Omasum {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352711() {
@@ -758,7 +757,7 @@ public class Omasum {
 
 	@Override
 	public String toString() {
-		return "Omasum [id=" + id + ", gene=" + gene + ", ERR2352711=" + ERR2352711 + ", ERR2352712=" + ERR2352712
+		return "Omasum [id=" + id + ", geneId=" + geneId + ", ERR2352711=" + ERR2352711 + ", ERR2352712=" + ERR2352712
 				+ ", ERR2352713=" + ERR2352713 + ", ERR2352714=" + ERR2352714 + ", ERR2352715=" + ERR2352715
 				+ ", ERR2352716=" + ERR2352716 + ", ERR2352717=" + ERR2352717 + ", ERR2352718=" + ERR2352718
 				+ ", ERR2352719=" + ERR2352719 + ", ERR2352892=" + ERR2352892 + ", ERR2352893=" + ERR2352893

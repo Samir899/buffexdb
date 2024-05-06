@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Uterus;
@@ -48,6 +49,11 @@ public class UterusService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return uterusRepo.getSum();
+	}
+	
+	public List<Uterus> getUterusSorted(double lowerLimit, double upperLimit){
+		return (List<Uterus>) uterusRepo.getUterusSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

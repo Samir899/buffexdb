@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Oviduct;
 import com.buffalo.repo.OviductRepository;
 
@@ -40,6 +40,11 @@ public class OviductService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return oviductRepo.getSum();
+	}
+	
+	public List<Oviduct> getOviductSorted(double lowerLimit, double upperLimit){
+		return (List<Oviduct>) oviductRepo.getOviductSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

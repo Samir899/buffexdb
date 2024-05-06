@@ -7,10 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.White_blood_cell;
 
 public interface White_blood_cellRepository extends CrudRepository<White_blood_cell, Integer>{
+	
+	@Query("SELECT u FROM  White_blood_cell u WHERE u.ERR315624>=:lowerLimit and u.ERR315624<=:upperLimit "
+			+ "ORDER BY ERR315624 LIMIT 100")
+	public List< White_blood_cell> getWhite_blood_cellSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

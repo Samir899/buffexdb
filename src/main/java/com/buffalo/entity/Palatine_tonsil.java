@@ -18,9 +18,8 @@ public class Palatine_tonsil {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2353010")
 	 private double ERR2353010;
@@ -123,7 +122,7 @@ public class Palatine_tonsil {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Palatine_tonsil(int id, Genes gene, double eRR2353010, double eRR2353011, double eRR2353012,
+	public Palatine_tonsil(int id, String geneId, double eRR2353010, double eRR2353011, double eRR2353012,
 			double eRR2353013, double eRR2353014, double eRR2353015, double eRR2353016, double eRR2353587,
 			double eRR2353588, double eRR2353589, double eRR2353590, double eRR2353591, double eRR2353592,
 			double eRR2353593, double eRR2353594, double eRR2353595, double eRR2353861, double eRR2353862,
@@ -132,7 +131,7 @@ public class Palatine_tonsil {
 			double eRR2353873, double eRR2353874, double eRR2353875, double eRR2353876) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2353010 = eRR2353010;
 		ERR2353011 = eRR2353011;
 		ERR2353012 = eRR2353012;
@@ -175,12 +174,12 @@ public class Palatine_tonsil {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2353010() {
@@ -441,7 +440,7 @@ public class Palatine_tonsil {
 
 	@Override
 	public String toString() {
-		return "Palatine_tonsil [id=" + id + ", gene=" + gene + ", ERR2353010=" + ERR2353010 + ", ERR2353011="
+		return "Palatine_tonsil [id=" + id + ", geneId=" + geneId + ", ERR2353010=" + ERR2353010 + ", ERR2353011="
 				+ ERR2353011 + ", ERR2353012=" + ERR2353012 + ", ERR2353013=" + ERR2353013 + ", ERR2353014="
 				+ ERR2353014 + ", ERR2353015=" + ERR2353015 + ", ERR2353016=" + ERR2353016 + ", ERR2353587="
 				+ ERR2353587 + ", ERR2353588=" + ERR2353588 + ", ERR2353589=" + ERR2353589 + ", ERR2353590="

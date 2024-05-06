@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Fat;
 import com.buffalo.entity.Genes;
@@ -48,6 +49,11 @@ public class FatService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return fatRepo.getSum();
+	}
+	
+	public List<Fat> getFatSorted(double lowerLimit, double upperLimit){
+		return (List<Fat>) fatRepo.getFatSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

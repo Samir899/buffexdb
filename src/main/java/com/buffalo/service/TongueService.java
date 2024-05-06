@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Tongue;
@@ -48,6 +49,11 @@ public class TongueService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return tongueRepo.getSum();
+	}
+	
+	public List<Tongue> getTongueSorted(double lowerLimit, double upperLimit){
+		return (List<Tongue>) tongueRepo.getTongueSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

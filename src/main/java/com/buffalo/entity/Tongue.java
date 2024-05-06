@@ -18,9 +18,8 @@ public class Tongue {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR315616")
 	 private double ERR315616;
@@ -33,10 +32,10 @@ public class Tongue {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Tongue(int id, Genes gene, double eRR315616, double sRR15721748) {
+	public Tongue(int id, String geneId, double eRR315616, double sRR15721748) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR315616 = eRR315616;
 		SRR15721748 = sRR15721748;
 	}
@@ -49,12 +48,12 @@ public class Tongue {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR315616() {
@@ -75,7 +74,7 @@ public class Tongue {
 
 	@Override
 	public String toString() {
-		return "Tongue [id=" + id + ", gene=" + gene + ", ERR315616=" + ERR315616 + ", SRR15721748=" + SRR15721748
+		return "Tongue [id=" + id + ", geneId=" + geneId + ", ERR315616=" + ERR315616 + ", SRR15721748=" + SRR15721748
 				+ "]";
 	}
 }

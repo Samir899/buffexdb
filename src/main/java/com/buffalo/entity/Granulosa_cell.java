@@ -18,9 +18,8 @@ public class Granulosa_cell {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR10863210")
 	 private double SRR10863210;
@@ -57,12 +56,12 @@ public class Granulosa_cell {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Granulosa_cell(int id, Genes gene, double sRR10863210, double sRR10863211, double sRR10863212,
+	public Granulosa_cell(int id, String geneId, double sRR10863210, double sRR10863211, double sRR10863212,
 			double sRR10863213, double sRR10863214, double sRR10863215, double sRR10863216, double sRR10863217,
 			double sRR10863218, double sRR10863219) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR10863210 = sRR10863210;
 		SRR10863211 = sRR10863211;
 		SRR10863212 = sRR10863212;
@@ -83,12 +82,12 @@ public class Granulosa_cell {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR10863210() {
@@ -173,7 +172,7 @@ public class Granulosa_cell {
 
 	@Override
 	public String toString() {
-		return "Granulosa_cell [id=" + id + ", gene=" + gene + ", SRR10863210=" + SRR10863210 + ", SRR10863211="
+		return "Granulosa_cell [id=" + id + ", geneId=" + geneId + ", SRR10863210=" + SRR10863210 + ", SRR10863211="
 				+ SRR10863211 + ", SRR10863212=" + SRR10863212 + ", SRR10863213=" + SRR10863213 + ", SRR10863214="
 				+ SRR10863214 + ", SRR10863215=" + SRR10863215 + ", SRR10863216=" + SRR10863216 + ", SRR10863217="
 				+ SRR10863217 + ", SRR10863218=" + SRR10863218 + ", SRR10863219=" + SRR10863219 + "]";

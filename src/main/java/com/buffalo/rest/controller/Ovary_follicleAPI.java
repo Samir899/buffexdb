@@ -12,7 +12,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Ovary_follicle;
 import com.buffalo.service.Ovary_follicleService;
 
@@ -39,6 +42,12 @@ public class Ovary_follicleAPI {
     public Map<String, Double> getSum() 
     {
     	return ovary_follicleService.getFPKMSum();
+    }
+    
+    @GetMapping("/ovary_follicles/sorted")  
+    public List<Ovary_follicle> getOvary_follicleSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return ovary_follicleService.getOvary_follicleSorted(lowerLimit, upperLimit);
     }
     
 //    @GetMapping("/genes/{geneId}")  

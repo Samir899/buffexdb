@@ -18,9 +18,8 @@ public class Peyer_patch {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352915")
 	 private double ERR2352915;
@@ -123,7 +122,7 @@ public class Peyer_patch {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Peyer_patch(int id, Genes gene, double eRR2352915, double eRR2352916, double eRR2352917, double eRR2352918,
+	public Peyer_patch(int id, String geneId, double eRR2352915, double eRR2352916, double eRR2352917, double eRR2352918,
 			double eRR2352919, double eRR2352920, double eRR2352921, double eRR2353424, double eRR2353425,
 			double eRR2353426, double eRR2353427, double eRR2353428, double eRR2353429, double eRR2353430,
 			double eRR2353431, double eRR2353432, double eRR2353757, double eRR2353758, double eRR2353759,
@@ -132,7 +131,7 @@ public class Peyer_patch {
 			double eRR2354258, double eRR2354259, double eRR2354260) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352915 = eRR2352915;
 		ERR2352916 = eRR2352916;
 		ERR2352917 = eRR2352917;
@@ -175,12 +174,12 @@ public class Peyer_patch {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352915() {
@@ -441,7 +440,7 @@ public class Peyer_patch {
 
 	@Override
 	public String toString() {
-		return "Peyer_patch [id=" + id + ", gene=" + gene + ", ERR2352915=" + ERR2352915 + ", ERR2352916=" + ERR2352916
+		return "Peyer_patch [id=" + id + ", geneId=" + geneId + ", ERR2352915=" + ERR2352915 + ", ERR2352916=" + ERR2352916
 				+ ", ERR2352917=" + ERR2352917 + ", ERR2352918=" + ERR2352918 + ", ERR2352919=" + ERR2352919
 				+ ", ERR2352920=" + ERR2352920 + ", ERR2352921=" + ERR2352921 + ", ERR2353424=" + ERR2353424
 				+ ", ERR2353425=" + ERR2353425 + ", ERR2353426=" + ERR2353426 + ", ERR2353427=" + ERR2353427

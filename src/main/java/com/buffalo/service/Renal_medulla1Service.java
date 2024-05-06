@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Renal_medulla1;
 import com.buffalo.repo.Renal_medulla1Repository;
 
@@ -43,6 +44,11 @@ public class Renal_medulla1Service {
 	
 	public Map<String, Double> getFPKMSum() {
 		return renal_medulla1Repo.getSum();
+	}
+	
+	public List<Renal_medulla1> getRenal_medulla1Sorted(double lowerLimit, double upperLimit){
+		return (List<Renal_medulla1>) renal_medulla1Repo.getRenal_medulla1Sorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

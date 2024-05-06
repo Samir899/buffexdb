@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Peyer_patch;
@@ -43,6 +45,14 @@ public class Peyer_patchService {
 	
 	public List<Peyer_patch> listAllPeyer_patch(){
 		return (List<Peyer_patch>) peyer_patchRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return peyer_patchRepo.getSum();
+	}
+	public List<Peyer_patch> getPeyer_patchSorted(double lowerLimit, double upperLimit){
+		return (List<Peyer_patch>) peyer_patchRepo.getPeyer_patchSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

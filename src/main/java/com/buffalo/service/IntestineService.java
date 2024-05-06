@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Intestine;
 import com.buffalo.repo.IntestineRepository;
@@ -44,6 +45,11 @@ public class IntestineService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return intestineRepo.getSum();
+	}
+	
+	public List<Intestine> getIntestineSorted(double lowerLimit, double upperLimit){
+		return (List<Intestine>) intestineRepo.getIntestineSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return intestineRepo.getGeneByGeneId(geneId);

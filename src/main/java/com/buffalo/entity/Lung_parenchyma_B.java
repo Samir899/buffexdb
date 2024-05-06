@@ -18,9 +18,8 @@ public class Lung_parenchyma_B {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2354556")
 	 private double ERR2354556;
@@ -195,7 +194,7 @@ public class Lung_parenchyma_B {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Lung_parenchyma_B(int id, Genes gene, double eRR2354556, double eRR2354557, double eRR2354558,
+	public Lung_parenchyma_B(int id, String geneId, double eRR2354556, double eRR2354557, double eRR2354558,
 			double eRR2354559, double eRR2354560, double eRR2354561, double eRR2354562, double eRR2354563,
 			double eRR2354564, double eRR2354565, double eRR2354807, double eRR2354808, double eRR2354809,
 			double eRR2354810, double eRR2354811, double eRR2354812, double eRR2354813, double eRR2354814,
@@ -209,7 +208,7 @@ public class Lung_parenchyma_B {
 			double eRR2355005, double eRR2355006, double eRR2355007) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2354556 = eRR2354556;
 		ERR2354557 = eRR2354557;
 		ERR2354558 = eRR2354558;
@@ -276,12 +275,12 @@ public class Lung_parenchyma_B {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2354556() {
@@ -734,7 +733,7 @@ public class Lung_parenchyma_B {
 
 	@Override
 	public String toString() {
-		return "Lung_parenchyma_B [id=" + id + ", gene=" + gene + ", ERR2354556=" + ERR2354556 + ", ERR2354557="
+		return "Lung_parenchyma_B [id=" + id + ", geneId=" + geneId + ", ERR2354556=" + ERR2354556 + ", ERR2354557="
 				+ ERR2354557 + ", ERR2354558=" + ERR2354558 + ", ERR2354559=" + ERR2354559 + ", ERR2354560="
 				+ ERR2354560 + ", ERR2354561=" + ERR2354561 + ", ERR2354562=" + ERR2354562 + ", ERR2354563="
 				+ ERR2354563 + ", ERR2354564=" + ERR2354564 + ", ERR2354565=" + ERR2354565 + ", ERR2354807="

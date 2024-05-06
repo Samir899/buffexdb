@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Saliva_sec_gland;
@@ -43,6 +45,14 @@ public class Saliva_sec_glandService {
 	
 	public List<Saliva_sec_gland> listAllSaliva_sec_gland(){
 		return (List<Saliva_sec_gland>) saliva_sec_glandRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return saliva_sec_glandRepo.getSum();
+	}
+	public List<Saliva_sec_gland> getSaliva_sec_glandSorted(double lowerLimit, double upperLimit){
+		return (List<Saliva_sec_gland>) saliva_sec_glandRepo.getSaliva_sec_glandSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

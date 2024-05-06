@@ -6,10 +6,16 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Medulla_oblongata;
 
 public interface Medulla_oblongataRepository extends CrudRepository<Medulla_oblongata, Integer>{
+	
+	@Query("SELECT u FROM Medulla_oblongata u WHERE u.SRR15721743>=:lowerLimit and u.SRR15721743<=:upperLimit "
+			+ "ORDER BY SRR15721743 LIMIT 100")
+	public List<Medulla_oblongata> getMedulla_oblongataSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

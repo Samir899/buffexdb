@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,14 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.buffalo.entity.Brain;
-import com.buffalo.entity.Caecum;
-import com.buffalo.entity.GeneList;
-import com.buffalo.entity.Genes;
+
 import com.buffalo.entity.Skin;
-import com.buffalo.service.BrainService;
-import com.buffalo.service.CaecumService;
-import com.buffalo.service.GeneService;
+
 import com.buffalo.service.SkinService;
 import com.buffalo.tables.ListingTables;
 import com.buffalo.utilities.Utilities;
@@ -54,6 +50,18 @@ public class SkinAPI {
     	return skinService.listAllSkin();
     }
     
+    @GetMapping("/skins/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return skinService.getFPKMSum();
+    }
+    
+
+    @GetMapping("/skins/sorted")  
+    public List<Skin> getSkinSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return skinService.getSkinSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

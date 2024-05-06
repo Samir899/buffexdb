@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Leg_muscle;
 import com.buffalo.repo.Leg_muscleRepository;
 import jakarta.transaction.Transactional;
@@ -39,6 +39,11 @@ public class Leg_muscleService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return leg_muscleRepo.getSum();
+	}
+	
+	public List<Leg_muscle> getLeg_muscleSorted(double lowerLimit, double upperLimit){
+		return (List<Leg_muscle>) leg_muscleRepo.getLeg_muscleSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

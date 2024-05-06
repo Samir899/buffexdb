@@ -18,9 +18,8 @@ public class Skin {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR24057905")
 	 private double SRR24057905;
@@ -36,10 +35,10 @@ public class Skin {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Skin(int id, Genes gene, double sRR24057905, double sRR24057906, double sRR24057907) {
+	public Skin(int id, String geneId, double sRR24057905, double sRR24057906, double sRR24057907) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR24057905 = sRR24057905;
 		SRR24057906 = sRR24057906;
 		SRR24057907 = sRR24057907;
@@ -53,12 +52,12 @@ public class Skin {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR24057905() {
@@ -87,7 +86,7 @@ public class Skin {
 
 	@Override
 	public String toString() {
-		return "Skin [id=" + id + ", gene=" + gene + ", SRR24057905=" + SRR24057905 + ", SRR24057906=" + SRR24057906
+		return "Skin [id=" + id + ", geneId=" + geneId + ", SRR24057905=" + SRR24057905 + ", SRR24057906=" + SRR24057906
 				+ ", SRR24057907=" + SRR24057907 + "]";
 	}
 

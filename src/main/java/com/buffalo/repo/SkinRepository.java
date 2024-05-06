@@ -1,6 +1,7 @@
 package com.buffalo.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,11 +9,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.buffalo.entity.Brain;
-import com.buffalo.entity.Genes;
 import com.buffalo.entity.Skin;
 
 public interface SkinRepository extends CrudRepository<Skin, Integer>{
+	
+	@Query("SELECT u FROM Skin u WHERE u.SRR24057905>=:lowerLimit and u.SRR24057906>=:lowerLimit and u.SRR24057907>=:lowerLimit and "
+			+ "u.SRR24057905<=:upperLimit and u.SRR24057906<=:upperLimit and u.SRR24057907<=:upperLimit "
+			+ "ORDER BY SRR24057905, SRR24057906, SRR24057907 LIMIT 100")
+	public List<Skin> getSkinSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);
@@ -40,4 +44,7 @@ public interface SkinRepository extends CrudRepository<Skin, Integer>{
 //	
 //	@Query(value = "Select u from Genes u where u.geneId In :geneIds")
 //	public List<Genes> getGenesByGeneList(List<String> geneIds);
+	
+	@Query("SELECT sum(SRR24057905) as SRR24057905, sum(SRR24057906) as SRR24057906, sum(SRR24057907) as SRR24057907 FROM Skin")
+	public Map <String, Double> getSum();
 }

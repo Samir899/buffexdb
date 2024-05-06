@@ -9,10 +9,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Leg_muscle;
 
 public interface Leg_muscleRepository extends CrudRepository<Leg_muscle, Integer>{
+	
+	@Query("SELECT u FROM Leg_muscle u WHERE u.SRR15721747>=:lowerLimit and SRR15721760>=:lowerLimit and u.SRR15721747<=:upperLimit and SRR15721760<=:upperLimit "
+			+ "ORDER BY SRR15721747, SRR15721760 LIMIT 100")
+	public List<Leg_muscle> getLeg_muscleSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

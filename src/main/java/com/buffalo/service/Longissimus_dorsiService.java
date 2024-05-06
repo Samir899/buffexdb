@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Longissimus_dorsi;
 import com.buffalo.repo.BrainRepository;
@@ -47,6 +48,11 @@ public class Longissimus_dorsiService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return longissimus_dorsiRepo.getSum();
+	}
+	
+	public List<Longissimus_dorsi> getLongissimus_dorsiSorted(double lowerLimit, double upperLimit){
+		return (List<Longissimus_dorsi>) longissimus_dorsiRepo.getLongissimus_dorsiSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

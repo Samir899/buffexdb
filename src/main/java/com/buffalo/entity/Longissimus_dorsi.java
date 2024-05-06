@@ -18,9 +18,8 @@ public class Longissimus_dorsi {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR12023710")
 	 private double SRR12023710;
@@ -48,11 +47,11 @@ public class Longissimus_dorsi {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Longissimus_dorsi(int id, Genes gene, double sRR12023710, double sRR12023712, double sRR12023714,
+	public Longissimus_dorsi(int id, String geneId, double sRR12023710, double sRR12023712, double sRR12023714,
 			double sRR12023715, double sRR8318866, double sRR8318867, double sRR8318868) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR12023710 = sRR12023710;
 		SRR12023712 = sRR12023712;
 		SRR12023714 = sRR12023714;
@@ -70,12 +69,12 @@ public class Longissimus_dorsi {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR12023710() {
@@ -136,7 +135,7 @@ public class Longissimus_dorsi {
 
 	@Override
 	public String toString() {
-		return "Longissimus_dorsi [id=" + id + ", gene=" + gene + ", SRR12023710=" + SRR12023710 + ", SRR12023712="
+		return "Longissimus_dorsi [id=" + id + ", geneId=" + geneId + ", SRR12023710=" + SRR12023710 + ", SRR12023712="
 				+ SRR12023712 + ", SRR12023714=" + SRR12023714 + ", SRR12023715=" + SRR12023715 + ", SRR8318866="
 				+ SRR8318866 + ", SRR8318867=" + SRR8318867 + ", SRR8318868=" + SRR8318868 + "]";
 	}

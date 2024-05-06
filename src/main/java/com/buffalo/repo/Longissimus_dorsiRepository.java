@@ -9,11 +9,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Longissimus_dorsi;
 
 public interface Longissimus_dorsiRepository extends CrudRepository<Longissimus_dorsi, Integer>{
+	
+	@Query("SELECT u FROM Longissimus_dorsi u WHERE u.SRR8318866>=:lowerLimit and u.SRR8318867>=:lowerLimit and u.SRR8318868>=:lowerLimit and u.SRR12023710>=:lowerLimit and u.SRR12023712>=:lowerLimit and u.SRR12023714>=:lowerLimit and u.SRR12023715>=:lowerLimit and "
+			+ "u.SRR8318866<=:upperLimit and u.SRR8318867<=:upperLimit and u.SRR8318868<=:upperLimit and u.SRR12023710<=:upperLimit and u.SRR12023712<=:upperLimit and u.SRR12023714<=:upperLimit and u.SRR12023715<=:upperLimit "
+			+ "ORDER BY SRR8318866, SRR8318867, SRR8318868, SRR12023710, SRR12023712, SRR12023714, SRR12023715 LIMIT 100")
+	public List<Longissimus_dorsi> getLongissimus_dorsiSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

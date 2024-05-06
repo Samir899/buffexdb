@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Rumen;
@@ -48,6 +49,11 @@ public class RumenService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return rumenRepo.getSum();
+	}
+	
+	public List<Rumen> getRumenSorted(double lowerLimit, double upperLimit){
+		return (List<Rumen>) rumenRepo.getRumenSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

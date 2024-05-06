@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Lung_parenchyma_B;
@@ -48,6 +49,11 @@ public class Lung_parenchyma_BService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return lung_parenchyma_BRepo.getSum();
+	}
+	
+	public List<Lung_parenchyma_B> getLung_parenchyma_BSorted(double lowerLimit, double upperLimit){
+		return (List<Lung_parenchyma_B>) lung_parenchyma_BRepo.getLung_parenchyma_BSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

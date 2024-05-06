@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Obex;
 import com.buffalo.repo.ObexRepository;
 
@@ -40,6 +40,11 @@ public class ObexService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return obexRepo.getSum();
+	}
+	
+	public List<Obex> getObexSorted(double lowerLimit, double upperLimit){
+		return (List<Obex>) obexRepo.getObexSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

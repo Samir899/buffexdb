@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Ileum;
@@ -59,6 +60,12 @@ public class Iliac_lymph_nodeAPI {
     public Map<String, Double> getSum() 
     {
     	return iliac_lymph_nodeService.getFPKMSum();
+    }
+    
+    @GetMapping("/iliac_lymph_nodes/sorted")  
+    public List<Iliac_lymph_node> getIliac_lymph_nodeSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return iliac_lymph_nodeService.getIliac_lymph_nodeSorted(lowerLimit, upperLimit);
     }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 

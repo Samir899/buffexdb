@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.White_blood_cell;
 import com.buffalo.repo.White_blood_cellRepository;
 
@@ -39,6 +40,11 @@ public class White_blood_cellService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return white_blood_cellRepo.getSum();
+	}
+	
+	public List<White_blood_cell> getWhite_blood_cellSorted(double lowerLimit, double upperLimit){
+		return (List<White_blood_cell>) white_blood_cellRepo.getWhite_blood_cellSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

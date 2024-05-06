@@ -15,7 +15,10 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Ovary;
 import com.buffalo.service.OvaryService;
 
@@ -42,6 +45,12 @@ public class OvaryAPI {
     public Map<String, Double> getSum() 
     {
     	return ovaryService.getFPKMSum();
+    }
+    
+    @GetMapping("/ovarys/sorted")  
+    public List<Ovary> getOvarySorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return ovaryService.getOvarySorted(lowerLimit, upperLimit);
     }
     
 //    @GetMapping("/genes/{geneId}")  

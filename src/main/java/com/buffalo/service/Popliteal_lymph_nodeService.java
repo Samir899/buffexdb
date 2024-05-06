@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Popliteal_lymph_node;
@@ -43,6 +45,14 @@ public class Popliteal_lymph_nodeService {
 	
 	public List<Popliteal_lymph_node> listAllPopliteal_lymph_node(){
 		return (List<Popliteal_lymph_node>) popliteal_lymph_nodeRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return popliteal_lymph_nodeRepo.getSum();
+	}
+	public List<Popliteal_lymph_node> getPopliteal_lymph_nodeSorted(double lowerLimit, double upperLimit){
+		return (List<Popliteal_lymph_node>) popliteal_lymph_nodeRepo.getPopliteal_lymph_nodeSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

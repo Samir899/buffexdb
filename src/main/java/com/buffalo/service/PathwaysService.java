@@ -48,6 +48,7 @@ public class PathwaysService {
 		return (List<Pathways>) pathwaysRepo.findAll();
 	}
 	
+	
 //	public Map<String, Double> getFPKMSum() {
 //		return granulosa_cellRepo.getSum();
 //	}

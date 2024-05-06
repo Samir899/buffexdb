@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Obex;
 
 import com.buffalo.service.ObexService;
@@ -42,6 +45,13 @@ public class ObexAPI {
     {
     	return obexService.getFPKMSum();
     }
+    
+    @GetMapping("/obexs/sorted")  
+    public List<Obex> getObexSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return obexService.getObexSorted(lowerLimit, upperLimit);
+    }
+
     
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 

@@ -18,9 +18,8 @@ public class Hypothalamus {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR15721742")
 	 private double SRR15721742;
@@ -42,11 +41,11 @@ public class Hypothalamus {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Hypothalamus(int id, Genes gene, double sRR15721742, double sRR24057944, double sRR24057945,
+	public Hypothalamus(int id, String geneId, double sRR15721742, double sRR24057944, double sRR24057945,
 			double sRR24057946, double sRR24057947) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR15721742 = sRR15721742;
 		SRR24057944 = sRR24057944;
 		SRR24057945 = sRR24057945;
@@ -62,12 +61,12 @@ public class Hypothalamus {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR15721742() {
@@ -112,7 +111,7 @@ public class Hypothalamus {
 
 	@Override
 	public String toString() {
-		return "Hypothalamus [id=" + id + ", gene=" + gene + ", SRR15721742=" + SRR15721742 + ", SRR24057944="
+		return "Hypothalamus [id=" + id + ", geneId=" + geneId + ", SRR15721742=" + SRR15721742 + ", SRR24057944="
 				+ SRR24057944 + ", SRR24057945=" + SRR24057945 + ", SRR24057946=" + SRR24057946 + ", SRR24057947="
 				+ SRR24057947 + "]";
 	}

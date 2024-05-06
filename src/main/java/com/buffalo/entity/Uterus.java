@@ -18,9 +18,8 @@ public class Uterus {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR15721749") 
 	 private double SRR15721749;
@@ -30,10 +29,10 @@ public class Uterus {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Uterus(int id, Genes gene, double sRR15721749) {
+	public Uterus(int id, String geneId, double sRR15721749) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR15721749 = sRR15721749;
 	}
 
@@ -45,12 +44,12 @@ public class Uterus {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR15721749() {
@@ -63,7 +62,7 @@ public class Uterus {
 
 	@Override
 	public String toString() {
-		return "Uterus [id=" + id + ", gene=" + gene + ", SRR15721749=" + SRR15721749 + "]";
+		return "Uterus [id=" + id + ", geneId=" + geneId + ", SRR15721749=" + SRR15721749 + "]";
 	}
 	 
 	 

@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Reticulum_B;
@@ -48,6 +49,11 @@ public class Reticulum_BService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return reticulum_BRepo.getSum();
+	}
+	
+	public List<Reticulum_B> getReticulum_BSorted(double lowerLimit, double upperLimit){
+		return (List<Reticulum_B>) reticulum_BRepo.getReticulum_BSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Kidney;
 import com.buffalo.repo.KidneyRepository;
 
@@ -38,6 +40,11 @@ public class KidneyService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return kidneyRepo.getSum();
+	}
+	
+	public List<Kidney> getKidneySorted(double lowerLimit, double upperLimit){
+		return (List<Kidney>) kidneyRepo.getKidneySorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

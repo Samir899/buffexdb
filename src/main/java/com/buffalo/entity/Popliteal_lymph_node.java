@@ -18,9 +18,8 @@ public class Popliteal_lymph_node {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2353433")
 	 private double ERR2353433;
@@ -51,11 +50,11 @@ public class Popliteal_lymph_node {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Popliteal_lymph_node(int id, Genes gene, double eRR2353433, double eRR2353435, double eRR2353436,
+	public Popliteal_lymph_node(int id, String geneId, double eRR2353433, double eRR2353435, double eRR2353436,
 			double eRR2353437, double eRR2353438, double eRR2353439, double eRR2353440, double eRR2353441) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2353433 = eRR2353433;
 		ERR2353435 = eRR2353435;
 		ERR2353436 = eRR2353436;
@@ -74,12 +73,12 @@ public class Popliteal_lymph_node {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2353433() {
@@ -148,7 +147,7 @@ public class Popliteal_lymph_node {
 
 	@Override
 	public String toString() {
-		return "Popliteal_lymph_node [id=" + id + ", gene=" + gene + ", ERR2353433=" + ERR2353433 + ", ERR2353435="
+		return "Popliteal_lymph_node [id=" + id + ", geneId=" + geneId + ", ERR2353433=" + ERR2353433 + ", ERR2353435="
 				+ ERR2353435 + ", ERR2353436=" + ERR2353436 + ", ERR2353437=" + ERR2353437 + ", ERR2353438="
 				+ ERR2353438 + ", ERR2353439=" + ERR2353439 + ", ERR2353440=" + ERR2353440 + ", ERR2353441="
 				+ ERR2353441 + "]";

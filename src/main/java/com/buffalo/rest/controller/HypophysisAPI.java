@@ -14,11 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Hypophysis;
 
 import com.buffalo.service.HypophysisService;
@@ -48,6 +47,11 @@ public class HypophysisAPI {
     	return hypophysisService.getFPKMSum();
     }
     
+    @GetMapping("/hypophysiss/sorted")  
+    public List<Hypophysis> getHypophysisSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return hypophysisService.getHypophysisSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

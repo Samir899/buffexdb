@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -58,6 +59,13 @@ public class Longissimus_thoracisAPI {
     {
     	return longissimus_thoracisService.getFPKMSum();
     }
+    
+    @GetMapping("/longissimus_thoraciss/sorted")  
+    public List<Longissimus_thoracis> getLongissimus_thoracisSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return longissimus_thoracisService.getLongissimus_thoracisSorted(lowerLimit, upperLimit);
+    }
+
     
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 

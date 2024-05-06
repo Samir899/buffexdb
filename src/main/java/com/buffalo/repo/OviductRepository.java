@@ -6,9 +6,16 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Oviduct;
 
 public interface OviductRepository extends CrudRepository<Oviduct, Integer>{
+	
+	@Query("SELECT u FROM Oviduct u WHERE u.ERR315634>=:lowerLimit and u.ERR315634<=:upperLimit "
+			+ "ORDER BY ERR315634 LIMIT 100")
+	public List<Oviduct> getOviductSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

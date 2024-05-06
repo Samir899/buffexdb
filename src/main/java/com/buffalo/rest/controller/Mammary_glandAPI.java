@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -59,6 +60,12 @@ public class Mammary_glandAPI {
     	return mammary_glandService.getFPKMSum();
     }
     
+    @GetMapping("/mammary_glands/sorted")  
+    public List<Mammary_gland> getMammary_glandSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return mammary_glandService.getMammary_glandSorted(lowerLimit, upperLimit);
+    }
+
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

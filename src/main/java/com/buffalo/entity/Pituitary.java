@@ -18,9 +18,8 @@ public class Pituitary {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352922")
 	 private double ERR2352922;
@@ -81,13 +80,13 @@ public class Pituitary {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Pituitary(int id, Genes gene, double eRR2352922, double eRR2352923, double eRR2352924, double eRR2352925,
+	public Pituitary(int id, String geneId, double eRR2352922, double eRR2352923, double eRR2352924, double eRR2352925,
 			double eRR2352926, double eRR2352927, double eRR2352928, double eRR2353764, double eRR2353765,
 			double eRR2353766, double eRR2353767, double eRR2353768, double eRR2353769, double eRR2353770,
 			double sRR24057909, double sRR24057910, double sRR24057911, double sRR24057912) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352922 = eRR2352922;
 		ERR2352923 = eRR2352923;
 		ERR2352924 = eRR2352924;
@@ -116,12 +115,12 @@ public class Pituitary {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352922() {
@@ -270,7 +269,7 @@ public class Pituitary {
 
 	@Override
 	public String toString() {
-		return "Pituitary [id=" + id + ", gene=" + gene + ", ERR2352922=" + ERR2352922 + ", ERR2352923=" + ERR2352923
+		return "Pituitary [id=" + id + ", geneId=" + geneId + ", ERR2352922=" + ERR2352922 + ", ERR2352923=" + ERR2352923
 				+ ", ERR2352924=" + ERR2352924 + ", ERR2352925=" + ERR2352925 + ", ERR2352926=" + ERR2352926
 				+ ", ERR2352927=" + ERR2352927 + ", ERR2352928=" + ERR2352928 + ", ERR2353764=" + ERR2353764
 				+ ", ERR2353765=" + ERR2353765 + ", ERR2353766=" + ERR2353766 + ", ERR2353767=" + ERR2353767
