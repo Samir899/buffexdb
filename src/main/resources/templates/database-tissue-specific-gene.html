@@ -73,6 +73,7 @@
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expression data</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
+							            <li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Classification</a></li>
 							          </ul>
 							        </li>
 							      </ul>
@@ -117,7 +118,7 @@
 			</div>
 			
  		<div class="overflow-auto p-2 text-nowrap">
- 		<table class="table table-striped border" id="genes">
+ 		<table class="table table-striped border table-bordered" id="genes">
 			  <thead class="table-dark">
 			  </thead>
 			  <tbody>

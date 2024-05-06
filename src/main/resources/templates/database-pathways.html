@@ -73,6 +73,7 @@
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expression Data</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
+							          	<li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Classification</a></li>
 							          </ul>
 							        </li>
 							      </ul>
@@ -135,7 +136,7 @@
 					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
 				</div>
  		<div class="overflow-auto p-2 text-nowrap">
- 		<table class="table table-striped border" id="pathways">
+ 		<table class="table table-striped border table-bordered" id="pathways">
 			  <thead class="table-dark">
 				  
 			  </thead>
@@ -227,6 +228,9 @@ function renderTableNew(){
 		else if(key.toUpperCase() == 'ID'){
 			continue;
 		}
+		else if(key.toUpperCase() == 'GENEID'){
+			td = `<td>GENE ID</td>`;
+		}
 			
 		else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 	
@@ -238,7 +242,7 @@ function renderTableNew(){
 			}		
 		}
 		else{
-			td = `<td>${key.toUpperCase()}</td>`;
+			td = `<td>${key.toUpperCase().replaceAll('_', " ")}</td>`;
 		}
 		headerRow = headerRow + td;
 		}
@@ -264,7 +268,7 @@ function renderTableNew(){
 			}
 			else if(key.toUpperCase() == 'ID'){
 				continue;
-			}				
+			}			
 			else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 				
 				if(isFpkm){
@@ -277,8 +281,18 @@ function renderTableNew(){
 				}
 				
 			}
+			else if(key.toUpperCase() == 'GENEID'){
+					td = `<td>${value}</td>`;
+				}	
 			else{
-				td = `<td>${value}</td>`;
+				if(value.length > 10){
+					id = object1.id + Math.random(10,100)
+					td = `<td style="position:relative;"><a onClick="showFullLength(${id})">${value.substring(0,10)}...</a> <div id="${id}"style="visibility:hidden;position:absolute;z-index:-1; top:50px;background-color:white;padding:5px; border-radius:2px;">${value}</div></td>`;
+					
+				}
+				else{
+					td = `<td>${value}</td>`;
+				}
 			}
 			dataRow = dataRow + td;
 		}
@@ -288,22 +302,44 @@ function renderTableNew(){
 	}
 }
 
+function showFullLength(event){
+	console.log(event);
+	if(document.getElementById(event).style.visibility=="visible"){
+		document.getElementById(event).style.visibility="hidden";
+		document.getElementById(event).style.zIndex="-1";
+		console.log("hided")
+	}
+	else{
+		document.getElementById(event).style.visibility="visible";
+		document.getElementById(event).style.zIndex="10";
+		console.log("visible")
+	}
+}
 
 $( document ).ready(function() {
-	url = "[[@{/pathways/api/pathwayss/geneId/all}]]"
+	url = "[[@{/gene/api/genes/geneId/all}]]"
 	$.get(url, function(data, status){
 		uncheckedGeneData = new Set(data);
 		geneIdSet = new Set(data);
 	});
     url = "[[@{/pathways/api/pathwayss}]]"
     	$.get(url, function(data, status){
-    	geneData = data;
-    	globalData = data;
-    	totalRecords = data.length;
-    	totalPages = Math.ceil(totalRecords/pageSize);
-    	numberOfRecordsOfLastPage = totalRecords%pageSize;
-    	renderTableNew();
- 		pagination();
+	    	console.log(status)
+	    	console.log(data)
+	    	geneData = data;
+	    	globalData = data;
+	    	totalRecords = data.length;
+	    	totalPages = Math.ceil(totalRecords/pageSize);
+	    	numberOfRecordsOfLastPage = totalRecords%pageSize;
+	    	if(data.length!=0){
+	    		renderTableNew();
+	    		pagination();
+	    	}
+	    	else{
+	    		alert("No data found")
+	    	}
+    	
+ 		
 });
 });
 

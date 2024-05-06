@@ -33,6 +33,12 @@ public interface GeneRepository extends CrudRepository<Genes, String>{
 	@Query("SELECT geneId FROM Genes u WHERE u.strand = :strand")
 	public List<String> getGeneIdByStrand(@Param("strand") String strand);
 	
+	@Query("SELECT u FROM Genes u WHERE u.coding_label = :coding_label")
+	public List<Genes> getGeneByCodingLabel(@Param("coding_label") String coding_label);
+	
+	@Query("SELECT geneId FROM Genes u WHERE u.coding_label = :coding_label")
+	public List<String> getGeneIdByCodingLabel(@Param("coding_label") String coding_label);
+	
 	@Query("SELECT geneId FROM Genes")
 	public List<String> getAllGeneId();
 	

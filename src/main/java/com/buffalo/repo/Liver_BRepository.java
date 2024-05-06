@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.buffalo.entity.Liver_B;
 
-public interface Liver_BRepository extends CrudRepository<Liver_B, Integer>{
+public interface Liver_BRepository extends CrudRepository<Liver_B, String>{
 
 	@Query("SELECT u FROM Liver_B u WHERE u.ERR2354534 >= :lowerLimit and u.ERR2354535 >= :lowerLimit and u.ERR2354536 >= :lowerLimit and u.ERR2354537 >= :lowerLimit and u.ERR2354538 >= :lowerLimit and u.ERR2354539 >= :lowerLimit"
 			+ " and u.ERR2354540 >= :lowerLimit and u.ERR2354541 >= :lowerLimit and u.ERR2354542 >= :lowerLimit and u.ERR2354784 >= :lowerLimit and u.ERR2354785 >= :lowerLimit and u.ERR2354786 >= :lowerLimit and u.ERR2354787 >= :lowerLimit"

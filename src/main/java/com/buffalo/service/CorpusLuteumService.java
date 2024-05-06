@@ -29,7 +29,8 @@ public class CorpusLuteumService {
 //		 return repo.getCorpusLuteumByERR(err);	
 //		}	
 
-	public Map <String, Double> getSumOfFPKM() {	
+
+	public  Map <String, Double> getSum() {	
 		 return repo.getSum();
 		}
 }

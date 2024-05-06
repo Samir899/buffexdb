@@ -37,7 +37,8 @@ public class CorpusLuteumAPI {
     
     @GetMapping("/corpusluteums/err/sum")  
     public Map <String, Double> getSum() 
+
     { 
-    	return service.getSumOfFPKM();
+    	return service.getSum();
     }
 }
