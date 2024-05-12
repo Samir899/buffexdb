@@ -13,13 +13,16 @@ import jakarta.persistence.Table;
 @Table(name = "reticulum_b")
 public class Reticulum_B {
 
-	@Id
-	 @Column(name="id")
-	 @GeneratedValue(strategy = GenerationType.AUTO)
-	  private int id;
+//	@Id
+//	 @Column(name="id")
+//	 @GeneratedValue(strategy = GenerationType.AUTO)
+//	  private int id;
 	 
-	 @Column(name = "geneId")
-	 String geneId;
+//	 @Column(name = "geneId")
+//	 String geneId;
+	
+	 @Id
+	 private String geneId;
 	 
 	 @Column(name="ERR2354682")
 	 private double ERR2354682;
@@ -185,7 +188,7 @@ public class Reticulum_B {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Reticulum_B(int id, String geneId, double eRR2354682, double eRR2354683, double eRR2354684, double eRR2354685,
+	public Reticulum_B(String geneId, double eRR2354682, double eRR2354683, double eRR2354684, double eRR2354685,
 			double eRR2354686, double eRR2354687, double eRR2354688, double eRR2354889, double eRR2354890,
 			double eRR2354891, double eRR2354892, double eRR2354893, double eRR2354894, double eRR2354895,
 			double eRR2354896, double eRR2354897, double eRR2354898, double eRR2354899, double eRR2354900,
@@ -197,7 +200,7 @@ public class Reticulum_B {
 			double eRR2355040, double eRR2355041, double eRR2355042, double eRR2355043, double eRR2355044,
 			double eRR2355045, double eRR2355046, double eRR2355047, double eRR2355048) {
 		super();
-		this.id = id;
+//		this.id = id;
 		this.geneId = geneId;
 		ERR2354682 = eRR2354682;
 		ERR2354683 = eRR2354683;
@@ -254,13 +257,13 @@ public class Reticulum_B {
 		ERR2355048 = eRR2355048;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+//	public int getId() {
+//		return id;
+//	}
+//
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 
 	public String getGeneId() {
 		return geneId;
@@ -696,7 +699,7 @@ public class Reticulum_B {
 
 	@Override
 	public String toString() {
-		return "Reticulum_B [id=" + id + ", geneId=" + geneId + ", ERR2354682=" + ERR2354682 + ", ERR2354683=" + ERR2354683
+		return "Reticulum_B [geneId=" + geneId + ", ERR2354682=" + ERR2354682 + ", ERR2354683=" + ERR2354683
 				+ ", ERR2354684=" + ERR2354684 + ", ERR2354685=" + ERR2354685 + ", ERR2354686=" + ERR2354686
 				+ ", ERR2354687=" + ERR2354687 + ", ERR2354688=" + ERR2354688 + ", ERR2354889=" + ERR2354889
 				+ ", ERR2354890=" + ERR2354890 + ", ERR2354891=" + ERR2354891 + ", ERR2354892=" + ERR2354892

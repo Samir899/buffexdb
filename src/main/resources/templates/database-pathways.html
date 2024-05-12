@@ -89,7 +89,7 @@
 		</div>
 		
 		<div class="overflow-hidden" style="height:500px">
-		<img  class="img-fluid w-100" th:src="@{/images/buff_ai_1.jpg}" />
+		<img  class="img-fluid w-100" th:src="@{/images/buffalo_image.jpeg}" />
 		
 			
 		</div>
@@ -100,18 +100,18 @@
 			<form class="" id="queryForm" method="post" onSubmit="return validateCheckBox(this);">
 				<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
 				<div class="input-group mb-2">
-				  <input required type="text" class="form-control" name="searchText" placeholder="Strand, Chromosome" aria-label="Recipient's username" id="searchText">
+				  <input required type="text" class="form-control" name="searchText" placeholder="coding_label" aria-label="Recipient's username" id="searchText">
 				  <button class="btn btn-outline-secondary" type="submit" id="search">Search</button>
 				</div>
 				<div class="align-middle mb-2">
-				   <input class="form-check-input" type="radio" name="searchParam" id="strand" value="strand">
+				   <input class="form-check-input" type="radio" name="searchParam" id="coding_label" value="coding_label">
 				  <label class="form-check-label" for="flexRadioDefault1">
-				    STRAND
-				  </label>
+				    CODING_LABEL
+				<!--  </label>
 				   <input class="form-check-input" type="radio" name="searchParam" id="chromosome" value="chromosome">
 				  <label class="form-check-label" for="flexRadioDefault1">
 				    CHROMOSOME
-				  </label>
+				  </label> -->
 				</div>
 				
 				<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px"></div>
@@ -269,6 +269,49 @@ function renderTableNew(){
 			else if(key.toUpperCase() == 'ID'){
 				continue;
 			}			
+			else if(key.toUpperCase() == 'UNIPROT_PROTEINS'){
+				let pathways = value.split(';');
+				let pathwayLinks = pathways.map(pathway => `<a href="https://www.uniprot.org/uniprotkb/${pathway}/entry" target="_blank">${pathway}</a>`).join('; ');
+				td = `<td>${pathwayLinks}</td>`;
+				
+			}
+			else if(key.toUpperCase() == 'KEGG_ORTHOLOG'){
+				let pathways = value.split(';');
+				let pathwayLinks = pathways.map(pathway => `<a href="https://www.kegg.jp/entry/${pathway}" target="_blank">${pathway}</a>`).join('; ');
+				td = `<td>${pathwayLinks}</td>`;
+			}
+			else if(key.toUpperCase() == 'PANTHER_FAMILY'){
+				let match = value.match(/\bPTHR\d+:\w+\b/);
+				
+				if (match) {
+                	let term = match[0];
+                	td = `<td><a href="https://pantherdb.org/panther/familyList.do?searchType=basic&fieldName=all&listType=6&fieldValue=${term}" target="_blank">${value}</a></td>`;
+            	} else {
+               	 	td = `<td>${value}</td>`;
+            }
+			}
+			else if(key.toUpperCase() == 'PANTHER_PROTEIN_CLASS'){
+				let match = value.match(/\bPC00\d+:\w+\b/);
+				
+				if (match) {
+                	let term = match[0];
+                	td = `<td><a href="https://pantherdb.org/panther/familyList.do?searchType=basic&fieldName=all&listType=6&fieldValue=${term}" target="_blank">${value}</a></td>`;
+            	} else {
+               	 	td = `<td>${value}</td>`;
+            }
+			}
+			else if(key.toUpperCase() == 'PATHWAY_ID'){
+				
+				let pathways = value.split(';');
+				if(value.startsWith("R-")) {
+					
+					let pathwayLinks = pathways.map(pathway => `<a href="https://glycosmos.org/pathways/show/${pathway}" target="_blank">${pathway}</a>`).join('; ');
+					td = `<td>${pathwayLinks}</td>`;
+					} else {
+        				let pathwayLinks = pathways.map(pathway => `<a href="https://www.kegg.jp/entry/${pathway}" target="_blank">${pathway}</a>`).join('; ');
+        				td = `<td>${pathwayLinks}</td>`;
+        				}
+			}
 			else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 				
 				if(isFpkm){

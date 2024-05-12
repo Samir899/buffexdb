@@ -18,8 +18,8 @@ public class Reticulum_A {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @Column(name = "geneId")
-	 String geneId;
+//	 @Column(name = "geneId")
+//	 String geneId;
 	 
 	 @Column(name="ERR2352957")
 	 private double ERR2352957;
@@ -260,13 +260,17 @@ public class Reticulum_A {
 
 	 @Column(name="ERR2354681")
 	 private double ERR2354681;
+	 
+	 @ManyToOne
+	 @JoinColumn(name = "geneId")
+	 private Reticulum_B reticulumB;
 
 	public Reticulum_A() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Reticulum_A(int id, String geneId, double eRR2352957, double eRR2352958, double eRR2352959, double eRR2352960,
+	public Reticulum_A(Reticulum_B reticulumB, int id, String geneId, double eRR2352957, double eRR2352958, double eRR2352959, double eRR2352960,
 			double eRR2352961, double eRR2352962, double eRR2352963, double eRR2352964, double eRR2352965,
 			double eRR2353478, double eRR2353479, double eRR2353480, double eRR2353481, double eRR2353482,
 			double eRR2353483, double eRR2353484, double eRR2353485, double eRR2353486, double eRR2353487,
@@ -285,7 +289,8 @@ public class Reticulum_A {
 			double eRR2354681) {
 		super();
 		this.id = id;
-		this.geneId = geneId;
+//		this.geneId = geneId;
+		this.reticulumB = reticulumB;
 		ERR2352957 = eRR2352957;
 		ERR2352958 = eRR2352958;
 		ERR2352959 = eRR2352959;
@@ -376,14 +381,21 @@ public class Reticulum_A {
 		this.id = id;
 	}
 
-	public String getGeneId() {
-		return geneId;
-	}
+//	public String getGeneId() {
+//		return geneId;
+//	}
+//
+//	public void setGeneId(String geneId) {
+//		this.geneId = geneId;
+//	}
 
-	public void setGeneId(String geneId) {
-		this.geneId = geneId;
+	public Reticulum_B getReticulumB() {
+		return this.reticulumB;
 	}
-
+	public void setReticulumB(Reticulum_B reticulumB) {
+		this.reticulumB = reticulumB;
+	}
+		
 	public double getERR2352957() {
 		return ERR2352957;
 	}
@@ -1026,7 +1038,7 @@ public class Reticulum_A {
 
 	@Override
 	public String toString() {
-		return "Reticulum_A [id=" + id + ", geneId=" + geneId + ", ERR2352957=" + ERR2352957 + ", ERR2352958=" + ERR2352958
+		return "Reticulum_A [id=" + id + ", reticulumB=" + reticulumB + ", ERR2352957=" + ERR2352957 + ", ERR2352958=" + ERR2352958
 				+ ", ERR2352959=" + ERR2352959 + ", ERR2352960=" + ERR2352960 + ", ERR2352961=" + ERR2352961
 				+ ", ERR2352962=" + ERR2352962 + ", ERR2352963=" + ERR2352963 + ", ERR2352964=" + ERR2352964
 				+ ", ERR2352965=" + ERR2352965 + ", ERR2353478=" + ERR2353478 + ", ERR2353479=" + ERR2353479

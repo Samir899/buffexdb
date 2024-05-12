@@ -13,13 +13,16 @@ import jakarta.persistence.Table;
 @Table(name = "lung_parenchyma_b")
 public class Lung_parenchyma_B {
 
-	@Id
-	 @Column(name="id")
-	 @GeneratedValue(strategy = GenerationType.AUTO)
-	  private int id;
+//	@Id
+//	 @Column(name="id")
+//	 @GeneratedValue(strategy = GenerationType.AUTO)
+//	  private int id;
 	 
-	 @Column(name = "geneId")
-	 String geneId;
+	 @Id
+	 private String geneId;
+	
+//	 @Column(name = "geneId")
+//	 String geneId;
 	 
 	 @Column(name="ERR2354556")
 	 private double ERR2354556;
@@ -194,7 +197,7 @@ public class Lung_parenchyma_B {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Lung_parenchyma_B(int id, String geneId, double eRR2354556, double eRR2354557, double eRR2354558,
+	public Lung_parenchyma_B(String geneId, double eRR2354556, double eRR2354557, double eRR2354558,
 			double eRR2354559, double eRR2354560, double eRR2354561, double eRR2354562, double eRR2354563,
 			double eRR2354564, double eRR2354565, double eRR2354807, double eRR2354808, double eRR2354809,
 			double eRR2354810, double eRR2354811, double eRR2354812, double eRR2354813, double eRR2354814,
@@ -207,7 +210,7 @@ public class Lung_parenchyma_B {
 			double eRR2355000, double eRR2355001, double eRR2355002, double eRR2355003, double eRR2355004,
 			double eRR2355005, double eRR2355006, double eRR2355007) {
 		super();
-		this.id = id;
+//		this.id = id;
 		this.geneId = geneId;
 		ERR2354556 = eRR2354556;
 		ERR2354557 = eRR2354557;
@@ -267,13 +270,13 @@ public class Lung_parenchyma_B {
 		ERR2355007 = eRR2355007;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+//	public int getId() {
+//		return id;
+//	}
+//
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 
 	public String getGeneId() {
 		return geneId;
@@ -733,7 +736,7 @@ public class Lung_parenchyma_B {
 
 	@Override
 	public String toString() {
-		return "Lung_parenchyma_B [id=" + id + ", geneId=" + geneId + ", ERR2354556=" + ERR2354556 + ", ERR2354557="
+		return "Lung_parenchyma_B [geneId=" + geneId + ", ERR2354556=" + ERR2354556 + ", ERR2354557="
 				+ ERR2354557 + ", ERR2354558=" + ERR2354558 + ", ERR2354559=" + ERR2354559 + ", ERR2354560="
 				+ ERR2354560 + ", ERR2354561=" + ERR2354561 + ", ERR2354562=" + ERR2354562 + ", ERR2354563="
 				+ ERR2354563 + ", ERR2354564=" + ERR2354564 + ", ERR2354565=" + ERR2354565 + ", ERR2354807="

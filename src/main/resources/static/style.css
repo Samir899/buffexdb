@@ -27,9 +27,22 @@ ul{
 i:hover{
 		cursor:pointer;
 }
+.header_box {
+  padding: 1px; /* Reduce the padding to make the box smaller */
+  margin-top: 50px; 
+  border: 1px solid #ccc; /* Border style */
+  border-radius: 5px; /* Rounded corners */
+  background-color: rgb(164, 196, 165); /* Background color */
+  margin-bottom: 50px;
+  font-family: Georgia, serif; /* Change font family */
+  font-size: 25px; /* Change font size */
+  font-weight: bold; /* Change font weight */
+  font-style: italic; /* Change font style */
+  color: #333; /* Change font color */
+}
 
 *.img_method{
-	 border: 1px solid #ccc;
+	border: 1px solid #ccc;
     padding: 10px;
     position: relative;
     right: 10px;
@@ -62,6 +75,7 @@ i:hover{
 	color: rgb(0, 64, 128); /* Change font color */
 	text-align: center;
 	padding: 10px 20px;
+	align-items: center;
 }
 *.popup-container{
   	position: relative;
