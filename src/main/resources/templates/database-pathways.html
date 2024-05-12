@@ -318,7 +318,7 @@ function renderTableNew(){
             }
 			}
 			else if(key.toUpperCase() == 'PANTHER_PROTEIN_CLASS'){
-				let match = value.match(/\bPC00\d+:\w+\b/);
+				let match = value.match(/\bPC00\d+\b/);
 				
 				if (match) {
                 	let term = match[0];
