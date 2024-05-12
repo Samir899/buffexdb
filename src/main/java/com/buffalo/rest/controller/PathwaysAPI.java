@@ -55,11 +55,21 @@ public class PathwaysAPI {
     	return pathwaysService.listAllPathways();
     }
     
-//    @GetMapping("/granulosa_cells/sum")  
-//    public Map<String, Double> getSum() 
-//    {
-//    	return pathwaysService.getFPKMSum();
-//    }
+    @GetMapping("/pathwayss/gene-symbols")  
+    public List<String> getAllGeneSymbols() 
+    {
+    	return pathwaysService.getAllGeneSymbols();
+    }
+    @GetMapping("/pathwayss/{codingLabel}")  
+    public List<Pathways> getByCodingLabel(@PathVariable(name = "codingLabel")String codingLabel) 
+    {
+    	return pathwaysService.getByCodingLabel(codingLabel);
+    }
+    @GetMapping("/pathwayss/gene-symbol/{geneSymbol}")  
+    public List<Pathways> getByGeneSymbol(@PathVariable(name = "geneSymbol")String geneSymbol) 
+    {
+    	return pathwaysService.getByGeneSymbol(geneSymbol);
+    }
     
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 

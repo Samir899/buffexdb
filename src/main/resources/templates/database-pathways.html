@@ -94,37 +94,22 @@
 			
 		</div>
 		<div class="border">
-		<!-- 
 			<div class="p-2">
-			<div class="row w-100" style="height:100px">
-			<div class="col">
-			<form class="" id="queryForm" method="post" onSubmit="return validateCheckBox(this);">
-				<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
-				<div class="input-group mb-2">
-				  <input required type="text" class="form-control" name="searchText" placeholder="Strand, Chromosome" aria-label="Recipient's username" id="searchText">
-				  <button class="btn btn-outline-secondary" type="submit" id="search">Search</button>
-				</div>
-				<div class="align-middle mb-2">
-				   <input class="form-check-input" type="radio" name="searchParam" id="strand" value="strand">
-				  <label class="form-check-label" for="flexRadioDefault1">
-				    STRAND
-				  </label>
-				   <input class="form-check-input" type="radio" name="searchParam" id="chromosome" value="chromosome">
-				  <label class="form-check-label" for="flexRadioDefault1">
-				    CHROMOSOME
-				  </label>
-				</div>
-				
-				<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px"></div>
-				</form>
+			<div class="row w-100" style="height:fit-content">
+				<div class="col">
+					<!--  <input class="form-input" type="text" name="database" th:value="${database}" hidden=true>-->
+					<div class="input-group">
+					  <input required type="text" class="form-control" name="searchText" placeholder="Coding Label" aria-label="Recipient's username" id="input_codingLabel">
+					  <button class="btn btn-outline-secondary" type="submit" id="btn_srch_by_coding_label" onclick="searchByCodingLabel()">Search</button>
+					</div>
 				</div>
 				<div class="col">
 					<div class="input-group position-relative ">
-						  <input required placeholder="Type Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
+						  <input required placeholder="Gene Symbol" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName" onclick="searchByGeneSymbol()">Search</button>
 					</div>
 <!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
-<!-- 					<div hidden=true id="listContainer" class=" position-absolute bg-light  overflow-auto text-nowrap border rounded-bottom" style="height:200px; width:560px;">
+					<div hidden=true id="listContainer" class=" position-absolute bg-light  overflow-auto text-nowrap border rounded-bottom" style="height:200px; width:560px;">
 						  	<div id="listElements" >
 						  	</div>
 					 </div>
@@ -132,12 +117,7 @@
 					</div>
 				</div>				
 			</div>
-			
-			<div class="m-2">
-					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
-				</div>
-		 -->
-		<div class="p-2">
+		<div class="p-2" style="background-color:rgb(38,80,115);color:white;">
 			<h3 class="text-center">Pathways - Functional Description</h3>
 		</div>
  		<div class="p-2 text-nowrap overflow-auto">
@@ -232,6 +212,77 @@ var checkedData = new Set();
 var uncheckedData = new Set();
 var geneIdSet = new Set();
 var isCheckAll = false;
+var geneSymbols = [];
+
+async function searchByCodingLabel(){
+	renderLoader()
+	codingLabelText = document.getElementById("input_codingLabel").value;
+	console.log(codingLabelText);
+	url = "[[@{/pathways/api/pathwayss/}]]" + codingLabelText;
+	await $.get(url, function(data, status){
+		globalData = data;
+		checkedData = new Set();
+		uncheckedData = new Set();
+		totalRecords = data.length;
+    	totalPages = Math.ceil(totalRecords/pageSize);
+    	numberOfRecordsOfLastPage = totalRecords%pageSize;
+    	if(data.length!=0){
+    		init = 0;
+				if(totalRecords>=10){
+    			last = 10;
+    		}
+    		else{
+    			last = totalRecords;
+    		}
+			pageNum = 1;
+    		renderTableNew();
+    		pagination();
+    	}
+    	else{
+    		alert("No data found")
+    	}
+		hideLoader()
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+	});
+}
+async function searchByGeneSymbol(){
+	renderLoader()
+	geneSymbolText = document.getElementById("dropdownMenuLink1").value;
+	url = "[[@{/pathways/api/pathwayss/gene-symbol/}]]" + geneSymbolText;
+	await $.get(url, function(data, status){
+	    hideLoader()
+		globalData = data;
+		checkedData = new Set();
+		uncheckedData = new Set();
+		totalRecords = data.length;
+    	totalPages = Math.ceil(totalRecords/pageSize);
+    	numberOfRecordsOfLastPage = totalRecords%pageSize;
+    	if(data.length!=0){
+    		init = 0;
+    		if(totalRecords>=10){
+    			last = 10;
+    		}
+    		else{
+    			last = totalRecords;
+    		}
+			
+			pageNum = 1;
+    		renderTableNew();
+    		pagination();
+    	}
+    	else{
+    		alert("No data found")
+    	}
+		
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+	});
+}
 
 function renderTableNew(){
 	isExpanded=false;	
@@ -331,7 +382,6 @@ function renderTableNew(){
 
 function showFullLength(event){
 	let desc = event.innerHTML.trim();
-	console.log(desc);
 	document.getElementById("pathway-desc").style.visibility="visible"
 	document.getElementById("pathway-desc").style.zIndex="1";
 	//document.getElementById("pathway-desc").style.zIndex="1";
@@ -347,12 +397,42 @@ function closeFullLengthDesc(){
 	document.getElementById("pathway-desc").style.zIndex="-1";
 	$("#desc").empty();
 }
+
+document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
+ 	$("#listElements").empty();  
+	var inputVal = document.getElementById("dropdownMenuLink1").value;
+	if(inputVal==""){
+		document.getElementById("listContainer").hidden = true;
+	}
+	else{
+		document.getElementById("listContainer").hidden = false;
+	}
+	var newArray = geneSymbols.filter(function (el) {
+			return el.startsWith(inputVal.toUpperCase());
+			});
+		for(let i=0;i<newArray.length;i++){
+			var anchor = `<div onclick="dropdownSelection('${newArray[i]}')" class="dropdown-list px-2 py-1 fw-bold">${newArray[i]}</div>`
+			$("#listElements").append(anchor);   
+		}
+});
+
+function dropdownSelection(string){
+	document.getElementById("dropdownMenuLink1").value = string;
+	document.getElementById("listContainer").hidden = true;
+	$("#listElements").empty()
+}
+
+
 $( document ).ready(function() {
 	renderLoader();
 	url = "[[@{/gene/api/genes/geneId/all}]]"
 	$.get(url, function(data, status){
 		uncheckedGeneData = new Set(data);
 		geneIdSet = new Set(data);
+	});
+	url = "[[@{/pathways/api/pathwayss/gene-symbols}]]"
+	$.get(url, function(data, status){
+		geneSymbols = data;
 	});
     url = "[[@{/pathways/api/pathwayss}]]"
     	$.get(url, function(data, status){
