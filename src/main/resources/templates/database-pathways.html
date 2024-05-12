@@ -312,7 +312,8 @@ function renderTableNew(){
 					td = `<td>${value}</td>`;
 				}	
 			else{
-				if(value.length > 10){
+				
+				if(value && value.length > 10){
 					id = object1.id
 					td = `<td ><div style="width:100px;overflow:hidden;color:blue;"><a onClick="showFullLength(this)" >${value}</a> </div></td>`;
 					
