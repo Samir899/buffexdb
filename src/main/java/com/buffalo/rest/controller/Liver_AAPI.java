@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.buffalo.entity.Liver_A;
 
 import com.buffalo.service.Liver_AService;
+import com.buffalo.service.Liver_BService;
 import com.buffalo.tables.ListingTables;
 import com.buffalo.utilities.Utilities;
 
@@ -38,10 +40,14 @@ public class Liver_AAPI {
   
 	@Autowired
     private Liver_AService liver_AService;
-  
-    public Liver_AAPI(Liver_AService productService) 
+	
+	@Autowired
+    private Liver_BService liver_BService;
+	
+    public Liver_AAPI(Liver_AService liver_AService, Liver_BService liver_BService) 
     { 
-        this.liver_AService = productService; 
+        this.liver_AService = liver_AService; 
+        this.liver_BService = liver_BService; 
     }
     
     @GetMapping("/liver_As")  
@@ -54,7 +60,12 @@ public class Liver_AAPI {
     @GetMapping("/liver_As/sum")  
     public Map<String, Double> getSum() 
     {
-    	return liver_AService.getFPKMSum();
+    	Map<String, Double> map_liver_a = liver_AService.getFPKMSum();
+    	Map<String, Double> map_liver_b = liver_BService.getFPKMSum();
+    	Map<String, Double> map = new HashMap<>();
+    	map.putAll(map_liver_a);
+    	map.putAll(map_liver_b);
+    	return map;
     }
     
 

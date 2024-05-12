@@ -42,7 +42,7 @@ public interface Liver_ARepository extends CrudRepository<Liver_A, Integer>{
 			+ " u.ERR2354525>=:lowerLimit and u.ERR2354526>=:lowerLimit and u.ERR2354527>=:lowerLimit and u.ERR2354528>=:lowerLimit and"
 			+ " u.ERR2354529>=:lowerLimit and u.ERR2354530>=:lowerLimit and u.ERR2354531>=:lowerLimit and u.ERR2354532>=:lowerLimit and"
 			+ " u.ERR2354533>=:lowerLimit and u.ERR2352665<=:upperLimit and u.ERR2352666<=:upperLimit and u.ERR2352667<=:upperLimit and"
-			+ " u.ERR2352668<=:upperLimit and u.ERR2352669<=:upperLimit and u.ERR2352670<=:upperLmit and u.ERR2352671<=:upperLimit and"
+			+ " u.ERR2352668<=:upperLimit and u.ERR2352669<=:upperLimit and u.ERR2352670<=:upperLimit and u.ERR2352671<=:upperLimit and"
 			+ " u.ERR2352672<=:upperLimit and u.ERR2352673<=:upperLimit and u.ERR2352674<=:upperLimit and u.ERR2352675<=:upperLimit and"
 			+ " u.ERR2352676<=:upperLimit and u.ERR2352677<=:upperLimit and u.ERR2352678<=:upperLimit and u.ERR2352679<=:upperLimit and"
 			+ " u.ERR2352680<=:upperLimit and u.ERR2352681<=:upperLimit and u.ERR2352682<=:upperLimit and u.ERR2352683<=:upperLimit and"

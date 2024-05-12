@@ -80,6 +80,7 @@ i:hover{
   left: 0;
   background: rgba(248,249,250, 0);
   visibility: hidden;
+  z-index:-1;
 }
 
 *.overlay-loader{
@@ -133,7 +134,6 @@ i:hover{
 	max-width: 80%;
 	width: fit-content;
 	color:white;
-	overflow:auto;
 	
 } 
 #piechart{
@@ -210,7 +210,8 @@ text-align: center;
 	padding-bottom: 10px;
 	overflow:scroll;
 	height: 400px;
-	width: fit-content;
+	
+	width: 1000px;
 }
 #overlay-heatmap{
 	z-index:-2; 
@@ -258,4 +259,15 @@ text-align: center;
 	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 	padding:10;
 	text-align:center;
+}
+.pathway-desc{
+	height:fit-content;
+	width: 50%;
+	background-color:whitesmoke;
+	position: fixed;
+	top: 150px;
+	left: 25%;
+	border-radius: 10px;
+	padding: 10px;
+	
 }

@@ -34,7 +34,7 @@ public class Tissue_specific_genes {
 	 private String tissue_name;
 	 
 	 @Column(length = 60)
-	 private String tissue_specifity;
+	 private String tissue_specificity;
 
 	public Tissue_specific_genes() {
 		super();
@@ -49,7 +49,7 @@ public class Tissue_specific_genes {
 		this.geneName = geneName;
 		this.tau_score = tau_score;
 		this.tissue_name = tissue_name;
-		this.tissue_specifity = tissue_specifity;
+		this.tissue_specificity = tissue_specifity;
 	}
 
 	public int getId() {
@@ -95,17 +95,17 @@ public class Tissue_specific_genes {
 	}
 
 	public String getTissue_specifity() {
-		return tissue_specifity;
+		return tissue_specificity;
 	}
 
 	public void setTissue_specifity(String tissue_specifity) {
-		this.tissue_specifity = tissue_specifity;
+		this.tissue_specificity = tissue_specifity;
 	}
 
 	@Override
 	public String toString() {
 		return "Tissue_specific_genes [id=" + id + ", gene=" + ", geneName=" + geneName + ", tau_score="
-				+ tau_score + ", tissue_name=" + tissue_name + ", tissue_specifity=" + tissue_specifity + "]";
+				+ tau_score + ", tissue_name=" + tissue_name + ", tissue_specificity=" + tissue_specificity + "]";
 	}
 	 
 	 
