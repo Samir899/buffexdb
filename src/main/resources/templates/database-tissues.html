@@ -256,7 +256,8 @@ var sum_of_fpkm = {};
 var geneIds = new Array();
 var expressionKeys = new Array();
 var expressionValues = new Array();
-
+var upperLimit = 1;
+var lowerLimit = 10;
 function plotHeatMap(){
 	var customColorScale = [
 	      [0, 'rgb(122,162,227)'],  // Define color for minimum value
@@ -265,21 +266,23 @@ function plotHeatMap(){
 	var layout = {
 	      title: `Heat Map - ${tissue_selected}`,
 	      xaxis: {
-	        title: 'X - SRA Run ID'
+	        title: 'SRA Run ID'
 	      		},
       		yaxis: {
-        		title: 'Y - Gene Names'
+        		title: 'Gene Names',
+        		
       			},
    			zaxis: {
-        		title: 'Z - FPKM Values'
+        		title: 'FPKM Values'
       			},
+		  hovertemplate: 'abc: %{x}<br>Custom Y Label: %{y}<br>Custom Z Label: %{z}<extra></extra>',
 	      margin: {
 	        t: 50,  // Increase top margin
-	        l: 150,  // Increase left margin
-	        b: 100,
+	        l: 200,  // Increase left margin
+	        b: 250,
 	      },
 		  height: 800,  // Increase height
-	      width: 1000,
+	      width: 2000,
 //	      coloraxis: {
 //	        colorscale: customColorScale  // Apply custom color scale
 //	      }
@@ -302,7 +305,7 @@ function plotHeatMap(){
 
 
 async function perpareHeatMap(lowerLimit=1, upperLimit=10){
-
+	renderLoader();
 	geneIds = []
 	expressionKeys = []
 	expressionValues = []
@@ -311,7 +314,7 @@ async function perpareHeatMap(lowerLimit=1, upperLimit=10){
 	url_1 = `[[@{/${uri}/sorted}]]` + `?lowerLimit=${lowerLimit}&upperLimit=${upperLimit}`
 
 	await $.get(url_1, function(data, status){
-	console.log(data)
+		hideLoader();
 		if(data && data.length !=0){
 			object1 = data[0];
 			for(const [key, value] of Object.entries(object1)){	
@@ -325,6 +328,19 @@ async function perpareHeatMap(lowerLimit=1, upperLimit=10){
 						if(key.toUpperCase() == 'GENEID'){
 							geneIds.push(value.replace('gene-', ""))
 						}
+						if(value instanceof Object){
+							for(const [k, v] of Object.entries(value)){
+								if(k.toUpperCase() == 'GENEID'){
+									geneIds.push(v.replace('gene-', ""))
+									}
+								
+								if(k.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
+
+									if(v>=lowerLimit && v<=upperLimit)
+										expression.push(v);
+								}
+							}
+						}
 						if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 							expression.push(value);
 						}				
@@ -337,7 +353,11 @@ async function perpareHeatMap(lowerLimit=1, upperLimit=10){
 			alert("No Data Found")
 		}
 	
-	})
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
 }
 
 function getTPM(fpkm, key){
@@ -367,25 +387,32 @@ $("#select_tissue").change(function(){
 	tissue_selected = selectedText;
 	
 	$.get(url_1, function(data, status){
+
 		sum_of_fpkm = data;
-		console.log(sum_of_fpkm);	
-	})
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+	});
 
 	$.get(url_2,function(data, status){
-		hideLoader();
-		fetchedData = data;
-		globalData = data;
-		console.log("data fetched")
-		console.log(data)
-		console.log(status)
-		console.log(globalData)
-		renderTableNew();
-		totalRecords = data.length;
-              totalPages = Math.ceil(totalRecords/pageSize);
-           	numberOfRecordsOfLastPage = totalRecords%pageSize;
-		pagination();
-		perpareHeatMap();
-	})
+			hideLoader();
+			fetchedData = data;
+			globalData = data;
+			renderTableNew();
+			totalRecords = data.length;
+	              totalPages = Math.ceil(totalRecords/pageSize);
+	           	numberOfRecordsOfLastPage = totalRecords%pageSize;
+			pagination();
+			perpareHeatMap();
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
+		
+
+
 
 })
 
@@ -426,8 +453,8 @@ function renderTableNew(){
 		else if(key.toUpperCase() == 'ID'){
 			continue;
 		}
-		else if(key.toUpperCase() == 'LIVERB'){
-			object2 = object1.liverB;
+		else if(value instanceof Object){
+			object2 = value;
 			for(const [k, v] of Object.entries(object2)){
 				if(k.toUpperCase().includes("ERR") || k.toUpperCase().includes("SRR")){
 					if(isFpkm){
@@ -468,10 +495,9 @@ function renderTableNew(){
 		dataRow="";
 		object1 = globalData[i];
 
-		
+
 		if(checkedData.has(object1.geneId)){
 			checkbox=`<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.geneId}></div></td>`;
-
 		}
 		else{
 			checkbox=`<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${object1.geneId}></div></td>`;
@@ -484,20 +510,27 @@ function renderTableNew(){
 			else if(key.toUpperCase() == 'ID'){
 				continue;
 			}
-			else if(key.toUpperCase() == 'LIVERB'){
-				object2 = object1.liverB;
+			else if(value instanceof Object){
+				object2 = value
 				for(const [k, v] of Object.entries(object2)){
 					if(k.toUpperCase().includes("ERR") || k.toUpperCase().includes("SRR")){
 						if(isFpkm){
 							td = td + `<td>${v}</td>`;
 						}
 						if(isTpm){
-							td = td + `<td>${v}</td>`;
+						tpm = getTPM(v, k.toUpperCase());
+							td = td + `<td>${tpm}</td>`;
 						}		
 					}
 				   else if(k.toUpperCase() == "GENEID"){
 						geneIdCol = `<td><a style="color:blue;" onclick="showGeneDescription(this)">${v}</a></td>`;
-					
+						
+						if(checkedData.has(v)){
+							checkbox=`<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${v}></div></td>`;
+						}
+						else{
+							checkbox=`<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" value=${i} id=${v}></div></td>`;
+						}
 					}
 					
 				}
@@ -535,6 +568,7 @@ function collapse(){
 
 function closePopup(event){
 	document.getElementById("overlay").style.visibility = "hidden";
+	document.getElementById("overlay").style.zIndex = "-1";
 }
 function closeHeatMap(event){
 	document.getElementById("overlay-heatmap").style.visibility = "hidden";
@@ -543,11 +577,12 @@ function closeHeatMap(event){
 function showGeneDescription(event){
 	
 	let geneId = event.innerHTML.split("(")[0].trim();
-	console.log(geneId)
+
 	headerRow = "";
 	var object1 = {};
 	document.getElementById("popup-desc").innerHTML = "Gene Description";
 	document.getElementById("overlay").style.visibility = "visible";
+	document.getElementById("overlay").style.zIndex = "1";
 	url = "[[@{/gene/api/genes/}]]" + geneId;
 	$.get(url, function(data, status){
 		object1 = data;
@@ -575,6 +610,7 @@ function showSampleDescription(event){
 	runId = event.innerHTML.split("(")[0].trim();
 	document.getElementById("popup-desc").innerHTML = "Sample Description";
 	document.getElementById("overlay").style.visibility = "visible";
+	document.getElementById("overlay").style.zIndex = "1";
 	headerRow = "";
 	var object1 = {};
 	url = "[[@{/sample_description/api/sample_descriptions/}]]" + runId;
@@ -603,17 +639,18 @@ function showSampleDescription(event){
 }
 
 $( document ).ready(function() {
-	
+	renderLoader()
 	url = "[[@{/gene/api/genes/geneId/all}]]"
 	$.get(url, function(data, status){
+		hideLoader();
 		uncheckedData = new Set(data);
 		idSet = data;
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
 	});
-//	url = "[[@{/liver_A/api/liver_As}]]"
-//	$.get(url, function(data, status){
-//		console.log(status);
-//		console.log(data);
-//	})
+
 });
 
 document.getElementById("firstPage").addEventListener("click", function(event){
@@ -725,6 +762,7 @@ function pagination(){
 	$("#pageInfo").append(pageInfo);
 }
 	function validateCheckBox(form){
+	renderLoader()
 		init=0;
 		last=1;
 		totalRecords = 1
@@ -746,12 +784,17 @@ function pagination(){
 	         
 	         url = "[[@{/sample_description/api/sample_descriptions/query/runIds}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
 	         $.get(url, function(data, status){	
+	         		hideLoader();
 	         		idSet = new Set(data);
-         	});
-         	console.log(selectedValue, ":", textValue)
+         	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+			});
+			renderLoader();
 			url = "[[@{/sample_description/api/sample_descriptions/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
 			$.get(url, function(data, status){
-				console.log(status)
+				hideLoader();
 				globalData = data;
 				if(data.length==0){
 					pageInfo = `No Records found`
@@ -772,7 +815,11 @@ function pagination(){
 					pagination();
 					renderTable(globalData)
 				}
-			  });	
+			  }).fail(function(jqXHR, textStatus, errorThrown) {
+	    		// Handle errors
+	    		hideLoader();
+	    		alert('There was a problem with the request');
+				});	
          }
 		return false;
 	}
@@ -851,6 +898,7 @@ function checkBox_expLevel(checkbox){
  }
  
  function fetchGenes(btn){
+ 	renderLoader();
  	payload_1 = [...checkedData]
  	payload_2 = payload_1.splice(0, Math.floor(payload_1.length/2));
  	resposeData_1 = [];
@@ -858,11 +906,14 @@ function checkBox_expLevel(checkbox){
  	url = "[[@{/sample_description/api/sample_descriptions/download/runIds}]]"
  	params = {runIds: payload_1};
  	$.post(url, params, function(data, status){
+ 		hideLoader();
  		responseData_1 = data;
  		index = responseData_1.indexOf("\n")
         responseData_1 = responseData_1.substring(index+1, responseData_1.length);
  		params = {runIds: payload_2};
+ 		renderLoader();
  		$.post(url, params, function(data, status){
+ 		hideLoader();
 	 		responseData_2 = data;
 	 		responseData = responseData_2.concat(responseData_1);
 	 		const blob = new Blob([responseData], { type: 'text/csv' });
@@ -871,8 +922,16 @@ function checkBox_expLevel(checkbox){
 		    a.setAttribute('href', urls);
 		    a.setAttribute('download', 'sample_description.csv'); 
 		    a.click();
-	     	});
- 	});
+	     	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+			});
+ 		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
  }
 
 </script>
