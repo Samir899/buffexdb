@@ -97,11 +97,11 @@
 			<div class="p-2">
 			<div class="row w-100" style="height:100px">
 			<div class="col">
-			<form class="" id="queryForm" method="post" onSubmit="return validateCheckBox(this);">
+			<form class="" id="queryForm" method='GET'  onsubmit="event.preventDefault()">
 				<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
 				<div class="input-group mb-2">
 				  <input required type="text" class="form-control" name="searchText" placeholder="Coding Label, Chromosome" aria-label="Recipient's username" id="searchText">
-				  <button class="btn btn-outline-secondary" type="submit" id="search">Search</button>
+				  <button class="btn btn-outline-secondary" type="submit" onclick="validateCheckBox(this)" id="search">Search</button>
 				</div>
 				<div class="align-middle mb-2">
 				   <input class="form-check-input" type="radio" name="searchParam" id="coding_label" value="coding_label">
@@ -434,7 +434,7 @@ function pagination(){
 	}
 	$("#pageInfo").append(pageInfo);
 }
-async function validateCheckBox(form){
+async function validateCheckBox(event){
 	renderLoader();
 	init=0;
 	last=1;
@@ -450,49 +450,51 @@ async function validateCheckBox(form){
 		textValue = "%2B";
 	}
 	if(!selectedValue){
-           $("#radio-error").text("Please select a search parameter");   
+           $("#radio-error").text("Please select a search parameter"); 
+           console.log("Eror")  
            } 
-           else {  
-           $("#radio-error").empty();
-           
-           url = "[[@{/gene/api/genes/query/geneIds}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
-           await $.get(url, function(data, status){	
-           		geneIdSet = new Set(data);
-           	}).fail(function(jqXHR, textStatus, errorThrown) {
-    		// Handle errors
-    		hideLoader();
-    		alert('There was a problem with the request');
-			});
-           
-		url = "[[@{/gene/api/genes/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
-		await $.get(url, function(data, status){
-			hideLoader();
-			globalData = data;
-			if(data.length==0){
-				pageInfo = `No Records found`
-				init=0;
-				last=0;
-				$("#pageInfo").empty();
-				$("#pageInfo").append(pageInfo);
-			}
-			else{
-				init=0;
-				last=pageSize;
-				if(globalData.length<pageSize){
-					last = globalData.length;
-				}
-				totalRecords = globalData.length;
-				totalPages = Math.ceil(globalData.length/pageSize);
-				numberOfRecordsOfLastPage = totalRecords%pageSize;
-				pagination();
-				renderTableNew();
-			}
-		  }).fail(function(jqXHR, textStatus, errorThrown) {
-    		// Handle errors
-    		hideLoader();
-    		alert('There was a problem with the request');
-		});	
-       }
+     else {  
+         $("#radio-error").empty();
+         
+         url = "[[@{/gene/api/genes/query/geneIds}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+         await $.get(url, function(data, status){	
+         		geneIdSet = new Set(data);
+         		
+         	}).fail(function(jqXHR, textStatus, errorThrown) {
+  		// Handle errors
+  		hideLoader();
+  		alert('There was a problem with the request');
+	});
+         
+url = "[[@{/gene/api/genes/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+await $.get(url, function(data, status){
+	hideLoader();
+	globalData = data;
+	if(data.length==0){
+		pageInfo = `No Records found`
+		init=0;
+		last=0;
+		$("#pageInfo").empty();
+		$("#pageInfo").append(pageInfo);
+	}
+	else{
+		init=0;
+		last=pageSize;
+		if(globalData.length<pageSize){
+			last = globalData.length;
+		}
+		totalRecords = globalData.length;
+		totalPages = Math.ceil(globalData.length/pageSize);
+		numberOfRecordsOfLastPage = totalRecords%pageSize;
+		pagination();
+		renderTableNew();
+	}
+  }).fail(function(jqXHR, textStatus, errorThrown) {
+  		// Handle errors
+  		hideLoader();
+  		alert('There was a problem with the request');
+});	
+     }
     hideLoader();
 	return false;
 }
