@@ -145,10 +145,12 @@
 					</div>
 				</div>				
 			</div>
-			
-			<div class="m-2">
-					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
-				</div>
+		<div class="p-2" style="background-color:rgb(38,80,115);color:white;">
+			<h3 class="text-center">Sample Description</h3>
+		</div>
+		<div class="m-2">
+			<button type="button" class="btn btn-success" onclick="arrayOfObjectsToCSV('sample_description')">Download Selected</button>		
+		</div>
  		<div class="overflow-auto text-nowrap p-2">
  		<table class="table table-striped border table-bordered" id="genes">
 			  <thead class="table-dark">
@@ -203,6 +205,60 @@ var checkedData = new Set();
 var uncheckedData = new Set();
 var idSet = new Set();
 var isCheckAll = false;
+
+function filterArrayByProperty(array) {
+    return array.filter(item => checkedData.has(item.run));
+}
+
+function arrayOfObjectsToCSV(filename = 'data.csv') {
+
+	try{
+		renderLoader()
+		let dataArray = []
+	
+		if(isCheckAll){
+			dataArray = globalData;
+		}
+		else{
+			dataArray = filterArrayByProperty(globalData)
+		}
+	    if (dataArray.length === 0) {
+	    	hideLoader()
+	       	alert("Select atleast one row to download")
+	        return;
+	    }
+	
+	    const headers = Object.keys(dataArray[0]);
+	    
+	    const rows = dataArray.map(obj => headers.map(header => `"${obj[header]}"`));
+
+	    rows.unshift(headers.map(header => `"${header}"`));
+	    
+	    const csvContent = rows.map(row => row.join(",")).join("\n");
+	
+	    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+	
+	    const link = document.createElement("a");
+	    if (link.download !== undefined) { // feature detection
+	        const url = URL.createObjectURL(blob);
+	        link.setAttribute("href", url);
+	
+	        link.setAttribute("download", filename);
+	
+	        document.body.appendChild(link);
+
+	        link.click();
+	
+	        document.body.removeChild(link);
+	    }
+	    hideLoader();
+	}catch(e){
+		hideLoader()
+		alert("Something went wrong. Please contact system admin")
+	}
+	
+}
+
 
 document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
  	$("#listElements").empty();  
