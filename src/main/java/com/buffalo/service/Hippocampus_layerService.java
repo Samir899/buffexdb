@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Hippocampus_layer;
 import com.buffalo.repo.GeneRepoPagingAndSorting;
@@ -48,6 +49,10 @@ public class Hippocampus_layerService {
 		return hippocampus_layerRepo.getSum();
 	}
 	
+	public List<Hippocampus_layer> getHippocampus_layerSorted(double lowerLimit, double upperLimit){
+		return (List<Hippocampus_layer>) hippocampus_layerRepo.getHippocampus_layerSorted(lowerLimit, upperLimit);
+
+	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);
 //	}

@@ -18,9 +18,8 @@ public class Renal_medulla1 {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+//	 @Column(name = "geneId")
+//	 String geneId;
 	 
 	 @Column(name="ERR2352642")
 	 private double ERR2352642;
@@ -321,13 +320,17 @@ public class Renal_medulla1 {
 
 	 @Column(name="ERR2354510")
 	 private double ERR2354510;
+	 
+	 @ManyToOne
+	 @JoinColumn(name = "geneId")
+	 private Renal_medulla2 renal_medulla2;
 
 	public Renal_medulla1() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Renal_medulla1(int id, Genes gene, double eRR2352642, double eRR2352643, double eRR2352644,
+	public Renal_medulla1(Renal_medulla2 renal_medulla2, int id, String geneId, double eRR2352642, double eRR2352643, double eRR2352644,
 			double eRR2352645, double eRR2352646, double eRR2352647, double eRR2352648, double eRR2352649,
 			double eRR2352650, double eRR2352651, double eRR2352652, double eRR2352653, double eRR2352654,
 			double eRR2352655, double eRR2352656, double eRR2352657, double eRR2352658, double eRR2352659,
@@ -350,7 +353,8 @@ public class Renal_medulla1 {
 			double eRR2354509, double eRR2354510) {
 		super();
 		this.id = id;
-		this.gene = gene;
+//		this.geneId = geneId;
+		this.renal_medulla2 = renal_medulla2;
 		ERR2352642 = eRR2352642;
 		ERR2352643 = eRR2352643;
 		ERR2352644 = eRR2352644;
@@ -461,14 +465,21 @@ public class Renal_medulla1 {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
-	}
+//	public String getGeneId() {
+//		return geneId;
+//	}
+//
+//	public void setGeneId(String geneId) {
+//		this.geneId = geneId;
+//	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public Renal_medulla2 getRenal_medulla2() {
+		return this.renal_medulla2;
 	}
-
+	public void setRenal_medulla2(Renal_medulla2 renal_medulla2) {
+		this.renal_medulla2 = renal_medulla2;
+	}
+		
 	public double getERR2352642() {
 		return ERR2352642;
 	}
@@ -1271,7 +1282,7 @@ public class Renal_medulla1 {
 
 	@Override
 	public String toString() {
-		return "Renal_medulla1 [id=" + id + ", gene=" + gene + ", ERR2352642=" + ERR2352642 + ", ERR2352643="
+		return "Renal_medulla1 [id=" + id + ", renal_medulla2=" + renal_medulla2 + ", ERR2352642=" + ERR2352642 + ", ERR2352643="
 				+ ERR2352643 + ", ERR2352644=" + ERR2352644 + ", ERR2352645=" + ERR2352645 + ", ERR2352646="
 				+ ERR2352646 + ", ERR2352647=" + ERR2352647 + ", ERR2352648=" + ERR2352648 + ", ERR2352649="
 				+ ERR2352649 + ", ERR2352650=" + ERR2352650 + ", ERR2352651=" + ERR2352651 + ", ERR2352652="

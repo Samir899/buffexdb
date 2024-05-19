@@ -9,11 +9,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Kidney;
 
 public interface KidneyRepository extends CrudRepository<Kidney, Integer>{
+	
+	@Query("SELECT u FROM Kidney u WHERE u.ERR315644>=:lowerLimit and u.SRR15721740>=:lowerLimit and u.ERR315644<=:upperLimit and u.SRR15721740<=:upperLimit "
+			+ "ORDER BY ERR315644,SRR15721740 LIMIT 100")
+	public List<Kidney> getKidneySorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

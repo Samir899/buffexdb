@@ -25,12 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.buffalo.entity.Brain;
-import com.buffalo.entity.GeneList;
-import com.buffalo.entity.Genes;
+
 import com.buffalo.entity.Reticulum_B;
-import com.buffalo.service.BrainService;
-import com.buffalo.service.GeneService;
 import com.buffalo.service.Reticulum_BService;
 import com.buffalo.tables.ListingTables;
 import com.buffalo.utilities.Utilities;
@@ -59,6 +55,11 @@ public class Reticulum_BAPI {
     	return reticulum_BService.getFPKMSum();
     }
     
+    @GetMapping("/reticulum_Bs/sorted")  
+    public List<Reticulum_B> getReticulum_BSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return reticulum_BService.getReticulum_BSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

@@ -18,9 +18,8 @@ public class PB_lymphocyte {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR7589954")
 	 private double SRR7589954;
@@ -81,13 +80,13 @@ public class PB_lymphocyte {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PB_lymphocyte(int id, Genes gene, double sRR7589954, double sRR7589955, double sRR7589956, double sRR7589957,
+	public PB_lymphocyte(int id, String geneId, double sRR7589954, double sRR7589955, double sRR7589956, double sRR7589957,
 			double sRR7589958, double sRR7589959, double sRR7589960, double sRR7589961, double sRR7589962,
 			double sRR7589963, double sRR7589964, double sRR7589965, double sRR7589966, double sRR7589967,
 			double sRR7589968, double sRR7589969, double sRR7589970, double sRR7589971) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR7589954 = sRR7589954;
 		SRR7589955 = sRR7589955;
 		SRR7589956 = sRR7589956;
@@ -116,12 +115,12 @@ public class PB_lymphocyte {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR7589954() {
@@ -270,7 +269,7 @@ public class PB_lymphocyte {
 
 	@Override
 	public String toString() {
-		return "PB_lymphocyte [id=" + id + ", gene=" + gene + ", SRR7589954=" + SRR7589954 + ", SRR7589955="
+		return "PB_lymphocyte [id=" + id + ", geneId=" + geneId + ", SRR7589954=" + SRR7589954 + ", SRR7589955="
 				+ SRR7589955 + ", SRR7589956=" + SRR7589956 + ", SRR7589957=" + SRR7589957 + ", SRR7589958="
 				+ SRR7589958 + ", SRR7589959=" + SRR7589959 + ", SRR7589960=" + SRR7589960 + ", SRR7589961="
 				+ SRR7589961 + ", SRR7589962=" + SRR7589962 + ", SRR7589963=" + SRR7589963 + ", SRR7589964="

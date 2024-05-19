@@ -9,11 +9,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Hepatic_lymph_node;
 
 public interface Hepatic_lymph_nodeRepository extends CrudRepository<Hepatic_lymph_node, Integer>{
+	
+	@Query("SELECT u FROM Hepatic_lymph_node u WHERE u.SRR7540873>=:lowerLimit and u.SRR7540874>=:lowerLimit and u.SRR7540875>=:lowerLimit and u.SRR7540876>=:lowerLimit and u.SRR7540877>=:lowerLimit and u.SRR7540878>=:lowerLimit and u.SRR7540879>=:lowerLimit and u.SRR7540880>=:lowerLimit and u.SRR7540881>=:lowerLimit and u.SRR7540882>=:lowerLimit and u.SRR7540883>=:lowerLimit and u.SRR7540884>=:lowerLimit and u.SRR7540885>=:lowerLimit and u.SRR7540886>=:lowerLimit and u.SRR7540887>=:lowerLimit and u.SRR7540888>=:lowerLimit and u.SRR7540889>=:lowerLimit and u.SRR7540890>=:lowerLimit and "
+			+ "u.SRR7540873<=:upperLimit and u.SRR7540874<=:upperLimit and u.SRR7540875<=:upperLimit and u.SRR7540876<=:upperLimit and u.SRR7540877<=:upperLimit and u.SRR7540878<=:upperLimit and u.SRR7540879<=:upperLimit and u.SRR7540880<=:upperLimit and u.SRR7540881<=:upperLimit and u.SRR7540882<=:upperLimit and u.SRR7540883<=:upperLimit and u.SRR7540884<=:upperLimit and u.SRR7540885<=:upperLimit and u.SRR7540886<=:upperLimit and u.SRR7540887<=:upperLimit and u.SRR7540888<=:upperLimit and u.SRR7540889<=:upperLimit and u.SRR7540890<=:upperLimit "
+			+ "ORDER BY SRR7540873, SRR7540874, SRR7540875, SRR7540876, SRR7540877, SRR7540878, SRR7540879, SRR7540880, SRR7540881, SRR7540882, SRR7540883, SRR7540884, SRR7540885, SRR7540886, SRR7540887, SRR7540888, SRR7540889, SRR7540890 LIMIT 100")
+	public List<Hepatic_lymph_node> getHepatic_lymph_nodeSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

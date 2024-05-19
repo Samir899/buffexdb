@@ -18,9 +18,8 @@ public class Pancreas {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352908")
 	 private double ERR2352908;
@@ -123,7 +122,7 @@ public class Pancreas {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Pancreas(int id, Genes gene, double eRR2352908, double eRR2352909, double eRR2352910, double eRR2352911,
+	public Pancreas(int id, String geneId, double eRR2352908, double eRR2352909, double eRR2352910, double eRR2352911,
 			double eRR2352912, double eRR2352913, double eRR2352914, double eRR2353406, double eRR2353407,
 			double eRR2353408, double eRR2353409, double eRR2353410, double eRR2353411, double eRR2353412,
 			double eRR2353413, double eRR2353414, double eRR2353750, double eRR2353751, double eRR2353752,
@@ -132,7 +131,7 @@ public class Pancreas {
 			double eRR2354240, double eRR2354241, double eRR2354242) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352908 = eRR2352908;
 		ERR2352909 = eRR2352909;
 		ERR2352910 = eRR2352910;
@@ -175,12 +174,12 @@ public class Pancreas {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352908() {
@@ -441,7 +440,7 @@ public class Pancreas {
 
 	@Override
 	public String toString() {
-		return "Pancreas [id=" + id + ", gene=" + gene + ", ERR2352908=" + ERR2352908 + ", ERR2352909=" + ERR2352909
+		return "Pancreas [id=" + id + ", geneId=" + geneId + ", ERR2352908=" + ERR2352908 + ", ERR2352909=" + ERR2352909
 				+ ", ERR2352910=" + ERR2352910 + ", ERR2352911=" + ERR2352911 + ", ERR2352912=" + ERR2352912
 				+ ", ERR2352913=" + ERR2352913 + ", ERR2352914=" + ERR2352914 + ", ERR2353406=" + ERR2353406
 				+ ", ERR2353407=" + ERR2353407 + ", ERR2353408=" + ERR2353408 + ", ERR2353409=" + ERR2353409

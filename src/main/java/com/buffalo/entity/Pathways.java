@@ -34,8 +34,8 @@ public class Pathways {
 	 @Column(length = 20)
      private String no_of_pathways;
 	 
-	 @Column(length = 600)
-     private String pathways;
+//	 @Column(length = 600)
+//     private String pathways;
 	 
 	 @Column(length = 600)
      private String pathway_id;
@@ -65,7 +65,7 @@ public class Pathways {
 	}
 
 	public Pathways(int id, String geneId, String gene_symbol, String no_of_EC, String no_of_KO, String no_of_pathways,
-			String pathways, String pathway_id, String uniprot_proteins, String enzyme_code, String kegg_ortholog,
+			String pathway_id, String uniprot_proteins, String enzyme_code, String kegg_ortholog,
 			String gene_name, String panther_family, String panther_protein_class, String coding_label) {
 		super();
 		this.id = id;
@@ -75,7 +75,7 @@ public class Pathways {
 		this.no_of_EC = no_of_EC;
 		this.no_of_KO = no_of_KO;
 		this.no_of_pathways = no_of_pathways;
-		this.pathways = pathways;
+//		this.pathways = pathways;
 		this.pathway_id = pathway_id;
 		this.uniprot_proteins = uniprot_proteins;
 		this.enzyme_code = enzyme_code;
@@ -141,13 +141,13 @@ public class Pathways {
 		this.no_of_pathways = no_of_pathways;
 	}
 
-	public String getPathways() {
-		return pathways;
-	}
-
-	public void setPathways(String pathways) {
-		this.pathways = pathways;
-	}
+//	public String getPathways() {
+//		return pathways;
+//	}
+//
+//	public void setPathways(String pathways) {
+//		this.pathways = pathways;
+//	}
 
 	public String getPathway_id() {
 		return pathway_id;
@@ -208,8 +208,7 @@ public class Pathways {
 	@Override
 	public String toString() {
 		return "Pathways [id=" + id + ", geneId=" + geneId + ", coding_label=" + coding_label + ", gene_symbol=" + gene_symbol + ", no_of_EC=" + no_of_EC
-				+ ", no_of_KO=" + no_of_KO + ", no_of_pathways=" + no_of_pathways + ", pathways=" + pathways
-				+ ", pathway_id=" + pathway_id + ", uniprot_proteins=" + uniprot_proteins + ", enzyme_code="
+				+ ", no_of_KO=" + no_of_KO + ", no_of_pathways=" + no_of_pathways + ", pathway_id=" + pathway_id + ", uniprot_proteins=" + uniprot_proteins + ", enzyme_code="
 				+ enzyme_code + ", kegg_ortholog=" + kegg_ortholog + ", gene_name=" + gene_name + ", panther_family="
 				+ panther_family + ", panther_protein_class=" + panther_protein_class + "]";
 	}

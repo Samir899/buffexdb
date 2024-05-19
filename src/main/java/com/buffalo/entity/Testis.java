@@ -18,9 +18,8 @@ public class Testis {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352738")
 	 private double ERR2352738;
@@ -213,7 +212,7 @@ public class Testis {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Testis(int id, Genes gene, double eRR2352738, double eRR2352739, double eRR2352740, double eRR2352741,
+	public Testis(int id, String geneId, double eRR2352738, double eRR2352739, double eRR2352740, double eRR2352741,
 			double eRR2352742, double eRR2352743, double eRR2352744, double eRR2352745, double eRR2352746,
 			double eRR2352747, double eRR2352748, double eRR2352749, double eRR2352750, double eRR2352751,
 			double eRR2352752, double eRR2352753, double eRR2352754, double eRR2352755, double eRR2352756,
@@ -228,7 +227,7 @@ public class Testis {
 			double sRR17169792, double sRR17169793, double sRR17169794) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352738 = eRR2352738;
 		ERR2352739 = eRR2352739;
 		ERR2352740 = eRR2352740;
@@ -301,12 +300,12 @@ public class Testis {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352738() {
@@ -807,7 +806,7 @@ public class Testis {
 
 	@Override
 	public String toString() {
-		return "Testis [id=" + id + ", gene=" + gene + ", ERR2352738=" + ERR2352738 + ", ERR2352739=" + ERR2352739
+		return "Testis [id=" + id + ", geneId=" + geneId + ", ERR2352738=" + ERR2352738 + ", ERR2352739=" + ERR2352739
 				+ ", ERR2352740=" + ERR2352740 + ", ERR2352741=" + ERR2352741 + ", ERR2352742=" + ERR2352742
 				+ ", ERR2352743=" + ERR2352743 + ", ERR2352744=" + ERR2352744 + ", ERR2352745=" + ERR2352745
 				+ ", ERR2352746=" + ERR2352746 + ", ERR2352747=" + ERR2352747 + ", ERR2352748=" + ERR2352748

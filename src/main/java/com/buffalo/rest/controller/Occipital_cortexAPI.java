@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Occipital_cortex;
 
 import com.buffalo.service.Occipital_cortexService;
@@ -56,7 +56,12 @@ public class Occipital_cortexAPI {
     	return occipital_cortexService.getFPKMSum();
     }
     
-    
+    @GetMapping("/occipital_cortexs/sorted")  
+    public List<Occipital_cortex> getOccipital_cortexSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return occipital_cortexService.getOccipital_cortexSorted(lowerLimit, upperLimit);
+    }
+
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

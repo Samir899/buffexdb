@@ -18,9 +18,8 @@ public class Skeletal_muscle {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR24057916")
 	 private double SRR24057916;
@@ -39,11 +38,11 @@ public class Skeletal_muscle {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Skeletal_muscle(int id, Genes gene, double sRR24057916, double sRR24057917, double sRR24057918,
+	public Skeletal_muscle(int id, String geneId, double sRR24057916, double sRR24057917, double sRR24057918,
 			double sRR24057920) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR24057916 = sRR24057916;
 		SRR24057917 = sRR24057917;
 		SRR24057918 = sRR24057918;
@@ -58,12 +57,12 @@ public class Skeletal_muscle {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR24057916() {
@@ -100,7 +99,7 @@ public class Skeletal_muscle {
 
 	@Override
 	public String toString() {
-		return "Skeletal_muscle [id=" + id + ", gene=" + gene + ", SRR24057916=" + SRR24057916 + ", SRR24057917="
+		return "Skeletal_muscle [id=" + id + ", geneId=" + geneId + ", SRR24057916=" + SRR24057916 + ", SRR24057917="
 				+ SRR24057917 + ", SRR24057918=" + SRR24057918 + ", SRR24057920=" + SRR24057920 + "]";
 	}
 }

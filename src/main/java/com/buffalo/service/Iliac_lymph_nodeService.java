@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Iliac_lymph_node;
 import com.buffalo.entity.Intestine;
@@ -46,6 +47,11 @@ public class Iliac_lymph_nodeService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return iliac_lymph_nodeRepo.getSum();
+	}
+	
+	public List<Iliac_lymph_node> getIliac_lymph_nodeSorted(double lowerLimit, double upperLimit){
+		return (List<Iliac_lymph_node>) iliac_lymph_nodeRepo.getIliac_lymph_nodeSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return intestineRepo.getGeneByGeneId(geneId);

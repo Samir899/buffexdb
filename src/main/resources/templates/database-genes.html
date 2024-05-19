@@ -27,7 +27,7 @@
 								<a class="navbar-brand" th:href="@{/}"> <img th:src="@{/images/icar.png}" height="100px" width="100px" class='spinning'/>
 								</a>
 							</div>
-							<h1 class="mx-5 px-5">BUFFEXDB</h1>
+							<h1 class="mx-5 px-5">BuFFExDB</h1>
 								
 						</nav>
 					</div>
@@ -57,9 +57,7 @@
 							<a class="nav-link fs-5" th:href="@{/}">Home</a>
 						</li>
 						
-						<li class="nav-item">
-							<a class="nav-link fs-5" th:href="@{/about}">Teams</a>
-						</li>
+						
 						
 						<li class="nav-item text-white fs-5">
 							 <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
@@ -80,6 +78,9 @@
 							  </div>
 							</li>
 						<li class="nav-item">
+							<a class="nav-link fs-5" th:href="@{/about}">Team</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link fs-5" th:href="@{/downloads}">Downloads</a>
 						</li>
 					</ul>					
@@ -88,8 +89,8 @@
 			</nav>
 		</div>
 		
-		<div class="overflow-hidden" style="height:500px">
-		<img  class="img-fluid w-100" th:src="@{/images/buff_ai_1.jpg}" />
+		<div class="overflow-hidden" style="height:300px">
+		<img  class="img-fluid w-100" th:src="@{/images/gene_page.jpeg}" />
 		
 			
 		</div>
@@ -233,7 +234,9 @@ function renderTableNew(){
 		else if(key.toUpperCase() == 'ID'){
 			continue;
 		}
-			
+		else if(key.toUpperCase() == 'GENENAME'){
+			td = `<td>GENE NAME</td>`;
+		}	
 		else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 	
 			if(isFpkm){
@@ -244,7 +247,7 @@ function renderTableNew(){
 			}		
 		}
 		else{
-			td = `<td>${key.toUpperCase()}</td>`;
+			td = `<td>${key.toUpperCase().replace('_',' ')}</td>`;
 		}
 		headerRow = headerRow + td;
 		}
@@ -270,6 +273,9 @@ function renderTableNew(){
 			}
 			else if(key.toUpperCase() == 'ID'){
 				continue;
+			}	
+			else if(key.toUpperCase() == 'GENENAME'){
+				td = `<td><a href="https://www.ncbi.nlm.nih.gov/datasets/gene/GCF_019923935.1/?search=${value}" target="_blank">${value}</a></td>`;
 			}				
 			else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 				

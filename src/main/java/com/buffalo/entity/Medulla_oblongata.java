@@ -18,9 +18,8 @@ public class Medulla_oblongata {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR15721743")
 	 private double SRR15721743;
@@ -30,10 +29,10 @@ public class Medulla_oblongata {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Medulla_oblongata(int id, Genes gene, double sRR15721743) {
+	public Medulla_oblongata(int id, String geneId, double sRR15721743) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR15721743 = sRR15721743;
 	}
 
@@ -45,12 +44,12 @@ public class Medulla_oblongata {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR15721743() {
@@ -63,7 +62,7 @@ public class Medulla_oblongata {
 
 	@Override
 	public String toString() {
-		return "Medulla_oblongata [id=" + id + ", gene=" + gene + ", SRR15721743=" + SRR15721743 + "]";
+		return "Medulla_oblongata [id=" + id + ", geneId=" + geneId + ", SRR15721743=" + SRR15721743 + "]";
 	}
 	 
 	 

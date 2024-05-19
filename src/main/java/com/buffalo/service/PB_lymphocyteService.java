@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,14 @@ public class PB_lymphocyteService {
 	
 	public List<PB_lymphocyte> listAllPB_lymphocyte(){
 		return (List<PB_lymphocyte>) pB_lymphocyteRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return pB_lymphocyteRepo.getSum();
+	}
+	public List<PB_lymphocyte> getPB_lymphocyteSorted(double lowerLimit, double upperLimit){
+		return (List<PB_lymphocyte>) pB_lymphocyteRepo.getPB_lymphocyteSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

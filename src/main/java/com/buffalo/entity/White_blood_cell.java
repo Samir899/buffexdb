@@ -18,9 +18,8 @@ public class White_blood_cell {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR315624") 
 	 private double ERR315624;
@@ -30,10 +29,10 @@ public class White_blood_cell {
 		// TODO Auto-generated constructor stub
 	}
 
-	public White_blood_cell(int id, Genes gene, double eRR315624) {
+	public White_blood_cell(int id, String geneId, double eRR315624) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR315624 = eRR315624;
 	}
 
@@ -45,12 +44,12 @@ public class White_blood_cell {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR315624() {
@@ -63,7 +62,7 @@ public class White_blood_cell {
 
 	@Override
 	public String toString() {
-		return "White_blood_cell [id=" + id + ", gene=" + gene + ", ERR315624=" + ERR315624 + "]";
+		return "White_blood_cell [id=" + id + ", geneId=" + geneId + ", ERR315624=" + ERR315624 + "]";
 	}
 	 
 	 

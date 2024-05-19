@@ -18,9 +18,8 @@ public class Occipital_cortex {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2353351")
 	 private double ERR2353351;
@@ -165,7 +164,7 @@ public class Occipital_cortex {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Occipital_cortex(int id, Genes gene, double eRR2353351, double eRR2353352, double eRR2353353,
+	public Occipital_cortex(int id, String geneId, double eRR2353351, double eRR2353352, double eRR2353353,
 			double eRR2353354, double eRR2353355, double eRR2353356, double eRR2353357, double eRR2353358,
 			double eRR2353359, double eRR2353360, double eRR2353361, double eRR2353362, double eRR2353363,
 			double eRR2353364, double eRR2353365, double eRR2353366, double eRR2353367, double eRR2353368,
@@ -177,7 +176,7 @@ public class Occipital_cortex {
 			double eRR2354222, double eRR2354223, double eRR2354224) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2353351 = eRR2353351;
 		ERR2353352 = eRR2353352;
 		ERR2353353 = eRR2353353;
@@ -234,12 +233,12 @@ public class Occipital_cortex {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2353351() {
@@ -612,7 +611,7 @@ public class Occipital_cortex {
 
 	@Override
 	public String toString() {
-		return "Occipital_cortex [id=" + id + ", gene=" + gene + ", ERR2353351=" + ERR2353351 + ", ERR2353352="
+		return "Occipital_cortex [id=" + id + ", geneId=" + geneId + ", ERR2353351=" + ERR2353351 + ", ERR2353352="
 				+ ERR2353352 + ", ERR2353353=" + ERR2353353 + ", ERR2353354=" + ERR2353354 + ", ERR2353355="
 				+ ERR2353355 + ", ERR2353356=" + ERR2353356 + ", ERR2353357=" + ERR2353357 + ", ERR2353358="
 				+ ERR2353358 + ", ERR2353359=" + ERR2353359 + ", ERR2353360=" + ERR2353360 + ", ERR2353361="

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Occipital_cortex;
 
 import com.buffalo.repo.Occipital_cortexRepository;
@@ -40,6 +41,11 @@ public class Occipital_cortexService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return occipital_cortexRepo.getSum();
+	}
+	
+	public List<Occipital_cortex> getOccipital_cortexSorted(double lowerLimit, double upperLimit){
+		return (List<Occipital_cortex>) occipital_cortexRepo.getOccipital_cortexSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

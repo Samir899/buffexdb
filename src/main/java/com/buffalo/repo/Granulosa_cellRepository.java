@@ -9,10 +9,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Granulosa_cell;
 
 public interface Granulosa_cellRepository extends CrudRepository<Granulosa_cell, Integer>{
+	
+	@Query("SELECT u FROM Granulosa_cell u WHERE u.SRR10863210>=:lowerLimit and u.SRR10863211>=:lowerLimit and u.SRR10863212>=:lowerLimit and u.SRR10863213>=:lowerLimit and u.SRR10863214>=:lowerLimit and u.SRR10863215>=:lowerLimit and u.SRR10863216>=:lowerLimit and u.SRR10863217>=:lowerLimit and u.SRR10863218>=:lowerLimit and u.SRR10863219>=:lowerLimit and "
+			+ "u.SRR10863210<=:upperLimit and u.SRR10863211<=:upperLimit and u.SRR10863212<=:upperLimit and u.SRR10863213<=:upperLimit and u.SRR10863214<=:upperLimit and u.SRR10863215<=:upperLimit and u.SRR10863216<=:upperLimit and u.SRR10863217<=:upperLimit and u.SRR10863218<=:upperLimit and u.SRR10863219<=:upperLimit "
+			+ "ORDER BY SRR10863210, SRR10863211, SRR10863212, SRR10863213, SRR10863214, SRR10863215, SRR10863216, SRR10863217, SRR10863218, SRR10863219 LIMIT 100")
+	public List<Granulosa_cell> getGranulosa_cellSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

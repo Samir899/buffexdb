@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -59,6 +60,11 @@ public class White_blood_cellAPI {
     	return white_blood_cellService.getFPKMSum();
     }
     
+    @GetMapping("/white_blood_cells/sorted")  
+    public List<White_blood_cell> getWhite_blood_cellSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return white_blood_cellService.getWhite_blood_cellSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

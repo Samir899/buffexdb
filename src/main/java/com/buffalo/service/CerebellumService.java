@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Cerebellum;
 import com.buffalo.entity.Genes;
@@ -48,6 +49,11 @@ public class CerebellumService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return cerebellumRepo.getSum();
+	}
+	
+	public List<Cerebellum> getCerebellumSorted(double lowerLimit, double upperLimit){
+		return (List<Cerebellum>) cerebellumRepo.getCerebellumSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

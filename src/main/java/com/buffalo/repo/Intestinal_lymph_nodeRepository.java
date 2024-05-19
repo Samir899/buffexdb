@@ -17,7 +17,7 @@ import com.buffalo.entity.Intestinal_lymph_node;
 public interface Intestinal_lymph_nodeRepository extends CrudRepository<Intestinal_lymph_node, Integer>{
 
 	@Query("SELECT u FROM Intestinal_lymph_node u WHERE u.SRR24057892>=:lowerLimit and u.SRR24057893>=:lowerLimit and u.SRR24057961>=:lowerLimit and u.SRR24057962>=:lowerLimit and u.SRR24057892<=:upperLimit and u.SRR24057893<=:upperLimit and u.SRR24057961<=:upperLimit and u.SRR24057962<=:upperLimit "
-			+ " ORDER BY SRR24057892, SRR24057893, SRR24057961, SRR24057962 LIMIT 50")
+			+ " ORDER BY SRR24057892, SRR24057893, SRR24057961, SRR24057962 LIMIT 100")
 	public List<Intestinal_lymph_node> getIntestinal_lymph_nodeSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 //	
 //	@Query("SELECT u FROM Genes u WHERE u.geneName = :geneName")

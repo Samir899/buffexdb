@@ -18,9 +18,8 @@ public class Pineal_gland {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR15721755")
 	 private double SRR15721755;
@@ -30,10 +29,10 @@ public class Pineal_gland {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Pineal_gland(int id, Genes gene, double sRR15721755) {
+	public Pineal_gland(int id, String geneId, double sRR15721755) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR15721755 = sRR15721755;
 	}
 
@@ -45,12 +44,12 @@ public class Pineal_gland {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR15721755() {
@@ -63,7 +62,7 @@ public class Pineal_gland {
 
 	@Override
 	public String toString() {
-		return "Pineal_gland [id=" + id + ", gene=" + gene + ", SRR15721755=" + SRR15721755 + "]";
+		return "Pineal_gland [id=" + id + ", geneId=" + geneId + ", SRR15721755=" + SRR15721755 + "]";
 	}
 	 
 	 

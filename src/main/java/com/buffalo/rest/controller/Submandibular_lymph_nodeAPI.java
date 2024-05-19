@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -52,6 +54,18 @@ public class Submandibular_lymph_nodeAPI {
     	return submandibular_lymph_nodeService.listAllSubmandibular_lymph_node();
     }
     
+    @GetMapping("/submandibular_lymph_nodes/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return submandibular_lymph_nodeService.getFPKMSum();
+    }
+    
+
+    @GetMapping("/submandibular_lymph_nodes/sorted")  
+    public List<Submandibular_lymph_node> getSubmandibular_lymph_nodeSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return submandibular_lymph_nodeService.getSubmandibular_lymph_nodeSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

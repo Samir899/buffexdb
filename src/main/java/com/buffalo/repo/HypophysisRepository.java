@@ -5,9 +5,16 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Hypophysis;
 
 public interface HypophysisRepository extends CrudRepository<Hypophysis, Integer>{
+	
+	@Query("SELECT u FROM Hypophysis u WHERE u.ERR315622>=:lowerLimit and u.ERR315622<=:upperLimit "
+			+ "ORDER BY ERR315622 LIMIT 100")
+	public List<Hypophysis> getHypophysisSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

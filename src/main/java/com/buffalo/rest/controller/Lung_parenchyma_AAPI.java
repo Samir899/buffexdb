@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,13 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.buffalo.entity.Brain;
-import com.buffalo.entity.GeneList;
-import com.buffalo.entity.Genes;
+
 import com.buffalo.entity.Lung_parenchyma_A;
-import com.buffalo.service.BrainService;
+
 import com.buffalo.service.GeneService;
 import com.buffalo.service.Lung_parenchyma_AService;
+import com.buffalo.service.Lung_parenchyma_BService;
 import com.buffalo.tables.ListingTables;
 import com.buffalo.utilities.Utilities;
 
@@ -41,10 +41,14 @@ public class Lung_parenchyma_AAPI {
   
 	@Autowired
     private Lung_parenchyma_AService lung_parenchyma_AService;
+	
+	@Autowired
+	private Lung_parenchyma_BService lung_parenchyma_BService;
   
-    public Lung_parenchyma_AAPI(Lung_parenchyma_AService productService) 
+    public Lung_parenchyma_AAPI(Lung_parenchyma_AService lung_parenchyma_AService, Lung_parenchyma_BService lung_parenchyma_BService) 
     { 
-        this.lung_parenchyma_AService = productService; 
+        this.lung_parenchyma_AService = lung_parenchyma_AService; 
+        this.lung_parenchyma_BService = lung_parenchyma_BService;
     }
     
     @GetMapping("/lung_parenchyma_As")  
@@ -56,9 +60,20 @@ public class Lung_parenchyma_AAPI {
     @GetMapping("/lung_parenchyma_As/sum")  
     public Map<String, Double> getSum() 
     {
-    	return lung_parenchyma_AService.getFPKMSum();
+    	Map<String, Double> map_lung_parenchyma_a = lung_parenchyma_AService.getFPKMSum();
+    	Map<String, Double> map_lung_parenchyma_b = lung_parenchyma_BService.getFPKMSum();
+    	Map<String, Double> map = new HashMap<>();
+    	map.putAll(map_lung_parenchyma_a);
+    	map.putAll(map_lung_parenchyma_b);
+    	return map;
     }
     
+    @GetMapping("/lung_parenchyma_As/sorted")  
+    public List<Lung_parenchyma_A> getLung_parenchyma_ASorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return lung_parenchyma_AService.getLung_parenchyma_ASorted(lowerLimit, upperLimit);
+    }
+
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

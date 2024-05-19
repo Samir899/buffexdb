@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -50,6 +52,19 @@ public class PB_lymphocyteAPI {
     public List<PB_lymphocyte> getAllPB_lymphocyte() 
     { 
     	return pB_lymphocyteService.listAllPB_lymphocyte();
+    }
+    
+    @GetMapping("/pB_lymphocytes/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return pB_lymphocyteService.getFPKMSum();
+    }
+    
+
+    @GetMapping("/pB_lymphocytes/sorted")  
+    public List<PB_lymphocyte> getPB_lymphocyteSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return pB_lymphocyteService.getPB_lymphocyteSorted(lowerLimit, upperLimit);
     }
     
 //    @GetMapping("/genes/{geneId}")  

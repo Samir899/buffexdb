@@ -18,9 +18,8 @@ public class Thymus {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2353001")
 	 private double ERR2353001;
@@ -222,7 +221,7 @@ public class Thymus {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Thymus(int id, Genes gene, double eRR2353001, double eRR2353002, double eRR2353003, double eRR2353004,
+	public Thymus(int id, String geneId, double eRR2353001, double eRR2353002, double eRR2353003, double eRR2353004,
 			double eRR2353005, double eRR2353006, double eRR2353007, double eRR2353008, double eRR2353009,
 			double eRR2353564, double eRR2353565, double eRR2353566, double eRR2353567, double eRR2353568,
 			double eRR2353569, double eRR2353570, double eRR2353571, double eRR2353572, double eRR2353573,
@@ -238,7 +237,7 @@ public class Thymus {
 			double eRR315639) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2353001 = eRR2353001;
 		ERR2353002 = eRR2353002;
 		ERR2353003 = eRR2353003;
@@ -314,12 +313,12 @@ public class Thymus {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2353001() {
@@ -844,7 +843,7 @@ public class Thymus {
 
 	@Override
 	public String toString() {
-		return "Thymus [id=" + id + ", gene=" + gene + ", ERR2353001=" + ERR2353001 + ", ERR2353002=" + ERR2353002
+		return "Thymus [id=" + id + ", geneId=" + geneId + ", ERR2353001=" + ERR2353001 + ", ERR2353002=" + ERR2353002
 				+ ", ERR2353003=" + ERR2353003 + ", ERR2353004=" + ERR2353004 + ", ERR2353005=" + ERR2353005
 				+ ", ERR2353006=" + ERR2353006 + ", ERR2353007=" + ERR2353007 + ", ERR2353008=" + ERR2353008
 				+ ", ERR2353009=" + ERR2353009 + ", ERR2353564=" + ERR2353564 + ", ERR2353565=" + ERR2353565

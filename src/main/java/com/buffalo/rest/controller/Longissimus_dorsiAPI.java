@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
+import com.buffalo.entity.Heart;
 import com.buffalo.entity.Longissimus_dorsi;
 import com.buffalo.service.BrainService;
 import com.buffalo.service.GeneService;
@@ -57,6 +58,12 @@ public class Longissimus_dorsiAPI {
     public Map<String, Double> getSum() 
     {
     	return longissimus_dorsiService.getFPKMSum();
+    }
+    
+    @GetMapping("/longissimus_dorsis/sorted")  
+    public List<Longissimus_dorsi> getLongissimus_dorsiSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return longissimus_dorsiService.getLongissimus_dorsiSorted(lowerLimit, upperLimit);
     }
     
 //    @GetMapping("/genes/{geneId}")  

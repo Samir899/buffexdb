@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Thoracic_esophagus;
@@ -43,6 +45,14 @@ public class Thoracic_esophagusService {
 	
 	public List<Thoracic_esophagus> listAllThoracic_esophagus(){
 		return (List<Thoracic_esophagus>) thoracic_esophagusRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return thoracic_esophagusRepo.getSum();
+	}
+	public List<Thoracic_esophagus> getThoracic_esophagusSorted(double lowerLimit, double upperLimit){
+		return (List<Thoracic_esophagus>) thoracic_esophagusRepo.getThoracic_esophagusSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

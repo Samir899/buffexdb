@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -57,6 +58,12 @@ public class JejunumAPI {
     public Map<String, Double> getSum() 
     {
     	return jejunumService.getFPKMSum();
+    }
+    
+    @GetMapping("/jejunums/sorted")  
+    public List<Jejunum> getJejunumSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return jejunumService.getJejunumSorted(lowerLimit, upperLimit);
     }
     
 //    @GetMapping("/genes/{geneId}")  

@@ -18,9 +18,8 @@ public class Fat {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR15721746")
 	 private double SRR15721746;
@@ -30,10 +29,10 @@ public class Fat {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Fat(int id, Genes gene, double sRR15721746) {
+	public Fat(int id, String geneId, double sRR15721746) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR15721746 = sRR15721746;
 	}
 
@@ -45,12 +44,12 @@ public class Fat {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR15721746() {
@@ -63,7 +62,7 @@ public class Fat {
 
 	@Override
 	public String toString() {
-		return "Fat [id=" + id + ", gene=" + gene + ", SRR15721746=" + SRR15721746 + "]";
+		return "Fat [id=" + id + ", geneId=" + geneId + ", SRR15721746=" + SRR15721746 + "]";
 	}
 	 
 }

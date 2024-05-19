@@ -9,11 +9,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Iliac_lymph_node;
 import com.buffalo.entity.Intestine;
 
 public interface Iliac_lymph_nodeRepository extends CrudRepository<Iliac_lymph_node, Integer>{
+	
+	@Query("SELECT u FROM Iliac_lymph_node u WHERE u.ERR2353661>=:lowerLimit and u.ERR2353662>=:lowerLimit and u.ERR2353663>=:lowerLimit and u.ERR2353664>=:lowerLimit and u.ERR2353665>=:lowerLimit and u.ERR2353666>=:lowerLimit and u.ERR2353667>=:lowerLimit and u.ERR2352818>=:lowerLimit and u.ERR2352819>=:lowerLimit and u.ERR2352821>=:lowerLimit and u.ERR2352822>=:lowerLimit and u.ERR2352823>=:lowerLimit and u.ERR2352824>=:lowerLimit and "
+			+ "u.ERR2353661<=:upperLimit and u.ERR2353662<=:upperLimit and u.ERR2353663<=:upperLimit and u.ERR2353664<=:upperLimit and u.ERR2353665<=:upperLimit and u.ERR2353666<=:upperLimit and u.ERR2353667<=:upperLimit and u.ERR2352818<=:upperLimit and u.ERR2352819<=:upperLimit and u.ERR2352821<=:upperLimit and u.ERR2352822<=:upperLimit and u.ERR2352823<=:upperLimit and u.ERR2352824<=:upperLimit "
+			+ "ORDER BY ERR2353661, ERR2353662, ERR2353663, ERR2353664, ERR2353665, ERR2353666, ERR2353667, ERR2352818, ERR2352819, ERR2352821, ERR2352822, ERR2352823, ERR2352824 LIMIT 100")
+	public List<Iliac_lymph_node> getIliac_lymph_nodeSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

@@ -18,9 +18,8 @@ public class Hepatic_lymph_node {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 
 	 @Column(name="SRR7540873")
 	 private double SRR7540873;
@@ -81,13 +80,13 @@ public class Hepatic_lymph_node {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Hepatic_lymph_node(int id, Genes gene, double sRR7540873, double sRR7540874, double sRR7540875,
+	public Hepatic_lymph_node(int id, String geneId, double sRR7540873, double sRR7540874, double sRR7540875,
 			double sRR7540876, double sRR7540877, double sRR7540878, double sRR7540879, double sRR7540880,
 			double sRR7540881, double sRR7540882, double sRR7540883, double sRR7540884, double sRR7540885,
 			double sRR7540886, double sRR7540887, double sRR7540888, double sRR7540889, double sRR7540890) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR7540873 = sRR7540873;
 		SRR7540874 = sRR7540874;
 		SRR7540875 = sRR7540875;
@@ -116,12 +115,12 @@ public class Hepatic_lymph_node {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR7540873() {
@@ -270,7 +269,7 @@ public class Hepatic_lymph_node {
 
 	@Override
 	public String toString() {
-		return "Hepatic_lymph_node [id=" + id + ", gene=" + gene + ", SRR7540873=" + SRR7540873 + ", SRR7540874="
+		return "Hepatic_lymph_node [id=" + id + ", geneId=" + geneId + ", SRR7540873=" + SRR7540873 + ", SRR7540874="
 				+ SRR7540874 + ", SRR7540875=" + SRR7540875 + ", SRR7540876=" + SRR7540876 + ", SRR7540877="
 				+ SRR7540877 + ", SRR7540878=" + SRR7540878 + ", SRR7540879=" + SRR7540879 + ", SRR7540880="
 				+ SRR7540880 + ", SRR7540881=" + SRR7540881 + ", SRR7540882=" + SRR7540882 + ", SRR7540883="

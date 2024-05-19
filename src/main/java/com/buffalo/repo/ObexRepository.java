@@ -6,10 +6,16 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Obex;
 
 public interface ObexRepository extends CrudRepository<Obex, Integer>{
+	
+	@Query("SELECT u FROM Obex u WHERE u.ERR315621>=:lowerLimit and u.ERR315621<=:upperLimit "
+			+ "ORDER BY ERR315621 LIMIT 100")
+	public List<Obex> getObexSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

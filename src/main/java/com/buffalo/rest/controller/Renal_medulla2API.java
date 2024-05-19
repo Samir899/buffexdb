@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Renal_medulla2;
 import com.buffalo.service.Renal_medulla2Service;
 
@@ -45,6 +46,11 @@ public class Renal_medulla2API {
     	return renal_medulla2Service.getFPKMSum();
     }
     
+    @GetMapping("/renal_medulla2s/sorted")  
+    public List<Renal_medulla2> getRenal_medulla2Sorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return renal_medulla2Service.getRenal_medulla2Sorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

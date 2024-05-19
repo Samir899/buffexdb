@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Ileum;
 import com.buffalo.entity.Intestine;
@@ -46,6 +47,11 @@ public class IleumService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return ileumRepo.getSum();
+	}
+	
+	public List<Ileum> getIleumSorted(double lowerLimit, double upperLimit){
+		return (List<Ileum>) ileumRepo.getIleumSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return intestineRepo.getGeneByGeneId(geneId);

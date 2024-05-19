@@ -9,9 +9,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Mammary_gland;
 
 public interface Mammary_glandRepository extends CrudRepository<Mammary_gland, Integer>{
+	
+	@Query("SELECT u FROM Mammary_gland u WHERE u.ERR315636>=:lowerLimit and u.SRR7523531>=:lowerLimit and u.SRR7523532>=:lowerLimit and u.SRR7523533>=:lowerLimit and u.SRR7523534>=:lowerLimit and u.SRR7523535>=:lowerLimit and u.SRR7523536>=:lowerLimit and u.SRR7523537>=:lowerLimit and u.SRR7523538>=:lowerLimit and u.SRR24057921>=:lowerLimit and u.SRR24057922>=:lowerLimit and u.SRR24057923>=:lowerLimit and u.SRR24057924>=:lowerLimit and\r\n"
+			+ "u.ERR315636<=:upperLimit and u.SRR7523531<=:upperLimit and u.SRR7523532<=:upperLimit and u.SRR7523533<=:upperLimit and u.SRR7523534<=:upperLimit and u.SRR7523535<=:upperLimit and u.SRR7523536<=:upperLimit and u.SRR7523537<=:upperLimit and u.SRR7523538<=:upperLimit and u.SRR24057921<=:upperLimit and u.SRR24057922<=:upperLimit and u.SRR24057923<=:upperLimit and u.SRR24057924<=:upperLimit "
+			+ "ORDER BY ERR315636, SRR7523531, SRR7523532, SRR7523533, SRR7523534, SRR7523535, SRR7523536, SRR7523537, SRR7523538, SRR24057921, SRR24057922, SRR24057923, SRR24057924 LIMIT 100")
+	public List<Mammary_gland> getMammary_glandSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -50,6 +52,19 @@ public class PancreasAPI {
     public List<Pancreas> getAllPancreas() 
     { 
     	return pancreasService.listAllPancreas();
+    }
+    
+    @GetMapping("/pancreass/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return pancreasService.getFPKMSum();
+    }
+    
+
+    @GetMapping("/bloods/sorted")  
+    public List<Pancreas> getPancreasSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return pancreasService.getPancreasSorted(lowerLimit, upperLimit);
     }
     
 //    @GetMapping("/genes/{geneId}")  

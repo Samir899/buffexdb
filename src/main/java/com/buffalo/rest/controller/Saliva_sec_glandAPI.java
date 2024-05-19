@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,9 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.buffalo.entity.Brain;
-import com.buffalo.entity.GeneList;
-import com.buffalo.entity.Genes;
+
 import com.buffalo.entity.Saliva_sec_gland;
 import com.buffalo.service.BrainService;
 import com.buffalo.service.GeneService;
@@ -52,6 +51,18 @@ public class Saliva_sec_glandAPI {
     	return saliva_sec_glandService.listAllSaliva_sec_gland();
     }
     
+    @GetMapping("/saliva_sec_glands/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return saliva_sec_glandService.getFPKMSum();
+    }
+    
+
+    @GetMapping("/saliva_sec_glands/sorted")  
+    public List<Saliva_sec_gland> getSaliva_sec_glandSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return saliva_sec_glandService.getSaliva_sec_glandSorted(lowerLimit, upperLimit);
+    }
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

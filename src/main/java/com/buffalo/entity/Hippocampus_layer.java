@@ -18,9 +18,8 @@ public class Hippocampus_layer {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352825")
 	 private double ERR2352825;
@@ -57,12 +56,12 @@ public class Hippocampus_layer {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Hippocampus_layer(int id, Genes gene, double eRR2352825, double eRR2353668, double eRR2353669,
+	public Hippocampus_layer(int id, String geneId, double eRR2352825, double eRR2353668, double eRR2353669,
 			double eRR2353670, double eRR2353671, double eRR2353672, double eRR2353673, double eRR2353674,
 			double eRR2353675, double eRR2353676) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352825 = eRR2352825;
 		ERR2353668 = eRR2353668;
 		ERR2353669 = eRR2353669;
@@ -83,12 +82,12 @@ public class Hippocampus_layer {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352825() {
@@ -173,7 +172,7 @@ public class Hippocampus_layer {
 
 	@Override
 	public String toString() {
-		return "Hippocampus_layer [id=" + id + ", gene=" + gene + ", ERR2352825=" + ERR2352825 + ", ERR2353668="
+		return "Hippocampus_layer [id=" + id + ", geneId=" + geneId + ", ERR2352825=" + ERR2352825 + ", ERR2353668="
 				+ ERR2353668 + ", ERR2353669=" + ERR2353669 + ", ERR2353670=" + ERR2353670 + ", ERR2353671="
 				+ ERR2353671 + ", ERR2353672=" + ERR2353672 + ", ERR2353673=" + ERR2353673 + ", ERR2353674="
 				+ ERR2353674 + ", ERR2353675=" + ERR2353675 + ", ERR2353676=" + ERR2353676 + "]";

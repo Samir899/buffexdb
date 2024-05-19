@@ -6,9 +6,16 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Ovary_follicle;
 
 public interface Ovary_follicleRepository extends CrudRepository<Ovary_follicle, Integer>{
+	
+	@Query("SELECT u FROM Ovary_follicle u WHERE u.ERR315633>=:lowerLimit and u.ERR315633<=:upperLimit "
+			+ "ORDER BY ERR315633 LIMIT 100")
+	public List<Ovary_follicle> getOvary_follicleSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

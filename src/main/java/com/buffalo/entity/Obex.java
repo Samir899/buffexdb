@@ -18,9 +18,8 @@ public class Obex {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR315621")
 	 private double ERR315621;
@@ -30,10 +29,10 @@ public class Obex {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Obex(int id, Genes gene, double eRR315621) {
+	public Obex(int id,String geneId, double eRR315621) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR315621 = eRR315621;
 	}
 
@@ -45,12 +44,12 @@ public class Obex {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR315621() {
@@ -63,7 +62,7 @@ public class Obex {
 
 	@Override
 	public String toString() {
-		return "Obex [id=" + id + ", gene=" + gene + ", ERR315621=" + ERR315621 + "]";
+		return "Obex [id=" + id + ", geneId=" + geneId + ", ERR315621=" + ERR315621 + "]";
 	}
 	 
 	 

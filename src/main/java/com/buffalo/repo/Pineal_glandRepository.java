@@ -5,10 +5,16 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Pineal_gland;
 
 public interface Pineal_glandRepository extends CrudRepository<Pineal_gland, Integer>{
+	
+	@Query("SELECT u FROM Pineal_gland u WHERE u.SRR15721755>=:lowerLimit and u.SRR15721755<=:upperLimit "
+			+ "ORDER BY SRR15721755 LIMIT 100")
+	public List<Pineal_gland> getPineal_glandSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

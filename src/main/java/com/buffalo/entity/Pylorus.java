@@ -18,9 +18,8 @@ public class Pylorus {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352936")
 	 private double ERR2352936;
@@ -150,7 +149,7 @@ public class Pylorus {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Pylorus(int id, Genes gene, double eRR2352936, double eRR2352937, double eRR2352938, double eRR2352939,
+	public Pylorus(int id, String geneId, double eRR2352936, double eRR2352937, double eRR2352938, double eRR2352939,
 			double eRR2352940, double eRR2352941, double eRR2352942, double eRR2353451, double eRR2353452,
 			double eRR2353453, double eRR2353454, double eRR2353455, double eRR2353456, double eRR2353457,
 			double eRR2353458, double eRR2353459, double eRR2353778, double eRR2353779, double eRR2353780,
@@ -161,7 +160,7 @@ public class Pylorus {
 			double eRR2354646, double eRR2354647) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352936 = eRR2352936;
 		ERR2352937 = eRR2352937;
 		ERR2352938 = eRR2352938;
@@ -213,12 +212,12 @@ public class Pylorus {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352936() {
@@ -551,7 +550,7 @@ public class Pylorus {
 
 	@Override
 	public String toString() {
-		return "Pylorus [id=" + id + ", gene=" + gene + ", ERR2352936=" + ERR2352936 + ", ERR2352937=" + ERR2352937
+		return "Pylorus [id=" + id + ", geneId=" + geneId + ", ERR2352936=" + ERR2352936 + ", ERR2352937=" + ERR2352937
 				+ ", ERR2352938=" + ERR2352938 + ", ERR2352939=" + ERR2352939 + ", ERR2352940=" + ERR2352940
 				+ ", ERR2352941=" + ERR2352941 + ", ERR2352942=" + ERR2352942 + ", ERR2353451=" + ERR2353451
 				+ ", ERR2353452=" + ERR2353452 + ", ERR2353453=" + ERR2353453 + ", ERR2353454=" + ERR2353454

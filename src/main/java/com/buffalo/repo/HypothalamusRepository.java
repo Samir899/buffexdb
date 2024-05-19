@@ -9,10 +9,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Hypothalamus;
 
 public interface HypothalamusRepository extends CrudRepository<Hypothalamus, Integer>{
+	
+	@Query("SELECT u FROM Hypothalamus u WHERE u.SRR24057944>=:lowerLimit and u.SRR24057945>=:lowerLimit and u.SRR24057946>=:lowerLimit and u.SRR24057947>=:lowerLimit and u.SRR15721742>=:lowerLimit and "
+			+ "u.SRR24057944<=:upperLimit and u.SRR24057945<=:upperLimit and u.SRR24057946<=:upperLimit and u.SRR24057947<=:upperLimit and u.SRR15721742<=:upperLimit "
+			+ "ORDER BY SRR24057944, SRR24057945, SRR24057946, SRR24057947, SRR15721742 LIMIT 100")
+	public List<Hypothalamus> getHypothalamusSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

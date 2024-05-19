@@ -18,9 +18,8 @@ public class Rumen {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352966")
 	 private double ERR2352966;
@@ -189,7 +188,7 @@ public class Rumen {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Rumen(int id, Genes gene, double eRR2352966, double eRR2352967, double eRR2352968, double eRR2352969,
+	public Rumen(int id, String geneId, double eRR2352966, double eRR2352967, double eRR2352968, double eRR2352969,
 			double eRR2352970, double eRR2352971, double eRR2352972, double eRR2353501, double eRR2353502,
 			double eRR2353503, double eRR2353504, double eRR2353505, double eRR2353506, double eRR2353507,
 			double eRR2353508, double eRR2353509, double eRR2353808, double eRR2353809, double eRR2353810,
@@ -202,7 +201,7 @@ public class Rumen {
 			double eRR2355057, double sRR24057894, double sRR24057895, double sRR24057896, double sRR24057898) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352966 = eRR2352966;
 		ERR2352967 = eRR2352967;
 		ERR2352968 = eRR2352968;
@@ -267,12 +266,12 @@ public class Rumen {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352966() {
@@ -709,7 +708,7 @@ public class Rumen {
 
 	@Override
 	public String toString() {
-		return "Rumen [id=" + id + ", gene=" + gene + ", ERR2352966=" + ERR2352966 + ", ERR2352967=" + ERR2352967
+		return "Rumen [id=" + id + ", geneId=" + geneId + ", ERR2352966=" + ERR2352966 + ", ERR2352967=" + ERR2352967
 				+ ", ERR2352968=" + ERR2352968 + ", ERR2352969=" + ERR2352969 + ", ERR2352970=" + ERR2352970
 				+ ", ERR2352971=" + ERR2352971 + ", ERR2352972=" + ERR2352972 + ", ERR2353501=" + ERR2353501
 				+ ", ERR2353502=" + ERR2353502 + ", ERR2353503=" + ERR2353503 + ", ERR2353504=" + ERR2353504

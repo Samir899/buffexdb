@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Ovary_follicle;
@@ -48,6 +49,11 @@ public class Ovary_follicleService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return ovary_follicleRepo.getSum();
+	}
+	
+	public List<Ovary_follicle> getOvary_follicleSorted(double lowerLimit, double upperLimit){
+		return (List<Ovary_follicle>) ovary_follicleRepo.getOvary_follicleSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

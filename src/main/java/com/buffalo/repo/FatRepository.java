@@ -5,9 +5,16 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Fat;
 
 public interface FatRepository extends CrudRepository<Fat, Integer>{
+	
+	@Query("SELECT u FROM Fat u WHERE u.SRR15721746>=:lowerLimit and u.SRR15721746<=:upperLimit "
+			+ "ORDER BY SRR15721746 LIMIT 100")
+	public List<Fat> getFatSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

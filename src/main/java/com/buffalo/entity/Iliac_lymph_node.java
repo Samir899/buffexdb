@@ -18,9 +18,8 @@ public class Iliac_lymph_node {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2352818")
 	 private double ERR2352818;
@@ -66,12 +65,12 @@ public class Iliac_lymph_node {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Iliac_lymph_node(int id, Genes gene, double eRR2352818, double eRR2352819, double eRR2352821,
+	public Iliac_lymph_node(int id, String geneId, double eRR2352818, double eRR2352819, double eRR2352821,
 			double eRR2352822, double eRR2352823, double eRR2352824, double eRR2353661, double eRR2353662,
 			double eRR2353663, double eRR2353664, double eRR2353665, double eRR2353666, double eRR2353667) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2352818 = eRR2352818;
 		ERR2352819 = eRR2352819;
 		ERR2352821 = eRR2352821;
@@ -95,12 +94,12 @@ public class Iliac_lymph_node {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2352818() {
@@ -209,7 +208,7 @@ public class Iliac_lymph_node {
 
 	@Override
 	public String toString() {
-		return "Iliac_lymph_node [id=" + id + ", gene=" + gene + ", ERR2352818=" + ERR2352818 + ", ERR2352819="
+		return "Iliac_lymph_node [id=" + id + ", geneId=" + geneId + ", ERR2352818=" + ERR2352818 + ", ERR2352819="
 				+ ERR2352819 + ", ERR2352821=" + ERR2352821 + ", ERR2352822=" + ERR2352822 + ", ERR2352823="
 				+ ERR2352823 + ", ERR2352824=" + ERR2352824 + ", ERR2353661=" + ERR2353661 + ", ERR2353662="
 				+ ERR2353662 + ", ERR2353663=" + ERR2353663 + ", ERR2353664=" + ERR2353664 + ", ERR2353665="

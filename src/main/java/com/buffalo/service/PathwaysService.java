@@ -57,4 +57,5 @@ public class PathwaysService {
 		return (List<String>) pathwaysRepo.getAllGeneSymbols();
 	}
 	
+
 }

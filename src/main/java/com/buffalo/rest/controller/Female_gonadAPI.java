@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Female_gonad;
 import com.buffalo.entity.GeneList;
@@ -57,6 +58,12 @@ public class Female_gonadAPI {
     public Map<String, Double> getSum() 
     {
     	return female_gonadService.getFPKMSum();
+    }
+    
+    @GetMapping("/female_gonads/sorted")  
+    public List<Female_gonad> getFemale_gonadSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return female_gonadService.getFemale_gonadSorted(lowerLimit, upperLimit);
     }
     
 //    @GetMapping("/genes/{geneId}")  

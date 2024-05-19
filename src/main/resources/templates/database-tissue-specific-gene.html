@@ -27,7 +27,7 @@
 								<a class="navbar-brand" th:href="@{/}"> <img th:src="@{/images/icar.png}" height="100px" width="100px" class='spinning'/>
 								</a>
 							</div>
-							<h1 class="mx-5 px-5">BUFFEXDB</h1>
+							<h1 class="mx-5 px-5">BuFFExDB</h1>
 								
 						</nav>
 					</div>
@@ -57,9 +57,7 @@
 							<a class="nav-link fs-5" th:href="@{/}">Home</a>
 						</li>
 						
-						<li class="nav-item">
-							<a class="nav-link fs-5" th:href="@{/about}">Teams</a>
-						</li>
+						
 						
 						<li class="nav-item text-white fs-5">
 							 <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
@@ -80,6 +78,9 @@
 							  </div>
 							</li>
 						<li class="nav-item">
+							<a class="nav-link fs-5" th:href="@{/about}">Team</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link fs-5" th:href="@{/downloads}">Downloads</a>
 						</li>
 					</ul>					
@@ -87,7 +88,7 @@
 			</nav>
 		</div>
 		
-		<div class="overflow-hidden" style="height:500px">
+		<div class="overflow-hidden" style="height:400px">
 		<img  class="img-fluid w-100" th:src="@{/images/tissue4_new.jpg}" />			
 		</div>
 		<div class="border">
@@ -556,9 +557,12 @@ function renderTableNew(){
 			continue;
 		}
 		
+
+
 		else if(key.toUpperCase() == 'TISSUE_SPECIFITY'){
 			td = `<td>TISSUE SPECIFICITY</td>`;
 		}
+
 		else{
 			td = `<td>${key.toUpperCase().replace("_", " ")}</td>`;
 		}

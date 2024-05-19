@@ -12,7 +12,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Pineal_gland;
 import com.buffalo.service.Pineal_glandService;
 
@@ -41,6 +44,12 @@ public class Pineal_glandAPI {
     	return pineal_glandService.getFPKMSum();
     }
     
+    @GetMapping("/pineal_glands/sorted")  
+    public List<Pineal_gland> getPineal_glandSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return pineal_glandService.getPineal_glandSorted(lowerLimit, upperLimit);
+    }
+
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

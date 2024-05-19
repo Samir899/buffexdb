@@ -18,9 +18,8 @@ public class Thoracic_esophagus {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR2353546")
 	 private double ERR2353546;
@@ -81,13 +80,13 @@ public class Thoracic_esophagus {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Thoracic_esophagus(int id, Genes gene, double eRR2353546, double eRR2353547, double eRR2353548,
+	public Thoracic_esophagus(int id, String geneId, double eRR2353546, double eRR2353547, double eRR2353548,
 			double eRR2353549, double eRR2353550, double eRR2353551, double eRR2353552, double eRR2353553,
 			double eRR2353554, double eRR2354388, double eRR2354389, double eRR2354390, double eRR2354391,
 			double eRR2354392, double eRR2354393, double eRR2354394, double eRR2354395, double eRR2354396) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR2353546 = eRR2353546;
 		ERR2353547 = eRR2353547;
 		ERR2353548 = eRR2353548;
@@ -116,12 +115,12 @@ public class Thoracic_esophagus {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2353546() {
@@ -270,7 +269,7 @@ public class Thoracic_esophagus {
 
 	@Override
 	public String toString() {
-		return "Thoracic_esophagus [id=" + id + ", gene=" + gene + ", ERR2353546=" + ERR2353546 + ", ERR2353547="
+		return "Thoracic_esophagus [id=" + id + ", geneId=" + geneId + ", ERR2353546=" + ERR2353546 + ", ERR2353547="
 				+ ERR2353547 + ", ERR2353548=" + ERR2353548 + ", ERR2353549=" + ERR2353549 + ", ERR2353550="
 				+ ERR2353550 + ", ERR2353551=" + ERR2353551 + ", ERR2353552=" + ERR2353552 + ", ERR2353553="
 				+ ERR2353553 + ", ERR2353554=" + ERR2353554 + ", ERR2354388=" + ERR2354388 + ", ERR2354389="

@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Skeletal_muscle;
@@ -43,6 +45,14 @@ public class Skeletal_muscleService {
 	
 	public List<Skeletal_muscle> listAllSkeletal_muscle(){
 		return (List<Skeletal_muscle>) skeletal_muscleRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return skeletal_muscleRepo.getSum();
+	}
+	public List<Skeletal_muscle> getSkeletal_muscleSorted(double lowerLimit, double upperLimit){
+		return (List<Skeletal_muscle>) skeletal_muscleRepo.getSkeletal_muscleSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

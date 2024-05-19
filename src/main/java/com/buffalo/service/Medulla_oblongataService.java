@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Medulla_oblongata;
 
 import com.buffalo.repo.Medulla_oblongataRepository;
@@ -40,6 +41,11 @@ public class Medulla_oblongataService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return medulla_oblongataRepo.getSum();
+	}
+	
+	public List<Medulla_oblongata> getMedulla_oblongataSorted(double lowerLimit, double upperLimit){
+		return (List<Medulla_oblongata>) medulla_oblongataRepo.getMedulla_oblongataSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

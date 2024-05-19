@@ -12,7 +12,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Medulla_oblongata;
 import com.buffalo.service.Medulla_oblongataService;
 
@@ -41,6 +44,12 @@ public class Medulla_oblongataAPI {
     	return medulla_oblongataService.getFPKMSum();
     }
     
+    @GetMapping("/medulla_oblongatas/sorted")  
+    public List<Medulla_oblongata> getMedulla_oblongataSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return medulla_oblongataService.getMedulla_oblongataSorted(lowerLimit, upperLimit);
+    }
+
 //    @GetMapping("/genes/{geneId}")  
 //    public Genes getGeneByGeneId(@PathVariable(name = "geneId")String geneId) 
 //    { 

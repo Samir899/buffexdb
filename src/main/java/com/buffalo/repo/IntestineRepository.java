@@ -9,10 +9,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Intestine;
 
 public interface IntestineRepository extends CrudRepository<Intestine, Integer>{
+	
+	@Query("SELECT u FROM Intestine u WHERE u.ERR315620>=:lowerLimit and u.ERR315620<=:upperLimit "
+			+ "ORDER BY ERR315620 LIMIT 100")
+	public List<Intestine> getIntestineSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 
 //	@Query("SELECT u FROM Genes u WHERE u.geneId = :geneId")
 //	public Genes getGeneByGeneId(@Param("geneId") String geneId);

@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Sort;
 
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
+import com.buffalo.entity.Spleen;
 import com.buffalo.entity.Submandibular_lymph_node;
 import com.buffalo.repo.BrainRepository;
 import com.buffalo.repo.GeneRepoPagingAndSorting;
@@ -43,6 +45,14 @@ public class Submandibular_lymph_nodeService {
 	
 	public List<Submandibular_lymph_node> listAllSubmandibular_lymph_node(){
 		return (List<Submandibular_lymph_node>) submandibular_lymph_nodeRepo.findAll();
+	}
+	
+	public Map<String, Double> getFPKMSum() {
+		return submandibular_lymph_nodeRepo.getSum();
+	}
+	public List<Submandibular_lymph_node> getSubmandibular_lymph_nodeSorted(double lowerLimit, double upperLimit){
+		return (List<Submandibular_lymph_node>) submandibular_lymph_nodeRepo.getSubmandibular_lymph_nodeSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

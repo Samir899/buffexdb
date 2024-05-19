@@ -57,9 +57,7 @@
 							<a class="nav-link fs-5" th:href="@{/}">Home</a>
 						</li>
 						
-						<li class="nav-item">
-							<a class="nav-link fs-5" th:href="@{/about}">Teams</a>
-						</li>
+						
 						
 						<li class="nav-item text-white fs-5">
 							 <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
@@ -80,6 +78,9 @@
 							  </div>
 							</li>
 						<li class="nav-item">
+							<a class="nav-link fs-5" th:href="@{/about}">Team</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link fs-5" th:href="@{/downloads}">Downloads</a>
 						</li>
 					</ul>					
@@ -88,13 +89,14 @@
 			</nav>
 		</div>
 		
-		<div class="overflow-hidden" style="height:500px">
-		<img  class="img-fluid w-100" th:src="@{/images/buff_ai_1.jpg}" />
+		<div class="overflow-hidden" style="height:400px">
+		<img  class="img-fluid w-100" th:src="@{/images/buff-animal1.jpeg}" />
 		
 			
 		</div>
 		<div class="border">
 			<div class="p-2">
+
 			<div class="row w-100" style="height:fit-content">
 				<div class="col">
 					<!--  <input class="form-input" type="text" name="database" th:value="${database}" hidden=true>-->
@@ -120,6 +122,7 @@
 		<div class="p-2" style="background-color:rgb(38,80,115);color:white;">
 			<h3 class="text-center">Pathways - Functional Description</h3>
 		</div>
+		
  		<div class="p-2 text-nowrap overflow-auto">
  			<table class="table table-striped border table-bordered" id="pathways">
 			  <thead class="table-dark">
@@ -347,6 +350,49 @@ function renderTableNew(){
 			if(key.toUpperCase() == 'GENEID'){
 				td = `<td><a style="color:blue;" onclick="showGeneDescription(this)">${value}</a></td>`;
 			}			
+			else if(key.toUpperCase() == 'UNIPROT_PROTEINS'){
+				let pathways = value.split(';');
+				let pathwayLinks = pathways.map(pathway => `<a href="https://www.uniprot.org/uniprotkb/${pathway}/entry" target="_blank">${pathway}</a>`).join('; ');
+				td = `<td>${pathwayLinks}</td>`;
+				
+			}
+			else if(key.toUpperCase() == 'KEGG_ORTHOLOG'){
+				let pathways = value.split(';');
+				let pathwayLinks = pathways.map(pathway => `<a href="https://www.kegg.jp/entry/${pathway}" target="_blank">${pathway}</a>`).join('; ');
+				td = `<td>${pathwayLinks}</td>`;
+			}
+			else if(key.toUpperCase() == 'PANTHER_FAMILY'){
+				let match = value.match(/\bPTHR\d+:\w+\b/);
+				
+				if (match) {
+                	let term = match[0];
+                	td = `<td><a href="https://pantherdb.org/panther/familyList.do?searchType=basic&fieldName=all&listType=6&fieldValue=${term}" target="_blank">${value}</a></td>`;
+            	} else {
+               	 	td = `<td>${value}</td>`;
+            }
+			}
+			else if(key.toUpperCase() == 'PANTHER_PROTEIN_CLASS'){
+				let match = value.match(/\bPC00\d+\b/);
+				
+				if (match) {
+                	let term = match[0];
+                	td = `<td><a href="https://pantherdb.org/panther/familyList.do?searchType=basic&fieldName=all&listType=6&fieldValue=${term}" target="_blank">${value}</a></td>`;
+            	} else {
+               	 	td = `<td>${value}</td>`;
+            }
+			}
+			else if(key.toUpperCase() == 'PATHWAY_ID'){
+				
+				let pathways = value.split(';');
+				if(value.startsWith("R-")) {
+					
+					let pathwayLinks = pathways.map(pathway => `<a href="https://glycosmos.org/pathways/show/${pathway}" target="_blank">${pathway}</a>`).join('; ');
+					td = `<td>${pathwayLinks}</td>`;
+					} else {
+        				let pathwayLinks = pathways.map(pathway => `<a href="https://www.kegg.jp/entry/${pathway}" target="_blank">${pathway}</a>`).join('; ');
+        				td = `<td>${pathwayLinks}</td>`;
+        				}
+			}
 			else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 				
 				if(isFpkm){

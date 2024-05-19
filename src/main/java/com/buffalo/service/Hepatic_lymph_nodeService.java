@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Hepatic_lymph_node;
@@ -48,6 +49,11 @@ public class Hepatic_lymph_nodeService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return hepatic_lymph_nodeRepo.getSum();
+	}
+	
+	public List<Hepatic_lymph_node> getHepatic_lymph_nodeSorted(double lowerLimit, double upperLimit){
+		return (List<Hepatic_lymph_node>) hepatic_lymph_nodeRepo.getHepatic_lymph_nodeSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Lungs;
 import com.buffalo.repo.GeneRepoPagingAndSorting;
@@ -46,6 +47,11 @@ public class LungService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return lungRepo.getSum();
+	}
+	
+	public List<Lungs> getLungsSorted(double lowerLimit, double upperLimit){
+		return (List<Lungs>) lungRepo.getLungSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

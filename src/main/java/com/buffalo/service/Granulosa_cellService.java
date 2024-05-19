@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Granulosa_cell;
@@ -48,6 +49,11 @@ public class Granulosa_cellService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return granulosa_cellRepo.getSum();
+	}
+	
+	public List<Granulosa_cell> getGranulosa_cellSorted(double lowerLimit, double upperLimit){
+		return (List<Granulosa_cell>) granulosa_cellRepo.getGranulosa_cellSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

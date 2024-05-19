@@ -13,14 +13,15 @@ import jakarta.persistence.Table;
 @Table(name = "renal_medulla2")
 public class Renal_medulla2 {
 
-	@Id
-	 @Column(name="id")
-	 @GeneratedValue(strategy = GenerationType.AUTO)
-	  private int id;
+//	@Id
+//	 @Column(name="id")
+//	 @GeneratedValue(strategy = GenerationType.AUTO)
+//	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+//	 @Column(name = "geneId")
+//	 String geneId;
+	 @Id
+	 private String geneId;
 	 
 	 @Column(name="ERR2354511")
 	 private double ERR2354511;
@@ -192,7 +193,7 @@ public class Renal_medulla2 {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Renal_medulla2(int id, Genes gene, double eRR2354511, double eRR2354512, double eRR2354513,
+	public Renal_medulla2(String geneId, double eRR2354511, double eRR2354512, double eRR2354513,
 			double eRR2354514, double eRR2354515, double eRR2354516, double eRR2354517, double eRR2354518,
 			double eRR2354519, double eRR2354761, double eRR2354762, double eRR2354763, double eRR2354764,
 			double eRR2354765, double eRR2354766, double eRR2354767, double eRR2354768, double eRR2354769,
@@ -205,8 +206,8 @@ public class Renal_medulla2 {
 			double eRR2354955, double eRR2354956, double eRR2354957, double eRR2354958, double eRR2354959,
 			double eRR2354960, double eRR2354961) {
 		super();
-		this.id = id;
-		this.gene = gene;
+//		this.id = id;
+		this.geneId = geneId;
 		ERR2354511 = eRR2354511;
 		ERR2354512 = eRR2354512;
 		ERR2354513 = eRR2354513;
@@ -263,21 +264,21 @@ public class Renal_medulla2 {
 		ERR2354960 = eRR2354960;
 		ERR2354961 = eRR2354961;
 	}
+//
+//	public int getId() {
+//		return id;
+//	}
+//
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 
-	public int getId() {
-		return id;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Genes getGene() {
-		return gene;
-	}
-
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR2354511() {
@@ -722,7 +723,7 @@ public class Renal_medulla2 {
 
 	@Override
 	public String toString() {
-		return "Renal_medulla2 [id=" + id + ", gene=" + gene + ", ERR2354511=" + ERR2354511 + ", ERR2354512="
+		return "Renal_medulla2 [geneId=" + geneId + ", ERR2354511=" + ERR2354511 + ", ERR2354512="
 				+ ERR2354512 + ", ERR2354513=" + ERR2354513 + ", ERR2354514=" + ERR2354514 + ", ERR2354515="
 				+ ERR2354515 + ", ERR2354516=" + ERR2354516 + ", ERR2354517=" + ERR2354517 + ", ERR2354518="
 				+ ERR2354518 + ", ERR2354519=" + ERR2354519 + ", ERR2354761=" + ERR2354761 + ", ERR2354762="

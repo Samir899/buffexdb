@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Genes;
 import com.buffalo.entity.Hypothalamus;
 import com.buffalo.repo.BrainRepository;
@@ -47,6 +48,11 @@ public class HypothalamusService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return hypothalamusRepo.getSum();
+	}
+	
+	public List<Hypothalamus> getHypothalamusSorted(double lowerLimit, double upperLimit){
+		return (List<Hypothalamus>) hypothalamusRepo.getHypothalamusSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);

@@ -18,9 +18,8 @@ public class Oviduct {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR315634")
 	 private double ERR315634;
@@ -30,10 +29,10 @@ public class Oviduct {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Oviduct(int id, Genes gene, double eRR315634) {
+	public Oviduct(int id, String geneId, double eRR315634) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR315634 = eRR315634;
 	}
 
@@ -45,12 +44,12 @@ public class Oviduct {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR315634() {
@@ -63,7 +62,7 @@ public class Oviduct {
 
 	@Override
 	public String toString() {
-		return "Oviduct [id=" + id + ", gene=" + gene + ", ERR315634=" + ERR315634 + "]";
+		return "Oviduct [id=" + id + ", geneId=" + geneId + ", ERR315634=" + ERR315634 + "]";
 	}
 	 
 	 

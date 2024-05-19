@@ -18,9 +18,8 @@ public class Oocyte {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="SRR10863202")
 	 private double SRR10863202;
@@ -63,12 +62,12 @@ public class Oocyte {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Oocyte(int id, Genes gene, double sRR10863202, double sRR10863203, double sRR10863204, double sRR10863205,
+	public Oocyte(int id, String geneId, double sRR10863202, double sRR10863203, double sRR10863204, double sRR10863205,
 			double sRR10863206, double sRR10863207, double sRR10863208, double sRR10863209, double sRR10863220,
 			double sRR10863221, double sRR6425308, double sRR6425309) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		SRR10863202 = sRR10863202;
 		SRR10863203 = sRR10863203;
 		SRR10863204 = sRR10863204;
@@ -91,12 +90,12 @@ public class Oocyte {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getSRR10863202() {
@@ -197,7 +196,7 @@ public class Oocyte {
 
 	@Override
 	public String toString() {
-		return "Oocyte [id=" + id + ", gene=" + gene + ", SRR10863202=" + SRR10863202 + ", SRR10863203=" + SRR10863203
+		return "Oocyte [id=" + id + ", geneId=" + geneId + ", SRR10863202=" + SRR10863202 + ", SRR10863203=" + SRR10863203
 				+ ", SRR10863204=" + SRR10863204 + ", SRR10863205=" + SRR10863205 + ", SRR10863206=" + SRR10863206
 				+ ", SRR10863207=" + SRR10863207 + ", SRR10863208=" + SRR10863208 + ", SRR10863209=" + SRR10863209
 				+ ", SRR10863220=" + SRR10863220 + ", SRR10863221=" + SRR10863221 + ", SRR6425308=" + SRR6425308

@@ -18,9 +18,8 @@ public class Mammary_gland {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	  private int id;
 	 
-	 @ManyToOne
-	 @JoinColumn(name = "geneId")
-	 Genes gene;
+	 @Column(name = "geneId")
+	 String geneId;
 	 
 	 @Column(name="ERR315636")
 	 private double ERR315636;
@@ -66,12 +65,12 @@ public class Mammary_gland {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Mammary_gland(int id, Genes gene, double eRR315636, double sRR24057921, double sRR24057922,
+	public Mammary_gland(int id, String geneId, double eRR315636, double sRR24057921, double sRR24057922,
 			double sRR24057923, double sRR24057924, double sRR7523531, double sRR7523532, double sRR7523533,
 			double sRR7523534, double sRR7523535, double sRR7523536, double sRR7523537, double sRR7523538) {
 		super();
 		this.id = id;
-		this.gene = gene;
+		this.geneId = geneId;
 		ERR315636 = eRR315636;
 		SRR24057921 = sRR24057921;
 		SRR24057922 = sRR24057922;
@@ -95,12 +94,12 @@ public class Mammary_gland {
 		this.id = id;
 	}
 
-	public Genes getGene() {
-		return gene;
+	public String getGeneId() {
+		return geneId;
 	}
 
-	public void setGene(Genes gene) {
-		this.gene = gene;
+	public void setGeneId(String geneId) {
+		this.geneId = geneId;
 	}
 
 	public double getERR315636() {
@@ -209,7 +208,7 @@ public class Mammary_gland {
 
 	@Override
 	public String toString() {
-		return "Mammary_gland [id=" + id + ", gene=" + gene + ", ERR315636=" + ERR315636 + ", SRR24057921="
+		return "Mammary_gland [id=" + id + ", geneId=" + geneId + ", ERR315636=" + ERR315636 + ", SRR24057921="
 				+ SRR24057921 + ", SRR24057922=" + SRR24057922 + ", SRR24057923=" + SRR24057923 + ", SRR24057924="
 				+ SRR24057924 + ", SRR7523531=" + SRR7523531 + ", SRR7523532=" + SRR7523532 + ", SRR7523533="
 				+ SRR7523533 + ", SRR7523534=" + SRR7523534 + ", SRR7523535=" + SRR7523535 + ", SRR7523536="

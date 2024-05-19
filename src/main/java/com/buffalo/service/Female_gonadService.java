@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Brain;
 import com.buffalo.entity.Female_gonad;
 import com.buffalo.entity.Genes;
@@ -48,6 +49,11 @@ public class Female_gonadService {
 	
 	public Map<String, Double> getFPKMSum() {
 		return female_gonadRepo.getSum();
+	}
+	
+	public List<Female_gonad> getFemale_gonadSorted(double lowerLimit, double upperLimit){
+		return (List<Female_gonad>) female_gonadRepo.getFemale_gonadSorted(lowerLimit, upperLimit);
+
 	}
 //	public Genes getGeneById(String geneId){
 //		return geneRepo.getGeneByGeneId(geneId);
