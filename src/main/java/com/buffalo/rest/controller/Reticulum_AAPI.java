@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,9 @@ import com.buffalo.entity.Genes;
 import com.buffalo.entity.Reticulum_A;
 import com.buffalo.service.BrainService;
 import com.buffalo.service.GeneService;
+import com.buffalo.service.Liver_BService;
 import com.buffalo.service.Reticulum_AService;
+import com.buffalo.service.Reticulum_BService;
 import com.buffalo.tables.ListingTables;
 import com.buffalo.utilities.Utilities;
 
@@ -42,10 +45,14 @@ public class Reticulum_AAPI {
   
 	@Autowired
     private Reticulum_AService reticulum_AService;
+	
+	@Autowired
+    private Reticulum_BService reticulum_BService;
   
-    public Reticulum_AAPI(Reticulum_AService productService) 
+    public Reticulum_AAPI(Reticulum_AService reticulum_AService, Reticulum_BService reticulum_BService) 
     { 
-        this.reticulum_AService = productService; 
+        this.reticulum_AService = reticulum_AService; 
+        this.reticulum_BService = reticulum_BService;
     }
     
     @GetMapping("/reticulum_As")  
@@ -57,7 +64,12 @@ public class Reticulum_AAPI {
     @GetMapping("/reticulum_As/sum")  
     public Map<String, Double> getSum() 
     {
-    	return reticulum_AService.getFPKMSum();
+    	Map<String, Double> map_reticulum_a = reticulum_AService.getFPKMSum();
+    	Map<String, Double> map_reticulum_b = reticulum_BService.getFPKMSum();
+    	Map<String, Double> map = new HashMap<>();
+    	map.putAll(map_reticulum_a);
+    	map.putAll(map_reticulum_b);
+    	return map;
     }
     
     @GetMapping("/reticulum_As/sorted")  

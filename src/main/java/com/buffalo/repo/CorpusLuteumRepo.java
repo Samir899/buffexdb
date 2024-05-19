@@ -16,6 +16,9 @@ import com.buffalo.entity.Genes;
 import com.buffalo.entity.Tissues;
 
 public interface CorpusLuteumRepo extends CrudRepository<CorpusLuteum, Integer>{
+	@Query("SELECT u FROM CorpusLuteum u WHERE u.ERR315632>=:lowerLimit and u.ERR315632<=:upperLimit "
+			+ "ORDER BY ERR315632 LIMIT 100")
+	public List<CorpusLuteum> getCorpusLuteumSorted(@Param("lowerLimit") Double lowerLimit, @Param("upperLimit") Double upperLimit);
 	
 //	@Query("SELECT u FROM CorpusLuteum u WHERE u.ERR315632>=:lowerlimit and ERR315632<=:upperLimit "
 //			+ "ORDER BY ERR315632 LIMIT 50")

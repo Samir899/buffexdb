@@ -2,6 +2,7 @@ package com.buffalo.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.buffalo.entity.SampleDescription;
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Cotyledon;
 import com.buffalo.entity.Genes;
 import com.buffalo.repo.BuffaloSampleDesRepoPagingAndSorting;
@@ -35,11 +37,18 @@ public class CotyledonService {
 		return (List<Cotyledon>) repo.findAll();
 	}
 	
-	public List<Cotyledon> getCotyledonBySRR(String srr) {	
-		 return repo.getCotyledonBySRR(srr);	
-		}	
-	
-	public Double getSumOfFPKM() {	
-		 return repo.getSum();
-		}
+//	public List<Cotyledon> getCotyledonBySRR(String srr) {	
+//		 return repo.getCotyledonBySRR(srr);	
+//		}	
+//	
+//	public Double getSumOfFPKM() {	
+//		 return repo.getSum();
+//		}
+	public Map<String, Double> getFPKMSum() {
+		return repo.getSum();
+	}
+	public List<Cotyledon> getCotyledonSorted(double lowerLimit, double upperLimit){
+		return (List<Cotyledon>) repo.getCotyledonSorted(lowerLimit, upperLimit);
+
+	}
 }

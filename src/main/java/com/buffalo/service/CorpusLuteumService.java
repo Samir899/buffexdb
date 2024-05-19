@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.CorpusLuteum;
 import com.buffalo.repo.CorpusLuteumRepo;
 import jakarta.transaction.Transactional;
@@ -30,7 +31,14 @@ public class CorpusLuteumService {
 //		}	
 
 
-	public  Map <String, Double> getSum() {	
-		 return repo.getSum();
-		}
+//	public  Map <String, Double> getSum() {	
+//		 return repo.getSum();
+//		}
+	public Map<String, Double> getFPKMSum() {
+		return repo.getSum();
+	}
+	public List<CorpusLuteum> getCorpusLuteumSorted(double lowerLimit, double upperLimit){
+		return (List<CorpusLuteum>) repo.getCorpusLuteumSorted(lowerLimit, upperLimit);
+
+	}
 }

@@ -29,11 +29,11 @@ i:hover{
 }
 .header_box {
   padding: 10px; /* Reduce the padding to make the box smaller */
-  margin-top: 50px; 
+  margin-top: 70px; 
   border: 1px solid #ccc; /* Border style */
   border-radius: 5px; /* Rounded corners */
   background-color: rgb(164, 196, 165); /* Background color */
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   font-family: Georgia, serif; /* Change font family */
   font-size: 25px; /* Change font size */
   font-weight: bold; /* Change font weight */
@@ -42,16 +42,17 @@ i:hover{
 }
 
 *.img_method{
+	
 	border: 1px solid #ccc;
-    padding: 20px;
+    padding: 30px;
     position: relative;
     right: 10px;
     left:200px;
-    margin-bottom: 70px;
+    margin-bottom: 20px;
 }
 
 *.img-fluid{
-	height: 220px;
+	height: 250px;
 	width: 300px;
 }
 *.member{
@@ -238,7 +239,7 @@ text-align: center;
 
 *.stat-container{
 
-	margin-bottom: 50px;
+	margin-bottom: 70px;
 	margin-top:50px
 
 	
@@ -259,7 +260,7 @@ text-align: center;
 	flex-direction: column;
   	align-items: center;
   	transition: transform 0.3s ease;
-  
+  	margin-bottom: 70px;
 }
 *.stat-card:hover{
 	cursor:pointer;
@@ -271,6 +272,7 @@ text-align: center;
 }
 *.stat-header{
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	
 }
 
 *.intro{

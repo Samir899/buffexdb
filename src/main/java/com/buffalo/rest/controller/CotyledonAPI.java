@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buffalo.entity.Blood;
 import com.buffalo.entity.Cotyledon;
 import com.buffalo.entity.GeneList;
 import com.buffalo.entity.Genes;
@@ -53,11 +55,23 @@ public class CotyledonAPI {
     	return service.listAllCotyledon();
     }
     
-    @GetMapping("/cotyledons/err/sum")  
-    public Double getSum() 
-    { 
-    	return service.getSumOfFPKM();
+    @GetMapping("/cotyledons/sum")  
+    public Map<String, Double> getSum() 
+    {
+    	return service.getFPKMSum();
     }
+    
+
+    @GetMapping("/cotyledons/sorted")  
+    public List<Cotyledon> getCotyledonSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
+    { 
+    	return service.getCotyledonSorted(lowerLimit, upperLimit);
+    }
+//    @GetMapping("/cotyledons/err/sum")  
+//    public Double getSum() 
+//    { 
+//    	return service.getSumOfFPKM();
+//    }
     
 //    @GetMapping("/cotyledons/geneId/{geneId}")  
 //    public Cotyledon getCotyledonByGeneId(@PathVariable(name = "geneId")String geneId) 
@@ -65,11 +79,11 @@ public class CotyledonAPI {
 //    	return service.getCotyledonByGeneId(geneId);
 //    }
     
-    @GetMapping("/cotyledons/srr/{srr}")  
-    public List<Cotyledon> getCotyledonBySRR(@PathVariable(name = "srr")String srr) 
-    { 
-    	return service.getCotyledonBySRR(srr);
-    }
+//    @GetMapping("/cotyledons/srr/{srr}")  
+//    public List<Cotyledon> getCotyledonBySRR(@PathVariable(name = "srr")String srr) 
+//    { 
+//    	return service.getCotyledonBySRR(srr);
+//    }
     
 //    @GetMapping("/sample_descriptions/query")  
 //    public List<SampleDescription> getAllProducts(@RequestParam("searchText") String searchText, @RequestParam("searchParam") String searchParam) 

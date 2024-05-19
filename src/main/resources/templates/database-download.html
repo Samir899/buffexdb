@@ -57,9 +57,6 @@
 							<a class="nav-link fs-5" th:href="@{/}">Home</a>
 						</li>
 						
-						<li class="nav-item">
-							<a class="nav-link fs-5" th:href="@{/about}">Teams</a>
-						</li>
 						
 						<li class="nav-item text-white fs-5">
 							 <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
@@ -79,6 +76,11 @@
 							      </ul>
 							  </div>
 							</li>
+							
+						<li class="nav-item">
+							<a class="nav-link fs-5" th:href="@{/about}">Team</a>
+						</li>
+						
 						<li class="nav-item">
 							<a class="nav-link fs-5" th:href="@{/downloads}">Downloads</a>
 						</li>
@@ -96,15 +98,15 @@
 			</nav>
 		</div>
 		
-		<div class="overflow-hidden" style="height:350px">
-		<img  class="img-fluid w-100" th:src="@{/images/downloads.jpg}" />
+		<div class="overflow-hidden" style="height:400px">
+		<img  class="img-fluid w-100" th:src="@{/images/download-page1.jpeg}" />
 		
 			
 		</div>
 		<div class="border p-3">
 		<div class="w-50 p-3 ">
 			<div class="mb-3">
-				<h4>Download Data</h4>
+				<h4>Download expression data</h4>
 			</div>
 			
 			<form th:action="@{/database/downloads}" method="post">
