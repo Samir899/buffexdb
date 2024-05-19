@@ -120,7 +120,7 @@
 				</div>
 				<div class="col">
 					<div class="input-group position-relative ">
-						  <input required placeholder="Type Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+						  <input required placeholder="Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
 					</div>
 <!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
@@ -128,7 +128,7 @@
 						  	<div id="listElements" >
 						  	</div>
 					 </div>
-						  
+					 <div id="input-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px;z-index:-1;"></div>
 					</div>
 				</div>				
 			</div>
@@ -335,8 +335,14 @@ document.getElementById("btn-searchGeneByName").addEventListener("click", functi
 	pagination();
 	checkedData = new Set();
 	searchText = document.getElementById("dropdownMenuLink1").value
-	url = "[[@{/gene/api/genes/}]]" + searchText
-	$.get(url, function(data, status){
+	if(!searchText){
+		hideLoader()
+		document.getElementById("input-error").innerHTML = "Please enter gene name"
+	}
+	else{
+	document.getElementById("input-error").innerHTML = ""
+		url = "[[@{/gene/api/genes/}]]" + searchText
+		$.get(url, function(data, status){
 		hideLoader()
 		globalData = [data];
 		if(!data){
@@ -354,6 +360,7 @@ document.getElementById("btn-searchGeneByName").addEventListener("click", functi
     		hideLoader();
     		alert('There was a problem with the request');
 	});
+	}
 })
 
 document.getElementById("firstPage").addEventListener("click", function(event){
@@ -442,14 +449,7 @@ function pagination(){
 }
 async function validateCheckBox(event){
 	renderLoader();
-	init=0;
-	last=1;
-	totalRecords = 1
-	totalPages = 1
-	pageNum=1;
-	checkedData = new Set();
-	pagination();
-    $("#genes").find("tbody").empty();
+	
 	var selectedValue = $("input[name=searchParam]:checked").val();
 	var textValue = $("input[name=searchText]").val();
 	if(textValue == "+"){
@@ -472,34 +472,42 @@ async function validateCheckBox(event){
   		alert('There was a problem with the request');
 	});
          
-url = "[[@{/gene/api/genes/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
-await $.get(url, function(data, status){
-	hideLoader();
-	globalData = data;
-	if(data.length==0){
-		pageInfo = `No Records found`
-		init=0;
-		last=0;
-		$("#pageInfo").empty();
-		$("#pageInfo").append(pageInfo);
-	}
-	else{
-		init=0;
-		last=pageSize;
-		if(globalData.length<pageSize){
-			last = globalData.length;
-		}
-		totalRecords = globalData.length;
-		totalPages = Math.ceil(globalData.length/pageSize);
-		numberOfRecordsOfLastPage = totalRecords%pageSize;
-		pagination();
-		renderTableNew();
-	}
-  }).fail(function(jqXHR, textStatus, errorThrown) {
-  		// Handle errors
-  		hideLoader();
-  		alert('There was a problem with the request');
-});	
+		url = "[[@{/gene/api/genes/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+		await $.get(url, function(data, status){
+			hideLoader();
+			init=0;
+			last=1;
+			totalRecords = 1
+			totalPages = 1
+			pageNum=1;
+			checkedData = new Set();
+			pagination();
+		    $("#genes").find("tbody").empty();
+			globalData = data;
+			if(data.length==0){
+				pageInfo = `No Records found`
+				init=0;
+				last=0;
+				$("#pageInfo").empty();
+				$("#pageInfo").append(pageInfo);
+			}
+			else{
+				init=0;
+				last=pageSize;
+				if(globalData.length<pageSize){
+					last = globalData.length;
+				}
+				totalRecords = globalData.length;
+				totalPages = Math.ceil(globalData.length/pageSize);
+				numberOfRecordsOfLastPage = totalRecords%pageSize;
+				pagination();
+				renderTableNew();
+			}
+		  }).fail(function(jqXHR, textStatus, errorThrown) {
+		  		// Handle errors
+		  		hideLoader();
+		  		alert('There was a problem with the request');
+		});	
      }
     hideLoader();
 	return false;

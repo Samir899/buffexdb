@@ -133,7 +133,7 @@
 				</div>
 				<div class="col">
 					<div class="input-group position-relative ">
-						  <input required placeholder="Type Run Id" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+						  <input required placeholder="Run Id" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
 					</div>
 <!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
@@ -141,7 +141,7 @@
 						  	<div id="listElements" >
 						  	</div>
 					 </div>
-						  
+				     <div id="input-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px;z-index:-1;"></div>
 					</div>
 				</div>				
 			</div>
@@ -354,27 +354,39 @@ $( document ).ready(function() {
 });
 
 document.getElementById("btn-searchGeneByName").addEventListener("click", function(event){
-	init=0;
-	last=1;
-	totalRecords = 1
-	totalPages = 1
-	pageNum=1;
-	pagination();
-	checkedData = new Set();
-    $("#genes").find("tbody").empty();
+
 	searchText = document.getElementById("dropdownMenuLink1").value
-	url = "[[@{/sample_description/api/sample_descriptions/}]]" + searchText
-	$.get(url, function(data, status){
-		globalData = [data];
-		if(!data){
-			pageInfo = `No Records found`
-			init=0;
-			last=0;
-			$("#pageInfo").empty();
-			$("#pageInfo").append(pageInfo);
-		}
-		renderTableNew() 
-	})
+	if(!searchText){
+		hideLoader()
+		document.getElementById("input-error").innerHTML = "Please enter Run ID"
+	}
+	else{
+		url = "[[@{/sample_description/api/sample_descriptions/}]]" + searchText
+		$.get(url, function(data, status){
+			globalData = [data];
+				init=0;
+				last=1;
+				totalRecords = 1
+				totalPages = 1
+				pageNum=1;
+				pagination();
+				checkedData = new Set();
+			    $("#genes").find("tbody").empty();
+			if(!data){
+				pageInfo = `No Records found`
+				init=0;
+				last=0;
+				$("#pageInfo").empty();
+				$("#pageInfo").append(pageInfo);
+			}
+			renderTableNew() 
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+	});
+	}
+	
 })
 
 document.getElementById("firstPage").addEventListener("click", function(event){
@@ -464,21 +476,14 @@ function pagination(){
 }
 	function validateCheckBox(form){
 		renderLoader();
-		init=0;
-		last=1;
-		totalRecords = 1
-		totalPages = 1
-		pageNum=1;
-		checkedData = new Set();
-		pagination();
-	    $("#genes").find("tbody").empty();
 		var selectedValue = $("input[name=searchParam]:checked").val();
 		var textValue = $("input[name=searchText]").val();
 		if(textValue == "+"){
 			textValue = "%2B";
 		}
 		if(!selectedValue){
-            $("#radio-error").text("Please select a search parameter");   
+            $("#radio-error").text("Please select a search parameter");
+            hideLoader()   
             } 
          else {  
 	         $("#radio-error").empty();
@@ -491,6 +496,14 @@ function pagination(){
 			url = "[[@{/sample_description/api/sample_descriptions/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
 			$.get(url, function(data, status){
 				hideLoader();
+				init=0;
+				last=1;
+				totalRecords = 1
+				totalPages = 1
+				pageNum=1;
+				checkedData = new Set();
+				pagination();
+			    $("#genes").find("tbody").empty();
 				globalData = data;
 				if(data.length==0){
 					pageInfo = `No Records found`
