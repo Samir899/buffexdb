@@ -16,7 +16,7 @@
 
 </head>
 <body>
-
+	<div class="parent">
 	<div class="container-fluid">
 		<div>
 			<div class="nav-bg">
@@ -73,6 +73,7 @@
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expression Data</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
+							          	<li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Classification</a></li>
 							          </ul>
 							        </li>
 							      </ul>
@@ -94,32 +95,18 @@
 		</div>
 		<div class="border">
 			<div class="p-2">
-			<div class="row w-100" style="height:100px">
-			<div class="col">
-			<form class="" id="queryForm" method="post" onSubmit="return validateCheckBox(this);">
-				<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
-				<div class="input-group mb-2">
-				  <input required type="text" class="form-control" name="searchText" placeholder="Strand, Chromosome" aria-label="Recipient's username" id="searchText">
-				  <button class="btn btn-outline-secondary" type="submit" id="search">Search</button>
-				</div>
-				<div class="align-middle mb-2">
-				   <input class="form-check-input" type="radio" name="searchParam" id="strand" value="strand">
-				  <label class="form-check-label" for="flexRadioDefault1">
-				    STRAND
-				  </label>
-				   <input class="form-check-input" type="radio" name="searchParam" id="chromosome" value="chromosome">
-				  <label class="form-check-label" for="flexRadioDefault1">
-				    CHROMOSOME
-				  </label>
-				</div>
-				
-				<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px"></div>
-				</form>
+			<div class="row w-100" style="height:fit-content">
+				<div class="col">
+					<!--  <input class="form-input" type="text" name="database" th:value="${database}" hidden=true>-->
+					<div class="input-group">
+					  <input required type="text" class="form-control" name="searchText" placeholder="Coding Label" aria-label="Recipient's username" id="input_codingLabel">
+					  <button class="btn btn-outline-secondary" type="submit" id="btn_srch_by_coding_label" onclick="searchByCodingLabel()">Search</button>
+					</div>
 				</div>
 				<div class="col">
 					<div class="input-group position-relative ">
-						  <input required placeholder="Type Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
+						  <input required placeholder="Gene Symbol" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName" onclick="searchByGeneSymbol()">Search</button>
 					</div>
 <!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
 					<div hidden=true id="listContainer" class=" position-absolute bg-light  overflow-auto text-nowrap border rounded-bottom" style="height:200px; width:560px;">
@@ -130,12 +117,11 @@
 					</div>
 				</div>				
 			</div>
-			
-			<div class="m-2">
-					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
-				</div>
- 		<div class="overflow-auto p-2 text-nowrap">
- 		<table class="table table-striped border" id="pathways">
+		<div class="p-2" style="background-color:rgb(38,80,115);color:white;">
+			<h3 class="text-center">Pathways - Functional Description</h3>
+		</div>
+ 		<div class="p-2 text-nowrap overflow-auto">
+ 			<table class="table table-striped border table-bordered" id="pathways">
 			  <thead class="table-dark">
 				  
 			  </thead>
@@ -167,7 +153,50 @@
 			</div>
 		</div>
 	</div>
-
+	<div id='pathway-desc' class='pathway-desc border'  style="visibility:hidden">
+	<div class="close d-flex flex-row-reverse bd-highlight" id="close-heatmap">
+				<i onclick="closeFullLengthDesc(this)" class="fa-regular fa-rectangle-xmark"></i>
+			</div>
+		<div>
+			<h3 class='text-center m-2'>Description</h3>
+		</div>
+		<div id="desc" class='text-center m-2 border fw-normal' style=' text-align: justify;'>
+			
+		</div>
+	</div>
+	<div class="overlay-loader" id="table_loader_bg">
+	 				<div class="fixed w-100">
+	 					<div class="popup-loader" id="table_loader"></div>
+					</div>
+	</div>
+	<div class="overlay text-nowrap" id="overlay_desc">
+			<div class="fixed w-100">
+			<div class="popup-table border rounded p-3">
+			<div class="close d-flex flex-row-reverse bd-highlight" id="close">
+				<i onclick="closePopup_desc(this)" class="fa-regular fa-rectangle-xmark"></i>
+			</div>
+			 <div class="p-2 d-flex align-items-center">
+			 	<div class="p-2">
+			 		<h3 id='popup-desc'>Sample Description</h3>
+			 	</div>
+			 	<div class="p-2">
+			 		<i class="fa-solid fa-download"></i>
+			 	</div>
+			 	 
+			 </div>
+			 <div class="container overflow-auto">
+					<table class="table table-hover table-bordered" id="popup-table-view">
+		 			 <thead class="table-bordered">
+		  			</thead>
+		  			<tbody>
+		    
+		  			</tbody>
+				</table>
+			</div>		
+			</div>
+			</div>		  
+		</div>
+	</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script type="text/javascript">
 var	init = 0;
@@ -183,29 +212,76 @@ var checkedData = new Set();
 var uncheckedData = new Set();
 var geneIdSet = new Set();
 var isCheckAll = false;
+var geneSymbols = [];
 
-document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
- 	$("#listElements").empty();  
-	var inputVal = document.getElementById("dropdownMenuLink1").value;
-	if(inputVal==""){
-		document.getElementById("listContainer").hidden = true;
-	}
-	else{
-		document.getElementById("listContainer").hidden = false;
-	}
-	var newArray = geneData.filter(function (el) {
-			return el.geneName.startsWith(inputVal.toUpperCase());
-			});
-		for(let i=0;i<newArray.length;i++){
-			var anchor = `<div onclick="dropdownSelection('${newArray[i].geneId}')" class="dropdown-list px-2 py-1 fw-bold">${newArray[i].geneName}</div>`
-			$("#listElements").append(anchor);   
-		}
-});
-
-function dropdownSelection(string){
-	document.getElementById("dropdownMenuLink1").value = string;
-	document.getElementById("listContainer").hidden = true;
-	$("#listElements").empty()
+async function searchByCodingLabel(){
+	renderLoader()
+	codingLabelText = document.getElementById("input_codingLabel").value;
+	console.log(codingLabelText);
+	url = "[[@{/pathways/api/pathwayss/}]]" + codingLabelText;
+	await $.get(url, function(data, status){
+		globalData = data;
+		checkedData = new Set();
+		uncheckedData = new Set();
+		totalRecords = data.length;
+    	totalPages = Math.ceil(totalRecords/pageSize);
+    	numberOfRecordsOfLastPage = totalRecords%pageSize;
+    	if(data.length!=0){
+    		init = 0;
+				if(totalRecords>=10){
+    			last = 10;
+    		}
+    		else{
+    			last = totalRecords;
+    		}
+			pageNum = 1;
+    		renderTableNew();
+    		pagination();
+    	}
+    	else{
+    		alert("No data found")
+    	}
+		hideLoader()
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+	});
+}
+async function searchByGeneSymbol(){
+	renderLoader()
+	geneSymbolText = document.getElementById("dropdownMenuLink1").value;
+	url = "[[@{/pathways/api/pathwayss/gene-symbol/}]]" + geneSymbolText;
+	await $.get(url, function(data, status){
+	    hideLoader()
+		globalData = data;
+		checkedData = new Set();
+		uncheckedData = new Set();
+		totalRecords = data.length;
+    	totalPages = Math.ceil(totalRecords/pageSize);
+    	numberOfRecordsOfLastPage = totalRecords%pageSize;
+    	if(data.length!=0){
+    		init = 0;
+    		if(totalRecords>=10){
+    			last = 10;
+    		}
+    		else{
+    			last = totalRecords;
+    		}
+			
+			pageNum = 1;
+    		renderTableNew();
+    		pagination();
+    	}
+    	else{
+    		alert("No data found")
+    	}
+		
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+	});
 }
 
 function renderTableNew(){
@@ -227,6 +303,9 @@ function renderTableNew(){
 		else if(key.toUpperCase() == 'ID'){
 			continue;
 		}
+		else if(key.toUpperCase() == 'GENEID'){
+			td = `<td>GENE ID</td>`;
+		}
 			
 		else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 	
@@ -238,7 +317,7 @@ function renderTableNew(){
 			}		
 		}
 		else{
-			td = `<td>${key.toUpperCase()}</td>`;
+			td = `<td>${key.toUpperCase().replaceAll('_', " ")}</td>`;
 		}
 		headerRow = headerRow + td;
 		}
@@ -264,7 +343,10 @@ function renderTableNew(){
 			}
 			else if(key.toUpperCase() == 'ID'){
 				continue;
-			}				
+			}
+			if(key.toUpperCase() == 'GENEID'){
+				td = `<td><a style="color:blue;" onclick="showGeneDescription(this)">${value}</a></td>`;
+			}			
 			else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 				
 				if(isFpkm){
@@ -277,8 +359,19 @@ function renderTableNew(){
 				}
 				
 			}
+			else if(key.toUpperCase() == 'GENEID'){
+					td = `<td>${value}</td>`;
+				}	
 			else{
-				td = `<td>${value}</td>`;
+				
+				if(value && value.length > 10){
+					id = object1.id
+					td = `<td ><div style="width:100px;overflow:hidden;color:blue;"><a onClick="showFullLength(this)" >${value}</a> </div></td>`;
+					
+				}
+				else{
+					td = `<td>${value}</td>`;
+				}
 			}
 			dataRow = dataRow + td;
 		}
@@ -288,49 +381,82 @@ function renderTableNew(){
 	}
 }
 
+function showFullLength(event){
+	let desc = event.innerHTML.trim();
+	document.getElementById("pathway-desc").style.visibility="visible"
+	document.getElementById("pathway-desc").style.zIndex="11";
+	//document.getElementById("pathway-desc").style.zIndex="1";
+	description = `<p>${desc}</p>`
+	$("#desc").empty();
+	$("#desc").append(description);
+	
+	
+}
+function closeFullLengthDesc(){
+	
+	document.getElementById("pathway-desc").style.visibility="hidden"
+	document.getElementById("pathway-desc").style.zIndex="-1";
+	$("#desc").empty();
+}
+
+document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
+ 	$("#listElements").empty();  
+	var inputVal = document.getElementById("dropdownMenuLink1").value;
+	if(inputVal==""){
+		document.getElementById("listContainer").hidden = true;
+	}
+	else{
+		document.getElementById("listContainer").hidden = false;
+	}
+	var newArray = geneSymbols.filter(function (el) {
+			return el.startsWith(inputVal.toUpperCase());
+			});
+		for(let i=0;i<newArray.length;i++){
+			var anchor = `<div onclick="dropdownSelection('${newArray[i]}')" class="dropdown-list px-2 py-1 fw-bold">${newArray[i]}</div>`
+			$("#listElements").append(anchor);   
+		}
+});
+
+function dropdownSelection(string){
+	document.getElementById("dropdownMenuLink1").value = string;
+	document.getElementById("listContainer").hidden = true;
+	$("#listElements").empty()
+}
+
 
 $( document ).ready(function() {
-	url = "[[@{/pathways/api/pathwayss/geneId/all}]]"
+	renderLoader();
+	url = "[[@{/gene/api/genes/geneId/all}]]"
 	$.get(url, function(data, status){
 		uncheckedGeneData = new Set(data);
 		geneIdSet = new Set(data);
 	});
+	url = "[[@{/pathways/api/pathwayss/gene-symbols}]]"
+	$.get(url, function(data, status){
+		geneSymbols = data;
+	});
     url = "[[@{/pathways/api/pathwayss}]]"
     	$.get(url, function(data, status){
-    	geneData = data;
-    	globalData = data;
-    	totalRecords = data.length;
-    	totalPages = Math.ceil(totalRecords/pageSize);
-    	numberOfRecordsOfLastPage = totalRecords%pageSize;
-    	renderTableNew();
- 		pagination();
-});
+			hideLoader();
+	    	geneData = data;
+	    	globalData = data;
+	    	totalRecords = data.length;
+	    	totalPages = Math.ceil(totalRecords/pageSize);
+	    	numberOfRecordsOfLastPage = totalRecords%pageSize;
+	    	if(data.length!=0){
+	    		renderTableNew();
+	    		pagination();
+	    	}
+	    	else{
+	    		alert("No data found")
+	    	}
+    	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
 });
 
-document.getElementById("btn-searchGeneByName").addEventListener("click", function(event){
-	init=0;
-	last=1;
-	totalRecords = 1
-	totalPages = 1
-	pageNum=1;
-	pagination();
-	checkedData = new Set();
-	searchText = document.getElementById("dropdownMenuLink1").value
-	url = "[[@{/pathways/api/pathwayss/}]]" + searchText
-	$.get(url, function(data, status){
-		globalData = [data];
-		if(!data){
-			pageInfo = `No Records found`
-			init=0;
-			last=0;
-			$("#pageInfo").empty();
-			$("#pageInfo").append(pageInfo);
-		}
-		else{
-			renderTableNew();
-		}
-	})
-})
 
 document.getElementById("firstPage").addEventListener("click", function(event){
         if(pageNum>1){
@@ -538,7 +664,59 @@ function checkBox(checkbox){
 	     	});
  	});
  }
- 
+ function hideLoader(){
+	$("#table_loader").empty();
+	document.getElementById("table_loader_bg").style.visibility = "hidden";
+}
+
+function renderLoader(){
+	document.getElementById("table_loader_bg").style.visibility = "visible";
+	loader = `<div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div>`;
+	$("#table_loader").append(loader);
+}
+function closePopup_desc(event){
+	document.getElementById("overlay_desc").style.visibility = "hidden";
+	document.getElementById("overlay_desc").style.zIndex = "-1";
+}
+
+function showGeneDescription(event){
+	renderLoader()
+	let geneId = event.innerHTML.split("(")[0].trim();
+
+	headerRow = "";
+	var object1 = {};
+	document.getElementById("popup-desc").innerHTML = "Gene Description";
+	document.getElementById("overlay_desc").style.visibility = "visible";
+	document.getElementById("overlay_desc").style.zIndex = "1";
+	url = "[[@{/gene/api/genes/}]]" + geneId;
+	$.get(url, function(data, status){
+		hideLoader()
+		object1 = data;
+
+		
+		for(const [key, value] of Object.entries(object1)){	
+			headerRow = headerRow + `<td class="p-2">${key.toUpperCase()}</td>`;		
+			}
+		$("#popup-table-view").find("thead").empty()
+		$("#popup-table-view").find("tbody").empty();
+		$("#popup-table-view").find("thead").append(headerRow);
+			
+		dataRow="<tr>";
+		//dataRow= dataRow + `<td><div class="form-check"><input onclick="checkBox(this)" name="cbSelect" class="form-check-input" type="checkbox" checked="true" value=${i} id=${object1.gene.geneId}></div></td>`;
+	
+		for(const [key, value] of Object.entries(object1)){					
+			dataRow = dataRow + `<td class="p-2">${value}</td>`;
+			}
+		dataRow = dataRow + "</tr>";
+		$("#popup-table-view").find("tbody").append(dataRow);  
+			
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+	});
+}
+
 </script>
 </body>
 </html>

@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,8 +19,8 @@ public class Liver_A {
 	  private int id;
 	 
 
-	 @Column(name = "geneId")
-	 String geneId;
+//	 @Column(name = "geneId")
+//	 String geneId;
 	 
 	 @Column(name="ERR2352665")
 	 private double ERR2352665;
@@ -319,13 +321,17 @@ public class Liver_A {
 
 	 @Column(name="ERR2354533")
 	 private double ERR2354533;
-
+	 
+	 @ManyToOne
+	 @JoinColumn(name = "geneId")
+	 private Liver_B liverB;
+	 
 	public Liver_A() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Liver_A(int id, String geneId, double eRR2352665, double eRR2352666, double eRR2352667, double eRR2352668,
+	public Liver_A(Liver_B liverB, int id, String geneId, double eRR2352665, double eRR2352666, double eRR2352667, double eRR2352668,
 			double eRR2352669, double eRR2352670, double eRR2352671, double eRR2352672, double eRR2352673,
 			double eRR2352674, double eRR2352675, double eRR2352676, double eRR2352677, double eRR2352678,
 			double eRR2352679, double eRR2352680, double eRR2352681, double eRR2352682, double eRR2352683,
@@ -348,7 +354,8 @@ public class Liver_A {
 			double eRR2354533) {
 		super();
 		this.id = id;
-		this.geneId = geneId;
+//		this.geneId = geneId;
+		this.liverB = liverB;
 		ERR2352665 = eRR2352665;
 		ERR2352666 = eRR2352666;
 		ERR2352667 = eRR2352667;
@@ -459,18 +466,24 @@ public class Liver_A {
 		this.id = id;
 	}
 
-	public String getGeneId() {
-		return geneId;
-	}
+//	public String getGeneId() {
+//		return geneId;
+//	}
 
-	public void setGeneId(String geneId) {
-		this.geneId = geneId;
-	}
+//	public void setGeneId(String geneId) {
+//		this.geneId = geneId;
+//	}
 
 	public double getERR2352665() {
 		return ERR2352665;
 	}
-
+	
+	public Liver_B getLiverB() {
+		return this.liverB;
+	}
+	public void setLiverB(Liver_B liverB) {
+		this.liverB = liverB;
+	}
 	public void setERR2352665(double eRR2352665) {
 		ERR2352665 = eRR2352665;
 	}
@@ -1269,7 +1282,7 @@ public class Liver_A {
 
 	@Override
 	public String toString() {
-		return "Liver_A [id=" + id + ", geneId=" + geneId + ", ERR2352665=" + ERR2352665 + ", ERR2352666=" + ERR2352666
+		return "Liver_A [id=" + id + ", liverB=" + liverB + ", ERR2352665=" + ERR2352665 + ", ERR2352666=" + ERR2352666
 				+ ", ERR2352667=" + ERR2352667 + ", ERR2352668=" + ERR2352668 + ", ERR2352669=" + ERR2352669
 				+ ", ERR2352670=" + ERR2352670 + ", ERR2352671=" + ERR2352671 + ", ERR2352672=" + ERR2352672
 				+ ", ERR2352673=" + ERR2352673 + ", ERR2352674=" + ERR2352674 + ", ERR2352675=" + ERR2352675

@@ -37,6 +37,7 @@ public class CorpusLuteumAPI {
     
     @GetMapping("/corpusluteums/err/sum")  
     public Map <String, Double> getSum() 
+
     { 
     	return service.getSum();
     }

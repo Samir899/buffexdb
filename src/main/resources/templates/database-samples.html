@@ -16,7 +16,7 @@
 
 </head>
 <body>
-
+<div class="parent">
 	<div class="container-fluid">
 		<div>
 			<div class="nav-bg">
@@ -73,6 +73,7 @@
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expressions</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
+							            <li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Classification</a></li>
 							          </ul>
 							        </li>
 							      </ul>
@@ -119,6 +120,10 @@
 				  <label class="form-check-label" for="flexRadioDefault1">
 				    TISSUES
 				  </label>
+				  <input class="form-check-input" type="radio" name="searchParam" id="category" value="category">
+				  <label class="form-check-label" for="flexRadioDefault1">
+				    CATEGORY
+				  </label>
 				</div>
 				
 				<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px"></div>
@@ -143,7 +148,7 @@
 					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
 				</div>
  		<div class="overflow-auto text-nowrap p-2">
- 		<table class="table table-striped border" id="genes">
+ 		<table class="table table-striped border table-bordered" id="genes">
 			  <thead class="table-dark">
 			  </thead>
 			  <tbody>
@@ -175,7 +180,12 @@
 		</div>
 		
 	</div>
-
+	<div class="overlay-loader" id="table_loader_bg">
+	 				<div class="fixed w-100">
+	 					<div class="popup-loader" id="table_loader"></div>
+					</div>
+	</div>
+	</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script type="text/javascript">
 var	init = 0;
@@ -239,7 +249,12 @@ function renderTableNew(){
 		else if(key.toUpperCase() == 'ID'){
 			continue;
 		}
-			
+		else if(key.toUpperCase() == 'BIOPROJECT'){
+			td = `<td>BIO PROJECT</td>`;
+		}
+		else if(key.toUpperCase() == 'BIOSAMPLE'){
+			td = `<td>BIO SAMPLE</td>`;
+		}
 		else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 	
 			if(isFpkm){
@@ -250,7 +265,7 @@ function renderTableNew(){
 			}		
 		}
 		else{
-			td = `<td>${key.toUpperCase()}</td>`;
+			td = `<td>${key.toUpperCase().replace('_', ' ')}</td>`;
 		}
 		headerRow = headerRow + td;
 		}
@@ -290,6 +305,12 @@ function renderTableNew(){
 				}
 				
 			}
+			else if(key.toUpperCase() == 'BIOPROJECT'){
+				td = `<td><a target=”_blank” href="https://www.ncbi.nlm.nih.gov/bioproject/${value}">${value}</td>`;
+			}
+			else if(key.toUpperCase() == 'BIOSAMPLE'){
+				td = `<td><a target=”_blank” href="https://www.ncbi.nlm.nih.gov/biosample/${value}">${value}</td>`;
+			}
 			else{
 				td = `<td>${value}</td>`;
 			}
@@ -303,13 +324,19 @@ function renderTableNew(){
 
 
 $( document ).ready(function() {
+	renderLoader()
 	url = "[[@{/sample_description/api/sample_descriptions/runIds/all}]]"
 	$.get(url, function(data, status){
 		uncheckedData = new Set(data);
 		idSet = new Set(data);
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
 	});
     url = "[[@{/sample_description/api/sample_descriptions}]]"
     	$.get(url, function(data, status){
+    	hideLoader();
     	fetchedData = data;
     	globalData = data;
     	totalRecords = data.length;
@@ -317,7 +344,11 @@ $( document ).ready(function() {
     	numberOfRecordsOfLastPage = totalRecords%pageSize;
     	renderTableNew();
  		pagination();
-});
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
 });
 
 document.getElementById("btn-searchGeneByName").addEventListener("click", function(event){
@@ -430,6 +461,7 @@ function pagination(){
 	$("#pageInfo").append(pageInfo);
 }
 	function validateCheckBox(form){
+		renderLoader();
 		init=0;
 		last=1;
 		totalRecords = 1
@@ -456,7 +488,7 @@ function pagination(){
          	console.log(selectedValue, ":", textValue)
 			url = "[[@{/sample_description/api/sample_descriptions/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
 			$.get(url, function(data, status){
-				console.log(status)
+				hideLoader();
 				globalData = data;
 				if(data.length==0){
 					pageInfo = `No Records found`
@@ -477,7 +509,11 @@ function pagination(){
 					pagination();
 					renderTableNew()
 				}
-			  });	
+			 	 }).fail(function(jqXHR, textStatus, errorThrown) {
+	    			// Handle errors
+	    			hideLoader();
+	    			alert('There was a problem with the request');
+				});	
          }
 		return false;
 	}
@@ -524,6 +560,7 @@ function checkBox(checkbox){
  }
  
  function fetchGenes(btn){
+ 	renderLoader();
  	payload_1 = [...checkedData]
  	payload_2 = payload_1.splice(0, Math.floor(payload_1.length/2));
  	resposeData_1 = [];
@@ -536,6 +573,7 @@ function checkBox(checkbox){
         responseData_1 = responseData_1.substring(index+1, responseData_1.length);
  		params = {runIds: payload_2};
  		$.post(url, params, function(data, status){
+ 		hideLoader();
 	 		responseData_2 = data;
 	 		responseData = responseData_2.concat(responseData_1);
 	 		const blob = new Blob([responseData], { type: 'text/csv' });
@@ -544,10 +582,27 @@ function checkBox(checkbox){
 		    a.setAttribute('href', urls);
 		    a.setAttribute('download', 'sample_description.csv'); 
 		    a.click();
-	     	});
- 	});
+	     	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+			});
+ 		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
  }
- 
+  function hideLoader(){
+	$("#table_loader").empty();
+	document.getElementById("table_loader_bg").style.visibility = "hidden";
+}
+
+function renderLoader(){
+	document.getElementById("table_loader_bg").style.visibility = "visible";
+	loader = `<div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div>`;
+	$("#table_loader").append(loader);
+}
 </script>
 </body>
 </html>

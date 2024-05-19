@@ -16,7 +16,7 @@
 
 </head>
 <body>
-
+<div class="parent">
 	<div class="container-fluid">
 		<div>
 			<div class="nav-bg">
@@ -73,6 +73,7 @@
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expression Data</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
+							          <li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Classification</a></li>
 							          </ul>
 							        </li>
 							      </ul>
@@ -96,16 +97,16 @@
 			<div class="p-2">
 			<div class="row w-100" style="height:100px">
 			<div class="col">
-			<form class="" id="queryForm" method="post" onSubmit="return validateCheckBox(this);">
+			<form class="" id="queryForm" method='GET'  onsubmit="event.preventDefault()">
 				<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
 				<div class="input-group mb-2">
-				  <input required type="text" class="form-control" name="searchText" placeholder="Strand, Chromosome" aria-label="Recipient's username" id="searchText">
-				  <button class="btn btn-outline-secondary" type="submit" id="search">Search</button>
+				  <input required type="text" class="form-control" name="searchText" placeholder="Coding Label, Chromosome" aria-label="Recipient's username" id="searchText">
+				  <button class="btn btn-outline-secondary" type="submit" onclick="validateCheckBox(this)" id="search">Search</button>
 				</div>
 				<div class="align-middle mb-2">
-				   <input class="form-check-input" type="radio" name="searchParam" id="strand" value="strand">
+				   <input class="form-check-input" type="radio" name="searchParam" id="coding_label" value="coding_label">
 				  <label class="form-check-label" for="flexRadioDefault1">
-				    STRAND
+				    CODING LABEL
 				  </label>
 				   <input class="form-check-input" type="radio" name="searchParam" id="chromosome" value="chromosome">
 				  <label class="form-check-label" for="flexRadioDefault1">
@@ -135,7 +136,7 @@
 					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
 				</div>
  		<div class="overflow-auto p-2 text-nowrap">
- 		<table class="table table-striped border" id="genes">
+ 		<table class="table table-striped border table-bordered" id="genes">
 			  <thead class="table-dark">
 				  
 			  </thead>
@@ -167,7 +168,12 @@
 			</div>
 		</div>
 	</div>
-
+	<div class="overlay-loader" id="table_loader_bg">
+	 				<div class="fixed w-100">
+	 					<div class="popup-loader" id="table_loader"></div>
+					</div>
+	</div>
+	</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script type="text/javascript">
 var	init = 0;
@@ -290,6 +296,7 @@ function renderTableNew(){
 
 
 $( document ).ready(function() {
+	renderLoader();
 	url = "[[@{/gene/api/genes/geneId/all}]]"
 	$.get(url, function(data, status){
 		uncheckedGeneData = new Set(data);
@@ -304,10 +311,16 @@ $( document ).ready(function() {
     	numberOfRecordsOfLastPage = totalRecords%pageSize;
     	renderTableNew();
  		pagination();
-});
+ 		hideLoader();
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
 });
 
 document.getElementById("btn-searchGeneByName").addEventListener("click", function(event){
+	renderLoader();
 	init=0;
 	last=1;
 	totalRecords = 1
@@ -318,6 +331,7 @@ document.getElementById("btn-searchGeneByName").addEventListener("click", functi
 	searchText = document.getElementById("dropdownMenuLink1").value
 	url = "[[@{/gene/api/genes/}]]" + searchText
 	$.get(url, function(data, status){
+		hideLoader()
 		globalData = [data];
 		if(!data){
 			pageInfo = `No Records found`
@@ -329,7 +343,11 @@ document.getElementById("btn-searchGeneByName").addEventListener("click", functi
 		else{
 			renderTableNew();
 		}
-	})
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+	});
 })
 
 document.getElementById("firstPage").addEventListener("click", function(event){
@@ -416,59 +434,70 @@ function pagination(){
 	}
 	$("#pageInfo").append(pageInfo);
 }
-	function validateCheckBox(form){
-		init=0;
-		last=1;
-		totalRecords = 1
-		totalPages = 1
-		pageNum=1;
-		checkedData = new Set();
-		pagination();
-	    $("#genes").find("tbody").empty();
-		var selectedValue = $("input[name=searchParam]:checked").val();
-		var textValue = $("input[name=searchText]").val();
-		if(textValue == "+"){
-			textValue = "%2B";
-		}
-		if(!selectedValue){
-            $("#radio-error").text("Please select a search parameter");   
-            } 
-            else {  
-            $("#radio-error").empty();
-            
-            url = "[[@{/gene/api/genes/query/geneIds}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
-            $.get(url, function(data, status){	
-            		geneIdSet = new Set(data);
-            	});
-            
-			url = "[[@{/gene/api/genes/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
-			$.get(url, function(data, status){
-			
-				globalData = data;
-				
-				if(data.length==0){
-					pageInfo = `No Records found`
-					init=0;
-					last=0;
-					$("#pageInfo").empty();
-					$("#pageInfo").append(pageInfo);
-				}
-				else{
-					init=0;
-					last=pageSize;
-					if(globalData.length<pageSize){
-						last = globalData.length;
-					}
-					totalRecords = globalData.length;
-					totalPages = Math.ceil(globalData.length/pageSize);
-					numberOfRecordsOfLastPage = totalRecords%pageSize;
-					pagination();
-					renderTableNew();
-				}
-			  });	
-            }
-		return false;
+async function validateCheckBox(event){
+	renderLoader();
+	init=0;
+	last=1;
+	totalRecords = 1
+	totalPages = 1
+	pageNum=1;
+	checkedData = new Set();
+	pagination();
+    $("#genes").find("tbody").empty();
+	var selectedValue = $("input[name=searchParam]:checked").val();
+	var textValue = $("input[name=searchText]").val();
+	if(textValue == "+"){
+		textValue = "%2B";
 	}
+	if(!selectedValue){
+           $("#radio-error").text("Please select a search parameter"); 
+           console.log("Eror")  
+           } 
+     else {  
+         $("#radio-error").empty();
+         
+         url = "[[@{/gene/api/genes/query/geneIds}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+         await $.get(url, function(data, status){	
+         		geneIdSet = new Set(data);
+         		
+         	}).fail(function(jqXHR, textStatus, errorThrown) {
+  		// Handle errors
+  		hideLoader();
+  		alert('There was a problem with the request');
+	});
+         
+url = "[[@{/gene/api/genes/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+await $.get(url, function(data, status){
+	hideLoader();
+	globalData = data;
+	if(data.length==0){
+		pageInfo = `No Records found`
+		init=0;
+		last=0;
+		$("#pageInfo").empty();
+		$("#pageInfo").append(pageInfo);
+	}
+	else{
+		init=0;
+		last=pageSize;
+		if(globalData.length<pageSize){
+			last = globalData.length;
+		}
+		totalRecords = globalData.length;
+		totalPages = Math.ceil(globalData.length/pageSize);
+		numberOfRecordsOfLastPage = totalRecords%pageSize;
+		pagination();
+		renderTableNew();
+	}
+  }).fail(function(jqXHR, textStatus, errorThrown) {
+  		// Handle errors
+  		hideLoader();
+  		alert('There was a problem with the request');
+});	
+     }
+    hideLoader();
+	return false;
+}
 	
 	$(document).ready (function () {  
     $('#genes').after ('<div id="nav"></div>');  
@@ -538,7 +567,16 @@ function checkBox(checkbox){
 	     	});
  	});
  }
- 
+  function hideLoader(){
+	$("#table_loader").empty();
+	document.getElementById("table_loader_bg").style.visibility = "hidden";
+}
+
+function renderLoader(){
+	document.getElementById("table_loader_bg").style.visibility = "visible";
+	loader = `<div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div>`;
+	$("#table_loader").append(loader);
+}
 </script>
 </body>
 </html>

@@ -63,7 +63,6 @@ public class GeneService {
 		if(searchParam.equals("strand")) {
 			System.out.println("searchText is :" + searchText);
 			return geneRepoPaging.getGeneByStrand(searchText, pageable);
-			
 		}
 			
 		return null;
@@ -82,6 +81,10 @@ public class GeneService {
 			System.out.println("searchText is :" + searchText);
 			return geneRepo.getGeneByStrand(searchText);
 		}
+		if(searchParam.equals("coding_label")) {
+			System.out.println("searchText is :" + searchText);
+			return geneRepo.getGeneByCodingLabel(searchText);
+		}
 		return null;
 	}
 	public List<String> listGeneIdsByQuery(String searchText, String searchParam){
@@ -96,6 +99,10 @@ public class GeneService {
 		if(searchParam.equals("strand")) {
 			System.out.println("searchText is :" + searchText);
 			return geneRepo.getGeneIdByStrand(searchText);
+		}
+		if(searchParam.equals("coding_label")) {
+			System.out.println("searchText is :" + searchText);
+			return geneRepo.getGeneIdByCodingLabel(searchText);
 		}
 		return null;
 	}

@@ -11,14 +11,13 @@ import jakarta.persistence.Table;
 @Table(name = "liver_b")
 public class Liver_B {
 
-	@Id
-	 @Column(name="id")
-	 @GeneratedValue(strategy = GenerationType.AUTO)
-	  private int id;
+//	@Id
+//	 @Column(name="id")
+//	 @GeneratedValue(strategy = GenerationType.AUTO)
+//	  private int id;
 	 
-
-	 @Column(name = "geneId")
-	 String geneId;
+	 @Id
+	 private String geneId;
 	 
 	 @Column(name="ERR2354534")
 	 private double ERR2354534;
@@ -265,7 +264,7 @@ public class Liver_B {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Liver_B(int id, String geneId, double eRR2354534, double eRR2354535, double eRR2354536, double eRR2354537,
+	public Liver_B(String geneId, double eRR2354534, double eRR2354535, double eRR2354536, double eRR2354537,
 			double eRR2354538, double eRR2354539, double eRR2354540, double eRR2354541, double eRR2354542,
 			double eRR2354784, double eRR2354785, double eRR2354786, double eRR2354787, double eRR2354788,
 			double eRR2354789, double eRR2354790, double eRR2354791, double eRR2354792, double eRR2354793,
@@ -283,7 +282,7 @@ public class Liver_B {
 			double sRR4183491, double sRR4184632, double sRR4184633, double sRR4184634, double sRR4195884,
 			double sRR4212918) {
 		super();
-		this.id = id;
+//		this.id = id;
 		this.geneId = geneId;
 		ERR2354534 = eRR2354534;
 		ERR2354535 = eRR2354535;
@@ -367,13 +366,13 @@ public class Liver_B {
 		SRR4212918 = sRR4212918;
 	}
 
-	public int getId() {
-		return id;
-	}
+//	public int getId() {
+//		return id;
+//	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 
 	public String getGeneId() {
 		return geneId;
@@ -1025,7 +1024,7 @@ public class Liver_B {
 
 	@Override
 	public String toString() {
-		return "Liver_B [id=" + id + ", geneId=" + geneId + ", ERR2354534=" + ERR2354534 + ", ERR2354535=" + ERR2354535
+		return "Liver_B [geneId=" + geneId + ", ERR2354534=" + ERR2354534 + ", ERR2354535=" + ERR2354535
 				+ ", ERR2354536=" + ERR2354536 + ", ERR2354537=" + ERR2354537 + ", ERR2354538=" + ERR2354538
 				+ ", ERR2354539=" + ERR2354539 + ", ERR2354540=" + ERR2354540 + ", ERR2354541=" + ERR2354541
 				+ ", ERR2354542=" + ERR2354542 + ", ERR2354784=" + ERR2354784 + ", ERR2354785=" + ERR2354785
