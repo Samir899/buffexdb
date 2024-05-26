@@ -104,6 +104,7 @@
 					  <input required type="text" class="form-control" name="searchText" placeholder="Coding Label" aria-label="Recipient's username" id="input_codingLabel">
 					  <button class="btn btn-outline-secondary" type="submit" id="btn_srch_by_coding_label" onclick="searchByCodingLabel()">Search</button>
 					</div>
+					<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px;z-index:-1;"></div>
 				</div>
 				<div class="col">
 					<div class="input-group position-relative ">
@@ -115,14 +116,16 @@
 						  	<div id="listElements" >
 						  	</div>
 					 </div>
-						  
+					<div id="input-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px;z-index:-1;"></div> 
 					</div>
 				</div>				
 			</div>
 		<div class="p-2" style="background-color:rgb(38,80,115);color:white;">
 			<h3 class="text-center">Pathways - Functional Description</h3>
 		</div>
-		
+		<div class="m-2">
+			<button type="button" class="btn btn-success" onclick="arrayOfObjectsToCSV('Pathways')">Download Selected</button>		
+		</div>
  		<div class="p-2 text-nowrap overflow-auto">
  			<table class="table table-striped border table-bordered" id="pathways">
 			  <thead class="table-dark">
@@ -161,7 +164,7 @@
 				<i onclick="closeFullLengthDesc(this)" class="fa-regular fa-rectangle-xmark"></i>
 			</div>
 		<div>
-			<h3 class='text-center m-2'>Description</h3>
+			<h3 id='desc-head' class='text-center m-2'></h3>
 		</div>
 		<div id="desc" class='text-center m-2 border fw-normal' style=' text-align: justify;'>
 			
@@ -217,74 +220,141 @@ var geneIdSet = new Set();
 var isCheckAll = false;
 var geneSymbols = [];
 
+function filterArrayByProperty(array) {
+    return array.filter(item => checkedData.has(item.geneId));
+}
+
+function arrayOfObjectsToCSV(filename = 'data.csv') {
+	try{
+		renderLoader()
+		let dataArray = []
+		
+		if(isCheckAll){
+			dataArray = globalData;
+		}
+		else{
+			dataArray = filterArrayByProperty(globalData)
+		}
+	    if (dataArray.length === 0) {
+	    	hideLoader()
+	       	alert("Select atleast one row to download")
+	        return;
+	    }
+	
+	    const headers = Object.keys(dataArray[0]);
+	    
+	    const rows = dataArray.map(obj => headers.map(header => `"${obj[header]}"`));
+	    
+	    rows.unshift(headers.map(header => `"${header}"`));
+	    
+	    const csvContent = rows.map(row => row.join(",")).join("\n");
+	
+	    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+	
+	    const link = document.createElement("a");
+	    if (link.download !== undefined) { // feature detection
+	        const url = URL.createObjectURL(blob);
+	        link.setAttribute("href", url);
+	
+	        link.setAttribute("download", filename);
+	
+	        document.body.appendChild(link);
+	
+	        link.click();
+	
+	        document.body.removeChild(link);
+	    }
+	    hideLoader();
+	}catch(e){
+		 hideLoader()
+		 alert("Something went wrong. Please contact system admin")
+	}
+	
+}
+
 async function searchByCodingLabel(){
 	renderLoader()
 	codingLabelText = document.getElementById("input_codingLabel").value;
-	console.log(codingLabelText);
-	url = "[[@{/pathways/api/pathwayss/}]]" + codingLabelText;
-	await $.get(url, function(data, status){
-		globalData = data;
-		checkedData = new Set();
-		uncheckedData = new Set();
-		totalRecords = data.length;
-    	totalPages = Math.ceil(totalRecords/pageSize);
-    	numberOfRecordsOfLastPage = totalRecords%pageSize;
-    	if(data.length!=0){
-    		init = 0;
-				if(totalRecords>=10){
-    			last = 10;
-    		}
-    		else{
-    			last = totalRecords;
-    		}
-			pageNum = 1;
-    		renderTableNew();
-    		pagination();
-    	}
-    	else{
-    		alert("No data found")
-    	}
-		hideLoader()
-	}).fail(function(jqXHR, textStatus, errorThrown) {
-    		// Handle errors
-    		hideLoader();
-    		alert('There was a problem with the request');
-	});
+	if(!codingLabelText){
+		hideLoader();
+		document.getElementById("radio-error").innerHTML = "Please enter Coding Label"
+	}
+	else{
+		document.getElementById("radio-error").innerHTML = ""
+		url = "[[@{/pathways/api/pathwayss/}]]" + codingLabelText;
+			await $.get(url, function(data, status){
+				globalData = data;
+				checkedData = new Set();
+				uncheckedData = new Set();
+				totalRecords = data.length;
+		    	totalPages = Math.ceil(totalRecords/pageSize);
+		    	numberOfRecordsOfLastPage = totalRecords%pageSize;
+		    	if(data.length!=0){
+		    		init = 0;
+						if(totalRecords>=10){
+		    			last = 10;
+		    		}
+		    		else{
+		    			last = totalRecords;
+		    		}
+					pageNum = 1;
+		    		renderTableNew();
+		    		pagination();
+		    	}
+		    	else{
+		    		alert("No data found")
+		    	}
+				hideLoader()
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+		    		// Handle errors
+		    		hideLoader();
+		    		alert('There was a problem with the request');
+			});
+	}
+	
 }
 async function searchByGeneSymbol(){
 	renderLoader()
 	geneSymbolText = document.getElementById("dropdownMenuLink1").value;
-	url = "[[@{/pathways/api/pathwayss/gene-symbol/}]]" + geneSymbolText;
-	await $.get(url, function(data, status){
-	    hideLoader()
-		globalData = data;
-		checkedData = new Set();
-		uncheckedData = new Set();
-		totalRecords = data.length;
-    	totalPages = Math.ceil(totalRecords/pageSize);
-    	numberOfRecordsOfLastPage = totalRecords%pageSize;
-    	if(data.length!=0){
-    		init = 0;
-    		if(totalRecords>=10){
-    			last = 10;
-    		}
-    		else{
-    			last = totalRecords;
-    		}
-			
-			pageNum = 1;
-    		renderTableNew();
-    		pagination();
-    	}
-    	else{
-    		alert("No data found")
-    	}
-		
-	}).fail(function(jqXHR, textStatus, errorThrown) {
-    		// Handle errors
-    		hideLoader();
-    		alert('There was a problem with the request');
-	});
+	if(!geneSymbolText){
+		hideLoader();
+		document.getElementById("input-error").innerHTML = "Please enter Gene Symbol"
+	}
+	else{
+		document.getElementById("input-error").innerHTML = ""
+		url = "[[@{/pathways/api/pathwayss/gene-symbol/}]]" + geneSymbolText;
+			await $.get(url, function(data, status){
+			    hideLoader()
+				globalData = data;
+				checkedData = new Set();
+				uncheckedData = new Set();
+				totalRecords = data.length;
+		    	totalPages = Math.ceil(totalRecords/pageSize);
+		    	numberOfRecordsOfLastPage = totalRecords%pageSize;
+		    	if(data.length!=0){
+		    		init = 0;
+		    		if(totalRecords>=10){
+		    			last = 10;
+		    		}
+		    		else{
+		    			last = totalRecords;
+		    		}
+					
+					pageNum = 1;
+		    		renderTableNew();
+		    		pagination();
+		    	}
+		    	else{
+		    		alert("No data found")
+		    	}
+				
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+		    		// Handle errors
+		    		hideLoader();
+		    		alert('There was a problem with the request');
+			});
+	}
+	
 }
 
 function renderTableNew(){
@@ -353,45 +423,83 @@ function renderTableNew(){
 			else if(key.toUpperCase() == 'UNIPROT_PROTEINS'){
 				let pathways = value.split(';');
 				let pathwayLinks = pathways.map(pathway => `<a href="https://www.uniprot.org/uniprotkb/${pathway}/entry" target="_blank">${pathway}</a>`).join('; ');
-				td = `<td>${pathwayLinks}</td>`;
+				if(value && value.length > 10){
+					id = object1.id
+					td = `<td ><div style="width:100px;overflow:hidden;color:blue;"><a onClick="showFullLength(this)" >${value}|UNIPROT_PROTEINS</a> </div></td>`;
+					
+				}
+				else{
+					td = `<td>${pathwayLinks}</td>`;
+				}
 				
 			}
 			else if(key.toUpperCase() == 'KEGG_ORTHOLOG'){
 				let pathways = value.split(';');
 				let pathwayLinks = pathways.map(pathway => `<a href="https://www.kegg.jp/entry/${pathway}" target="_blank">${pathway}</a>`).join('; ');
-				td = `<td>${pathwayLinks}</td>`;
+				if(value && value.length > 10){
+					id = object1.id
+					td = `<td ><div style="width:100px;overflow:hidden;color:blue;"><a onClick="showFullLength(this)" >${value}|KEGG_ORTHOLOG</a> </div></td>`;
+					
+				}
+				else{
+					td = `<td>${pathwayLinks}</td>`;
+				}
 			}
 			else if(key.toUpperCase() == 'PANTHER_FAMILY'){
 				let match = value.match(/\bPTHR\d+:\w+\b/);
-				
-				if (match) {
-                	let term = match[0];
-                	td = `<td><a href="https://pantherdb.org/panther/familyList.do?searchType=basic&fieldName=all&listType=6&fieldValue=${term}" target="_blank">${value}</a></td>`;
-            	} else {
-               	 	td = `<td>${value}</td>`;
-            }
+				if(value && value.length > 10){
+					id = object1.id
+					td = `<td ><div style="width:100px;overflow:hidden;color:blue;"><a onClick="showFullLength(this)" >${value}|PANTHER_FAMILY</a> </div></td>`;				
+				}
+				else{
+					if (match) {
+                		let term = match[0];
+                		td = `<td><a href="https://pantherdb.org/panther/familyList.do?searchType=basic&fieldName=all&listType=6&fieldValue=${term}" target="_blank">${value}</a></td>`;
+            		} 	
+            		else {
+            	 		td = `<td>${value}</td>`;
+           	 		}
+				}
+		
 			}
 			else if(key.toUpperCase() == 'PANTHER_PROTEIN_CLASS'){
 				let match = value.match(/\bPC00\d+\b/);
+				if(value && value.length > 10){
+					id = object1.id
+					td = `<td ><div style="width:100px;overflow:hidden;color:blue;"><a onClick="showFullLength(this)" >${value}|PANTHER_PROTEIN_CLASS</a> </div></td>`;
+					
+				}
+				else{
+					if (match) {
+                		let term = match[0];
+                		td = `<td><a href="https://pantherdb.org/panther/familyList.do?searchType=basic&fieldName=all&listType=6&fieldValue=${term}" target="_blank">${value}</a></td>`;
+            				}
+            		else {
+               	 		td = `<td>${value}</td>`;
+            				}
+				}
 				
-				if (match) {
-                	let term = match[0];
-                	td = `<td><a href="https://pantherdb.org/panther/familyList.do?searchType=basic&fieldName=all&listType=6&fieldValue=${term}" target="_blank">${value}</a></td>`;
-            	} else {
-               	 	td = `<td>${value}</td>`;
-            }
 			}
 			else if(key.toUpperCase() == 'PATHWAY_ID'){
 				
 				let pathways = value.split(';');
-				if(value.startsWith("R-")) {
+				if(value && value.length > 10){
+					id = object1.id
+					td = `<td ><div style="width:100px;overflow:hidden;color:blue;"><a onClick="showFullLength(this)" >${value}|PATHWAY_ID</a> </div></td>`;
+					
+				}
+				else{
+					if(value.startsWith("R-")) {
 					
 					let pathwayLinks = pathways.map(pathway => `<a href="https://glycosmos.org/pathways/show/${pathway}" target="_blank">${pathway}</a>`).join('; ');
 					td = `<td>${pathwayLinks}</td>`;
-					} else {
+					} 
+					else {
         				let pathwayLinks = pathways.map(pathway => `<a href="https://www.kegg.jp/entry/${pathway}" target="_blank">${pathway}</a>`).join('; ');
         				td = `<td>${pathwayLinks}</td>`;
-        				}
+       				}
+				}
+				
 			}
 			else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 				
@@ -428,11 +536,64 @@ function renderTableNew(){
 }
 
 function showFullLength(event){
-	let desc = event.innerHTML.trim();
+	let innerHTML = event.innerHTML.trim();
+	let key = innerHTML.split('|')[1];
+	let value = innerHTML.split('|')[0];
+	let pathways = "";
+	let pathwayLinks = "";
+	let description = "";
+	console.log(key)
+	if(key){
+	document.getElementById("desc-head").innerHTML = key.replaceAll("_"," ")
+		if(key.toUpperCase() == 'UNIPROT_PROTEINS'){
+			pathways = value.split(';');
+			pathwayLinks = pathways.map(pathway => `<a href="https://www.uniprot.org/uniprotkb/${pathway}/entry" target="_blank">${pathway}</a>`).join('; ');
+			description = `<p>${pathwayLinks}</p>`
+	}
+	else if(key.toUpperCase() == 'KEGG_ORTHOLOG'){
+			pathways = value.split(';');
+			pathwayLinks = pathways.map(pathway => `<a href="https://www.kegg.jp/entry/${pathway}" target="_blank">${pathway}</a>`).join('; ');
+			description = `<p>${pathwayLinks}</p>`
+		}
+	else if(key.toUpperCase() == 'PANTHER_FAMILY'){
+				let match = value.match(/\bPTHR\d+:\w+\b/);			
+				if (match) {
+                	let term = match[0];
+                	pathwayLinks = `<a href="https://pantherdb.org/panther/familyList.do?searchType=basic&fieldName=all&listType=6&fieldValue=${term}" target="_blank">${value}</a>`;
+            	} else {
+               	 	pathwayLinks = `${value}`;
+            }
+            description = `<p>${pathwayLinks}</p>`
+		}
+		else if(key.toUpperCase() == 'PANTHER_PROTEIN_CLASS'){
+				let match = value.match(/\bPC00\d+\b/);		
+				if (match) {
+					let term = match[0];
+             		pathwayLinks = `<a href="https://pantherdb.org/panther/familyList.do?searchType=basic&fieldName=all&listType=6&fieldValue=${term}" target="_blank">${value}</a>`;	
+            	} else {
+               	 	pathwayLinks = `${value}`;
+            }
+            description = `<p>${pathwayLinks}</p>`
+		}
+		else if(key.toUpperCase() == 'PATHWAY_ID'){	
+			pathways = value.split(';');
+			if(value.startsWith("R-")) {
+				pathwayLinks = pathways.map(pathway => `<a href="https://glycosmos.org/pathways/show/${pathway}" target="_blank">${pathway}</a>`).join('; ');
+				description = `<td>${pathwayLinks}</td>`;
+				} 
+			else {
+   				pathwayLinks = pathways.map(pathway => `<a href="https://www.kegg.jp/entry/${pathway}" target="_blank">${pathway}</a>`).join('; ');
+     			description = `<td>${pathwayLinks}</td>`;
+	      	}
+		}
+	}
+	else{
+	document.getElementById("desc-head").innerHTML = "Description"
+		description = `<p>${innerHTML}</p>`
+	}
+	
 	document.getElementById("pathway-desc").style.visibility="visible"
 	document.getElementById("pathway-desc").style.zIndex="11";
-	//document.getElementById("pathway-desc").style.zIndex="1";
-	description = `<p>${desc}</p>`
 	$("#desc").empty();
 	$("#desc").append(description);
 	

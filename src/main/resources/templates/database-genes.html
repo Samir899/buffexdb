@@ -120,7 +120,7 @@
 				</div>
 				<div class="col">
 					<div class="input-group position-relative ">
-						  <input required placeholder="Type Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+						  <input required placeholder="Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
 					</div>
 <!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
@@ -128,13 +128,15 @@
 						  	<div id="listElements" >
 						  	</div>
 					 </div>
-						  
+					 <div id="input-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px;z-index:-1;"></div>
 					</div>
 				</div>				
 			</div>
-			
+		<div class="p-2" style="background-color:rgb(38,80,115);color:white;">
+			<h3 class="text-center">Gene Description</h3>
+		</div>
 			<div class="m-2">
-					<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download Selected</button>		
+					<button type="button" class="btn btn-success" onclick="arrayOfObjectsToCSV('gene_description')">Download Selected</button>		
 				</div>
  		<div class="overflow-auto p-2 text-nowrap">
  		<table class="table table-striped border table-bordered" id="genes">
@@ -190,6 +192,58 @@ var checkedData = new Set();
 var uncheckedData = new Set();
 var geneIdSet = new Set();
 var isCheckAll = false;
+function filterArrayByProperty(array) {
+    return array.filter(item => checkedData.has(item.geneId));
+}
+
+function arrayOfObjectsToCSV(filename = 'data.csv') {
+
+	try{
+		renderLoader()
+		let dataArray = []
+	
+		if(isCheckAll){
+			dataArray = globalData;
+		}
+		else{
+			dataArray = filterArrayByProperty(globalData)
+		}
+	    if (dataArray.length === 0) {
+	    	hideLoader()
+	       	alert("Select atleast one row to download")
+	        return;
+	    }
+	
+	    const headers = Object.keys(dataArray[0]);
+	    
+	    const rows = dataArray.map(obj => headers.map(header => `"${obj[header]}"`));
+	    
+	    rows.unshift(headers.map(header => `"${header}"`));
+	    
+	    const csvContent = rows.map(row => row.join(",")).join("\n");
+	
+	    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+	
+	    const link = document.createElement("a");
+	    if (link.download !== undefined) { // feature detection
+	        const url = URL.createObjectURL(blob);
+	        link.setAttribute("href", url);
+	
+	        link.setAttribute("download", filename);
+	
+	        document.body.appendChild(link);
+	
+	        link.click();
+	
+	        document.body.removeChild(link);
+	    }
+	    hideLoader();
+	}catch(e){
+		 hideLoader()
+		 alert("Something went wrong. Please contact system admin")
+	}
+	
+}
 
 document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
  	$("#listElements").empty();  
@@ -335,8 +389,14 @@ document.getElementById("btn-searchGeneByName").addEventListener("click", functi
 	pagination();
 	checkedData = new Set();
 	searchText = document.getElementById("dropdownMenuLink1").value
-	url = "[[@{/gene/api/genes/}]]" + searchText
-	$.get(url, function(data, status){
+	if(!searchText){
+		hideLoader()
+		document.getElementById("input-error").innerHTML = "Please enter gene name"
+	}
+	else{
+	document.getElementById("input-error").innerHTML = ""
+		url = "[[@{/gene/api/genes/}]]" + searchText
+		$.get(url, function(data, status){
 		hideLoader()
 		globalData = [data];
 		if(!data){
@@ -354,6 +414,7 @@ document.getElementById("btn-searchGeneByName").addEventListener("click", functi
     		hideLoader();
     		alert('There was a problem with the request');
 	});
+	}
 })
 
 document.getElementById("firstPage").addEventListener("click", function(event){
@@ -442,14 +503,7 @@ function pagination(){
 }
 async function validateCheckBox(event){
 	renderLoader();
-	init=0;
-	last=1;
-	totalRecords = 1
-	totalPages = 1
-	pageNum=1;
-	checkedData = new Set();
-	pagination();
-    $("#genes").find("tbody").empty();
+	
 	var selectedValue = $("input[name=searchParam]:checked").val();
 	var textValue = $("input[name=searchText]").val();
 	if(textValue == "+"){
@@ -472,34 +526,42 @@ async function validateCheckBox(event){
   		alert('There was a problem with the request');
 	});
          
-url = "[[@{/gene/api/genes/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
-await $.get(url, function(data, status){
-	hideLoader();
-	globalData = data;
-	if(data.length==0){
-		pageInfo = `No Records found`
-		init=0;
-		last=0;
-		$("#pageInfo").empty();
-		$("#pageInfo").append(pageInfo);
-	}
-	else{
-		init=0;
-		last=pageSize;
-		if(globalData.length<pageSize){
-			last = globalData.length;
-		}
-		totalRecords = globalData.length;
-		totalPages = Math.ceil(globalData.length/pageSize);
-		numberOfRecordsOfLastPage = totalRecords%pageSize;
-		pagination();
-		renderTableNew();
-	}
-  }).fail(function(jqXHR, textStatus, errorThrown) {
-  		// Handle errors
-  		hideLoader();
-  		alert('There was a problem with the request');
-});	
+		url = "[[@{/gene/api/genes/query}]]" + `?searchParam=${selectedValue}&searchText=${textValue}`;
+		await $.get(url, function(data, status){
+			hideLoader();
+			init=0;
+			last=1;
+			totalRecords = 1
+			totalPages = 1
+			pageNum=1;
+			checkedData = new Set();
+			pagination();
+		    $("#genes").find("tbody").empty();
+			globalData = data;
+			if(data.length==0){
+				pageInfo = `No Records found`
+				init=0;
+				last=0;
+				$("#pageInfo").empty();
+				$("#pageInfo").append(pageInfo);
+			}
+			else{
+				init=0;
+				last=pageSize;
+				if(globalData.length<pageSize){
+					last = globalData.length;
+				}
+				totalRecords = globalData.length;
+				totalPages = Math.ceil(globalData.length/pageSize);
+				numberOfRecordsOfLastPage = totalRecords%pageSize;
+				pagination();
+				renderTableNew();
+			}
+		  }).fail(function(jqXHR, textStatus, errorThrown) {
+		  		// Handle errors
+		  		hideLoader();
+		  		alert('There was a problem with the request');
+		});	
      }
     hideLoader();
 	return false;

@@ -124,7 +124,7 @@
 					</div>
 					<div class="col ">
 						<div class="d-flex justify-content-end">
-							<button type="button" class="btn btn-success" onclick="fetchGenes(this)">Download <i class="fa-solid fa-download"></i></button>		
+							<button type="button" class="btn btn-success" onclick="arrayOfObjectsToCSV()">Download <i class="fa-solid fa-download"></i></button>		
 						</div>
 					</div>
 				</div>
@@ -135,6 +135,9 @@
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="p-2" style="background-color:rgb(38,80,115);color:white;" id='table-heading-container'>
+				<h3 class="text-center" id='table-heading' ></h3>
 			</div>
 	 		<div class="overflow-auto text-nowrap p-2">
 	 			<div>
@@ -304,8 +307,59 @@ function plotHeatMap(){
 }
 
 
+function filterArrayByProperty(array) {
+    return array.filter(item => checkedData.has(item.geneId));
+}
 
-
+function arrayOfObjectsToCSV() {
+	try{
+		let filename = tissue_selected;
+		renderLoader()
+		let dataArray = []
+		
+		if(isCheckAll){
+			dataArray = globalData;
+		}
+		else{
+			dataArray = filterArrayByProperty(globalData)
+		}
+	    if (dataArray.length === 0) {
+	    	hideLoader()
+	       	alert("Select atleast one row to download")
+	        return;
+	    }
+	
+	    const headers = Object.keys(dataArray[0]);
+	    
+	    const rows = dataArray.map(obj => headers.map(header => `"${obj[header]}"`));
+	
+	    rows.unshift(headers.map(header => `"${header}"`));
+	    
+	    const csvContent = rows.map(row => row.join(",")).join("\n");
+	
+	    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+	
+	
+	    const link = document.createElement("a");
+	    if (link.download !== undefined) { // feature detection
+	        const url = URL.createObjectURL(blob);
+	        link.setAttribute("href", url);
+	
+	        link.setAttribute("download", filename);
+	
+	        document.body.appendChild(link);
+	
+	        link.click();
+	
+	        document.body.removeChild(link);
+	    }
+	    hideLoader();
+    }
+    catch(e){
+ 		   hideLoader();
+ 		   alert("Something went wrong. Please contact system admin")
+    }
+}
 async function perpareHeatMap(lowerLimit=1, upperLimit=10){
 	renderLoader();
 	geneIds = []
@@ -364,7 +418,10 @@ async function perpareHeatMap(lowerLimit=1, upperLimit=10){
 
 function getTPM(fpkm, key){
 	let result = fpkm*(Math.pow(10, 6)/(sum_of_fpkm[key]));	
-	return (Math.round(result*100))/100;
+	return (Math.round(result*10000))/10000;
+}
+function getFPKM(fpkm){
+	return (Math.round(fpkm*10000))/10000;
 }
 
 function hideLoader(){
@@ -434,6 +491,8 @@ document.getElementById("btn-fpkm-range").addEventListener("click", function(eve
 });
 
 function renderTableNew(){
+	
+    $("#table-heading").text(tissue_selected);   
 	isExpanded=false;	
 	headerRow = "";
 	let object1 = globalData[0];
@@ -517,10 +576,11 @@ function renderTableNew(){
 				for(const [k, v] of Object.entries(object2)){
 					if(k.toUpperCase().includes("ERR") || k.toUpperCase().includes("SRR")){
 						if(isFpkm){
-							td = td + `<td>${v}</td>`;
+							fpkm = getFPKM(v)
+							td = td + `<td>${fpkm}</td>`;
 						}
 						if(isTpm){
-						tpm = getTPM(v, k.toUpperCase());
+							tpm = getTPM(v, k.toUpperCase());
 							td = td + `<td>${tpm}</td>`;
 						}		
 					}
@@ -540,8 +600,8 @@ function renderTableNew(){
 			else if(key.toUpperCase().includes("ERR") || key.toUpperCase().includes("SRR")){
 				
 				if(isFpkm){
-					
-					td = td + `<td>${value}</td>`;
+					fpkm = getFPKM(value)
+					td = td + `<td>${fpkm}</td>`;
 				}
 				if(isTpm){
 				    tpm = getTPM(value, key.toUpperCase());
