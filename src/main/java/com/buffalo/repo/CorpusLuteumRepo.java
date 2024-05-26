@@ -27,8 +27,8 @@ public interface CorpusLuteumRepo extends CrudRepository<CorpusLuteum, Integer>{
 //	@Query("SELECT u FROM Cotyledon u WHERE u.geneId = :geneId")
 //	public Cotyledon getCotyledonByGeneId(@Param("geneId") String geneId);
 	
-//	@Query("SELECT u FROM CorpusLuteum u WHERE u.ERR315632 = :ERR")
-//	public List<CorpusLuteum> getCorpusLuteumByERR(@Param("ERR") String ERR);
+	@Query("SELECT u FROM CorpusLuteum u WHERE u.ERR315632 = :ERR")
+	public List<CorpusLuteum> getCorpusLuteumByERR(@Param("ERR") String ERR);
 //
 //	@Query("SELECT sum(ERR315632) FROM CorpusLuteum")
 //	public Double getCorpusLuteumSum();

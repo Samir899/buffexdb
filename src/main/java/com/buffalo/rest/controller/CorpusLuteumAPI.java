@@ -14,7 +14,7 @@ import com.buffalo.entity.CorpusLuteum;
 import com.buffalo.service.CorpusLuteumService;
 
 @RestController
-@RequestMapping("/corpusluteum/api") 
+@RequestMapping("/corpus_luteum/api") 
 public class CorpusLuteumAPI { 
   
 	@Autowired
@@ -25,20 +25,21 @@ public class CorpusLuteumAPI {
         this.service = service; 
     }
     
-    @GetMapping("/corpusluteums")  
+    @GetMapping("/corpus_luteums")  
     public List<CorpusLuteum> getAllCotyledon() 
     { 
+    	System.out.println("corpus luteum");
     	return service.listAllCorpusLuteum();
     }
     
-    @GetMapping("/corpusLuteums/sum")  
-    public Map<String, Double> getSum() 
+    @GetMapping("/corpus_luteums/sum")  
+    public Map<String, Double> getSumOf() 
     {
     	return service.getFPKMSum();
     }
     
 
-    @GetMapping("/corpusLuteums/sorted")  
+    @GetMapping("/corpus_luteums/sorted")  
     public List<CorpusLuteum> getCorpusLuteumSorted(@RequestParam("lowerLimit") double lowerLimit, @RequestParam("upperLimit") double upperLimit) 
     { 
     	return service.getCorpusLuteumSorted(lowerLimit, upperLimit);
@@ -50,10 +51,17 @@ public class CorpusLuteumAPI {
 //    	return service.getCorpusLuteumByERR(err);
 //    }
     
+    @GetMapping("/corpus_luteums/err/sum")  
+    public Map <String, Double> getSum() 
+    { 
+    	return service.getSum();
+    }
+
 //    @GetMapping("/corpusluteums/err/sum")  
 //    public Map <String, Double> getSum() 
 //
 //    { 
 //    	return service.getSum();
 //    }
+
 }

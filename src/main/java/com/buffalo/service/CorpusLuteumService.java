@@ -26,14 +26,15 @@ public class CorpusLuteumService {
 		return (List<CorpusLuteum>) repo.findAll();
 	}
 	
-//	public List<CorpusLuteum> getCorpusLuteumByERR(String err) {	
-//		 return repo.getCorpusLuteumByERR(err);	
-//		}	
+	public List<CorpusLuteum> getCorpusLuteumByERR(String err) {	
+		 return repo.getCorpusLuteumByERR(err);	
+		}	
 
 
-//	public  Map <String, Double> getSum() {	
-//		 return repo.getSum();
-//		}
+	public  Map <String, Double> getSum() {	
+		 return repo.getSum();
+		}
+
 	public Map<String, Double> getFPKMSum() {
 		return repo.getSum();
 	}
