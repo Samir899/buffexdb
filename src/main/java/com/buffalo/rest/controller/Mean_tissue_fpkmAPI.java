@@ -57,11 +57,11 @@ public class Mean_tissue_fpkmAPI {
 //    	return mean_tissue_fpkmService.listAllMean_tissue_fpkm();
 //    }
     
-//    @GetMapping("/mean_tissue_fpkms/gene-symbols")  
-//    public List<String> getAllGeneSymbols() 
-//    {
-//    	return mean_tissue_fpkmService.getAllGeneSymbols();
-//    }
+    @GetMapping("/mean_tissue_fpkms/{geneId}")  
+    public List<Mean_tissue_fpkm> getAllGeneSymbols(@PathVariable(name = "geneId")String geneId) 
+    {	
+    	return mean_tissue_fpkmService.getMeanByGeneId(geneId);
+    }
 //    @GetMapping("/pathwayss/{codingLabel}")  
 //    public List<Pathways> getByCodingLabel(@PathVariable(name = "codingLabel")String codingLabel) 
 //    {

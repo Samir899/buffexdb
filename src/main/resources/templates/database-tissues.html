@@ -137,7 +137,7 @@
 				</div>
 			</div>
 			<div class="p-2" style="background-color:rgb(38,80,115);color:white;" id='table-heading-container'>
-				<h3 class="text-center" id='table-heading' ></h3>
+				<h3 class="text-center" id='table-heading' >Select Tissue to Load Tissue Data</h3>
 			</div>
 	 		<div class="overflow-auto text-nowrap p-2">
 	 			<div>
@@ -149,6 +149,7 @@
 					  </tbody>
 					</table>
 				</div>
+				
 <!--  	 			<div class="overlay-loader" id="table_loader_bg">
 	 				<div class="fixed w-100">
 	 					<div class="popup-loader" id="table_loader">
@@ -156,9 +157,10 @@
 	 				</div>					
  				</div >-->
 			</div>
+			
 		</div>
 		
-		<div class="mx-auto mt-2" style="width: 500px;">
+		<div class="mx-auto mt-2" style="width: 500px;visibility:hidden;" id='pagination'>
 			<div class="justify-content-center text-center" id="pageInfo" >
 		
 			</div>
@@ -170,6 +172,27 @@
 			     <li id="lastPage"><a class="page-link" >Last</a></li>
 			</ul>
 		</div>
+		<!-- ------------------------------------------------------Bar graph---------------------------------------------- -->
+		<div class="p-2" style="background-color:rgb(38,80,115);color:white;" id='table-heading-container'>
+				<h3 class="text-center" id='bar-chart-heading' >Tissue Analytics</h3>
+			</div>
+			<div class='d-flex flex-row-reverse'>
+				<div class="w-25 p-2">
+						<div class="input-group position-relative ">
+							  <input required placeholder="Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+							  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
+						</div>
+	<!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
+						<div hidden=true id="listContainer" class=" position-absolute bg-light  overflow-auto text-nowrap border rounded-bottom" style="height:200px; width:315px;">
+							  	<div id="listElements" >
+							  	</div>
+						 </div>
+						 <div id="input-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px;z-index:-1;"></div>
+				</div>
+			</div>
+			<div class='border overflow-scroll'><div id='bar_chart' class='' style="width:2000px"></div></div>
+			
+			
 		<div class="footer">
 			<div class="sub-footer pt-2">
 				<h1>Database - Buffalo Expression DB</h1>
@@ -226,8 +249,7 @@
 			 <div class="heatmap-container">
 			 	<div id="tester" style="width:fit-content;height:fit-content;" class="" ></div>
 			 </div>
-			 
-				
+						
 			</div>
 			</div>		  
 		</div>
@@ -263,6 +285,34 @@ var expressionKeys = new Array();
 var expressionValues = new Array();
 var upperLimit = 1;
 var lowerLimit = 10;
+var barChartKeys = new Array();
+var barChartValues = new Array();
+function plotBarChart(){
+ var layout = {
+      title: '',
+      xaxis: {
+        title: 'Tissue'
+      },
+      yaxis: {
+        title: 'Mean FPKM',
+        standoff: 50,
+      },
+      automargin: true,
+  	  margin: {
+		      t: 50,  // Increase top margin
+		      l: 50,  // Increase left margin
+		      b: 150,
+		    },
+    };
+  var data = [{
+  type: 'bar',
+  x: [...Keys],
+  y: [...Values],
+}];
+
+Plotly.newPlot('bar_chart', data, layout);
+
+}
 function plotHeatMap(){
 	var customColorScale = [
 	      [0, 'rgb(122,162,227)'],  // Define color for minimum value
@@ -415,6 +465,44 @@ async function perpareHeatMap(lowerLimit=1, upperLimit=10){
     		alert('There was a problem with the request');
 		});
 }
+async function perpareBarChart(geneId='gene-A1BG'){
+	renderLoader();
+	geneIds = []
+	Keys = []
+	Values = []
+	selectedText = $('#select_tissue').find(":selected").text();
+	uri =  $('#select_tissue').find(":selected").val();
+	url_1 = `[[@{/mean_tissue_fpkms/api/mean_tissue_fpkms/}]]` + `${geneId}`
+
+	await $.get(url_1, function(data, status){
+		hideLoader();
+		if(data && data.length !=0){
+			console.log("fetched data: " + data)
+			object1 = data[0];
+			for(const [key, value] of Object.entries(object1)){	
+				if(key.toUpperCase().includes("ID") || key.toUpperCase().includes("GENEID")){
+						continue;
+						}
+				else{
+					Keys.push(key.replaceAll("_", " ").toUpperCase());
+					Values.push(value)
+						}
+				
+				}
+				console.log(Keys)
+				console.log(Values)
+			plotBarChart();
+		}
+		else{
+			alert("No Data Found")
+		}
+	
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
+}
 
 function getTPM(fpkm, key){
 	let result = fpkm*(Math.pow(10, 6)/(sum_of_fpkm[key]));	
@@ -434,6 +522,51 @@ function renderLoader(){
 	loader = `<div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div>`;
 	$("#table_loader").append(loader);
 }
+//document.getElementById("dropdownMenuLink1").addEventListener("focusout", function(event){
+//	console.log("focus out")
+//	document.getElementById("listContainer").hidden = true;
+//		document.getElementById("listContainer").style.zIndex = "-1";
+//});
+document.getElementById("dropdownMenuLink1").addEventListener("input", function(event){
+ 	$("#listElements").empty();  
+	var inputVal = document.getElementById("dropdownMenuLink1").value;
+	if(inputVal==""){
+		document.getElementById("listContainer").hidden = true;
+		document.getElementById("listContainer").style.zIndex = "-1";
+		
+	}
+	else{
+		document.getElementById("listContainer").hidden = false;
+		document.getElementById("listContainer").style.zIndex = "10";
+	}
+	var newArray = idSet.filter(function (el) {
+			return el.replace('gene-', "").toUpperCase().startsWith(inputVal.toUpperCase());
+			});
+		for(let i=0;i<newArray.length;i++){
+			var anchor = `<div onclick="dropdownSelection('${newArray[i]}')" class="dropdown-list px-2 py-1 fw-bold">${newArray[i]}</div>`
+			$("#listElements").append(anchor);   
+		}
+});
+
+function dropdownSelection(string){
+	document.getElementById("dropdownMenuLink1").value = string;
+	document.getElementById("listContainer").hidden = true;
+	document.getElementById("listContainer").style.zIndex = "-1";
+	$("#listElements").empty()
+}
+
+document.getElementById("btn-searchGeneByName").addEventListener("click", function(event){
+	searchText = document.getElementById("dropdownMenuLink1").value
+	if(!searchText){
+		hideLoader()
+		document.getElementById("input-error").innerHTML = "Please enter gene name"
+	}
+	else{
+	document.getElementById("input-error").innerHTML = ""
+	perpareBarChart(searchText)
+		
+	}
+})
 
 $("#select_tissue").change(function(){
 	
@@ -498,6 +631,8 @@ function renderTableNew(){
 	let object1 = globalData[0];
 	geneIdCol="";
 	checkbox = "";
+	
+	document.getElementById("pagination").style.visibility = "visible";
 	document.getElementById("btn_heatmap").style.visibility = "visible";
 	
 	if(isCheckAll){
@@ -712,6 +847,8 @@ $( document ).ready(function() {
     		hideLoader();
     		alert('There was a problem with the request');
 	});
+	document.getElementById("dropdownMenuLink1").value = 'gene-A1BG';
+	perpareBarChart()
 
 });
 

@@ -16,8 +16,8 @@ import com.buffalo.entity.Pathways;
 
 public interface Mean_tissue_fpkmRepository extends CrudRepository<Mean_tissue_fpkm, Integer>{
 
-//	@Query("SELECT u FROM Pathways u WHERE u.coding_label = :coding_label")
-//	public List<Pathways> getPathwayByCodingLabel(@Param("coding_label") String coding_label);
+	@Query("SELECT u FROM Mean_tissue_fpkm u WHERE u.geneId = :gene_id")
+	public List<Mean_tissue_fpkm> getMeanByGeneId(@Param("gene_id") String gene_id);
 //	
 //	@Query("SELECT u FROM Pathways u WHERE u.gene_symbol = :gene_symbol")
 //	public List<Pathways> getPathwayByGeneSymbol(@Param("gene_symbol") String gene_symbol);

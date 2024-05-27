@@ -11,7 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-
+import com.buffalo.entity.Mean_tissue_fpkm;
 import com.buffalo.repo.Mean_tissue_fpkmRepository;
 
 
@@ -29,7 +29,7 @@ public class Mean_tissue_fpkmService {
 //	@Autowired
 //	private GeneRepoPagingAndSorting geneRepoPaging;
 	
-//	public Genes save(Genes gene) {
+//	public List<Mean_tissue_fpkm> save(Genes gene) {
 //		boolean isExistingGene = isExistingGene(gene.getGeneId());
 //		
 //		if(isExistingGene) {
@@ -38,9 +38,9 @@ public class Mean_tissue_fpkmService {
 //		return geneRepo.save(gene);
 //	}
 	
-//	public List<Pathways> listAllPathways(){
-//		return (List<Pathways>) pathwaysRepo.findAll();
-//	}
+	public List<Mean_tissue_fpkm> getMeanByGeneId(String geneId){
+		return (List<Mean_tissue_fpkm>) mean_tissue_fpkmRepo.getMeanByGeneId(geneId);
+	}
 //	public List<Pathways> getByCodingLabel(String codingLabel){
 //		return (List<Pathways>) pathwaysRepo.getPathwayByCodingLabel(codingLabel);
 //	}
