@@ -111,7 +111,7 @@ i:hover{
   left: 0;
   background: rgba(38,80,115, 0.8);
   visibility: hidden;
-  z-index:3;
+  z-index:12;
 }
 *.parent{
 	position: relative;
@@ -260,7 +260,7 @@ text-align: center;
 	flex-direction: column;
   	align-items: center;
   	transition: transform 0.3s ease;
-  	margin-bottom: 70px;
+
 }
 *.stat-card:hover{
 	cursor:pointer;
@@ -291,4 +291,31 @@ text-align: center;
 	border-radius: 10px;
 	padding: 10px;
 	
+}
+*.background-image-1{
+	
+	background-image: url('/buffex/images/buff4-new.jpeg');
+    background-size: cover; /* Adjust this as needed */
+    background-repeat: no-repeat; /* Adjust this as needed */
+    background-attachment: fixed; /* Adjust this as needed */
+    background-position: center; /* Adjust this as needed */
+    height:400px;
+}
+*.background-image-2{
+	
+	background-image: url('/buffex/images/buff2.jpeg');
+    background-size: cover; /* Adjust this as needed */
+    background-repeat: no-repeat; /* Adjust this as needed */
+    background-attachment: fixed; /* Adjust this as needed */
+    background-position: center; /* Adjust this as needed */
+    height:400px;
+}
+*.background-image-3{
+	
+	background-image: url('/buffex/images/buff3.jpeg');
+    background-size: cover; /* Adjust this as needed */
+    background-repeat: no-repeat; /* Adjust this as needed */
+    background-attachment: fixed; /* Adjust this as needed */
+    background-position: center; /* Adjust this as needed */
+    height:400px;
 }

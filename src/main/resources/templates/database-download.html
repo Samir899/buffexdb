@@ -13,10 +13,9 @@
 <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script type="text/javascript"
 	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-
 </head>
 <body>
-
+	<div class="parent">
 	<div class="container-fluid">
 		<div>
 			<div class="nav-bg">
@@ -104,21 +103,59 @@
 			
 		</div>
 		<div class="border p-3">
-		<div class="w-50 p-3 ">
+		<div class="p-3 border">
 			<div class="mb-3">
-				<h4>Download expression data</h4>
+				<h4>Expression Data</h4>
 			</div>
-			
-			<form th:action="@{/database/downloads}" method="post">
-					<div class="input-group mb-3">
-						<select class="form-select" aria-label="Default select example" required name="database">
-			  				<option disabled selected>Select Table</option>
-			  				<option th:each="table: ${listDB}" th:value="${table}">[[${table}]]</option>
-						</select>
- 						<button class="btn btn-outline-secondary" type="submit" id="button-addon2">Download</button>
-				</div>
-			</form>
+			<div class="input-group mb-3 w-50">
+				<select class="form-select" id="select_tissue">
+					  <option disabled selected>Select Tissue</option>				  
+					  <option th:each="tissue, iStat: ${listTissues}" th:value="${tissue.url}" >[[${tissue.tissue}]]</option>
+				</select>
+				<button class="btn btn-outline-secondary" type="submit" id="button-addon2" onclick="downloadExpressionData()">Download</button>
 			</div>
+		</div>
+		<div class="border p-3 mt-2">
+			<div class="mb-3">
+				<h4>Gene Description</h4>
+			</div>
+			<div class="input-group mb-3 w-50">
+				
+				<button class="btn btn-success" type="submit" id="button-addon2" onclick="downloadGeneDescription()">Download</button>
+			</div>
+		</div>
+		<div class="border p-3 mt-2">
+			<div class="mb-3">
+				<h4>Sample Description</h4>
+			</div>
+			<div class="input-group mb-3 w-50">
+				
+				<button class="btn btn-success" type="submit" id="button-addon2" onclick="downloadSampleDescription()">Download</button>
+			</div>
+		</div>
+		<div class="border p-3 mt-2">
+			<div class="mb-3">
+				<h4>Tissue Specific Genes</h4>
+			</div>
+			<div class="input-group mb-3 w-50">
+				
+				<button class="btn btn-success" type="submit" id="button-addon2" onclick="downloadTissueSpecificGene()">Download</button>
+			</div>
+		</div>
+		<div class="border p-3 mt-2">
+			<div class="mb-3">
+				<h4>Functional Classification</h4>
+			</div>
+			<div class="input-group mb-3 w-50">
+				
+				<button class="btn btn-success" type="submit" id="button-addon2" onclick="downloadFunctionalClassification()">Download</button>
+			</div>
+		</div>
+	</div>
+	<div class="overlay-loader" id="table_loader_bg">
+			<div class="fixed w-100">
+			<div class="popup-loader" id="table_loader"></div>
+		</div>
 	</div>
 			<div class="footer">
 			<div class="sub-footer pt-2">
@@ -128,6 +165,148 @@
 				<p>Database Control Panel - Copyright &copy; IASRI</p>
 			</div>
 		</div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<script type="text/javascript">
+var globalData = [];
+function arrayOfObjectsToCSV(filename='data') {
+	try{
+		renderLoader()
+		let dataArray = []
+		dataArray = globalData;
+	    if (dataArray.length === 0) {
+	    	hideLoader()
+	       	alert("Select atleast one row to download")
+	        return;
+	    }
+	
+	    const headers = Object.keys(dataArray[0]);
+	    
+	    const rows = dataArray.map(obj => headers.map(header => `"${obj[header]}"`));
+	
+	    rows.unshift(headers.map(header => `"${header}"`));
+	    
+	    const csvContent = rows.map(row => row.join(",")).join("\n");
+	
+	    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+	
+	
+	    const link = document.createElement("a");
+	    if (link.download !== undefined) { // feature detection
+	        const url = URL.createObjectURL(blob);
+	        link.setAttribute("href", url);
+	
+	        link.setAttribute("download", filename);
+	
+	        document.body.appendChild(link);
+	
+	        link.click();
+	
+	        document.body.removeChild(link);
+	    }
+	    hideLoader();
+    }
+    catch(e){
+ 		   hideLoader();
+ 		   console.log(e)
+ 		   alert("Something went wrong. Please contact system admin")
+    }
+}
+
+async function downloadExpressionData(){
+	renderLoader();
+	selectedText = $('#select_tissue').find(":selected").text();
+	uri = $('#select_tissue').find(":selected").val();
+	
+	url_1 = `[[@{/${uri}/sum}]]`
+	url_2 = `[[@{/${uri}}]]`
+	tissue_selected = selectedText;
+
+	if(tissue_selected=="Select Tissue"){
+		alert('Select Tissue and click on download');
+		hideLoader();
+		return;
+	}
+	await $.get(url_2,function(data, status){
+			hideLoader();
+			globalData = data;
+			arrayOfObjectsToCSV(tissue_selected);
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
+}
+
+async function downloadGeneDescription(){
+	renderLoader();
+	url_2 = "[[@{/gene/api/genes}]]"
+	await $.get(url_2,function(data, status){
+			hideLoader();
+			globalData = data;
+
+			arrayOfObjectsToCSV("Genes");
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
+}
+
+async function downloadSampleDescription(){
+	renderLoader();
+	url_2 = "[[@{/sample_description/api/sample_descriptions}]]"
+	await $.get(url_2,function(data, status){
+			hideLoader();
+			globalData = data;
+
+			arrayOfObjectsToCSV("SampleDescription");
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
+}
+async function downloadTissueSpecificGene(){
+	renderLoader();
+	url_2 =  "[[@{/tissue-specific-gene/api/tissue-specific-genes}]]"
+	await $.get(url_2,function(data, status){
+			hideLoader();
+			globalData = data;
+
+			arrayOfObjectsToCSV("TissueSpecificGene");
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
+}
+async function downloadFunctionalClassification(){
+	renderLoader();
+	url_2 =  "[[@{/pathways/api/pathwayss}]]"
+	await $.get(url_2,function(data, status){
+			hideLoader();
+			globalData = data;
+
+			arrayOfObjectsToCSV("FunctionalClassification");
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+    		// Handle errors
+    		hideLoader();
+    		alert('There was a problem with the request');
+		});
+}
+function hideLoader(){
+	$("#table_loader").empty();
+	document.getElementById("table_loader_bg").style.visibility = "hidden";
+}
+
+function renderLoader(){
+	document.getElementById("table_loader_bg").style.visibility = "visible";
+	loader = `<div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div>`;
+	$("#table_loader").append(loader);
+}
+</script>
+
 </body>
 </html>

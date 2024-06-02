@@ -16,8 +16,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.buffalo.entity.SampleDescription;
+import com.buffalo.entity.TissueList;
 import com.buffalo.entity.Genes;
 import com.buffalo.service.SampleDescriptionService;
+import com.buffalo.service.TissueListService;
 import com.buffalo.service.GeneService;
 import com.buffalo.tables.ListingTables;
 import com.buffalo.utilities.FileUploadUtil;
@@ -32,6 +34,9 @@ public class MainController {
 	
 	@Autowired
 	private SampleDescriptionService buffaloSampleDesService;
+	
+	@Autowired
+	private TissueListService service;
 	
 	@GetMapping("")
 	public String homePage() {
@@ -68,15 +73,9 @@ public class MainController {
 	
 	@GetMapping("/downloads")
 	public String downloadsPage(Model model) {
-		List<String> listDB = null;
-		try {
-			listDB = ListingTables.getAllTables();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(listDB);
-		model.addAttribute("listDB", listDB);
+		
+		List<TissueList> listTissues = service.listAllTissues();
+		model.addAttribute("listTissues", listTissues);	
 		return "database-download";
 	}
 	
