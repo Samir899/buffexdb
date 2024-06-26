@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
-<title>Database Admin Control Panel</title>
+<title>Database - BUFFEXDB</title>
 <link rel="stylesheet" type="text/css"
 	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
@@ -25,7 +25,7 @@
 								<a class="navbar-brand" th:href="@{/}"> <img th:src="@{/images/icar.png}" height="100px" width="100px" class='spinning'/>
 								</a>
 							</div>
-							<h1 class="mx-5 px-5">BuffExDB</h1>
+							<h1 class="mx-5 px-5"><i>BuffExDb</i></h1>
 								
 						</nav>
 					</div>
@@ -35,7 +35,7 @@
 						<marquee behavior="scroll" direction="left"><h1>Buffalo Expression Database</h1></marquee>
 						<div class="d-flex align-items-center justify-content-end pt-2 px-5">
 						    
-							<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/iasris.jpeg}" height="100px" width="100px"/>
+							<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/icar.png}" height="100px" width="100px"/>
 							</a>
 						</div>
 						</div>
@@ -69,7 +69,7 @@
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expression data</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
-							          	<li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Classification</a></li>
+							          	<li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Annotation</a></li>
 							          </ul>
 							        </li>
 							      </ul>
@@ -102,12 +102,12 @@
 
       <div class="container">
 
-        <div class="row gy-4">
+        <div class="row gy-4 justify-content-center">
 
           <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div class="member">
               <img class="img-fluid w-10" th:src="@{/images/naina1.jpeg}" alt="team1"/>
-              <div class="member-info">
+              <div class="member-info ">
                 <div class="member-info-content">
                   <h4>Naina Kumari</h4>
                   <span>Ph.D. Research Scholar</span><br>
@@ -126,7 +126,7 @@
 
           <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
             <div class="member">
-              <img class="img-fluid w-10" th:src="@{/images/samir_kumar.jpg}" alt="team2"/>
+              <img class="img-fluid w-10" th:src="@{/images/sam.jpg}" alt="team2"/>
               <div class="member-info">
                 <div class="member-info-content">
                   <h4>Samir Kumar</h4>
@@ -203,6 +203,25 @@
               </div>
             </div>
           </div><!-- End Team Member -->
+          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="member">
+              <img class="img-fluid w-10" th:src="@{/images/angadi.png}" alt="team5"/>
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Dr. U B Angadi</h4>
+                  <span>Principal Scientist</span> <br>
+                  <span>Division of Agricultural Bioinformatics, ICAR-IASRI, New Delhi</span> <br>
+                  <span></span>
+                </div>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
         </div>
 
       </div>
@@ -211,10 +230,10 @@
 
 		<div class="footer">
 			<div class="sub-footer pt-2">
-				<h1>Database - Buffalo Expression DB</h1>
+				<h1>BuffExDb: Buffalo Expression Database</h1>
 			</div>
 			<div class="sub-footer">
-				<p>Database Control Panel - Copyright &copy; IASRI</p>
+				<p>Copyright &copy; ICAR-Indian Agricultural Statistics Researh Institute</p>
 			</div>
 		</div>
 		
