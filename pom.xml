@@ -88,8 +88,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				 <configuration>
+                    <image>
+                    <name>buffexdb</name>
+                    </image>
+                    <pullPolicy>IF_NOT_PRESENT</pullPolicy>
+                </configuration>
 			</plugin>
 		</plugins>
+		<finalName>buffexdb</finalName>
 	</build>
 
 </project>
