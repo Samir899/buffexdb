@@ -27,7 +27,7 @@
 								<a class="navbar-brand" th:href="@{/}"> <img th:src="@{/images/icar.png}" height="100px" width="100px" class='spinning'/>
 								</a>
 							</div>
-							<h1 class="mx-5 px-5">BuFFExDB</h1>
+							<h1 class="mx-5 px-5"><i>BuffExDb</i></h1>
 								
 						</nav>
 					</div>
@@ -35,9 +35,9 @@
 						<div class="d-flex align-items-center text-white">
 						
 						<marquee behavior="scroll" direction="left"><h1>Buffalo Expression Database</h1></marquee>
-						<div class="d-flex align-items-center justify-content-end pt-2 px-5">
+				 		<div class="d-flex align-items-center justify-content-end pt-2 px-5">
 						    
-							<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/iasris.jpeg}" height="100px" width="100px"/>
+							<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/icar.png}" height="100px" width="100px"/>
 							</a>
 						</div>
 						</div>
@@ -71,7 +71,7 @@
 								    	<li><a class="dropdown-item" th:href="@{/database/sample_description}">Sample Description</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue}">Expression data</a></li>
 								   		<li><a class="dropdown-item" th:href="@{/database/tissue_specific_genes}">Tissue Specific Genes</a></li>
-								   		<li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Classification</a></li>
+								   		<li><a class="dropdown-item" th:href="@{/database/pathways}">Functional Annotation</a></li>
 							          </ul>
 							        </li>
 							      </ul>
@@ -96,7 +96,7 @@
 		      <!--  <img th:src="@{/images/buff2.jpeg}" class="d-block w-100" alt="..."  style="height:400px">-->
 		    </div>
 		    <div class="carousel-item background-image-3">
-		      <!-- <img th:src="@{/images/buff3.jpeg}" class="d-block w-100" alt="..."  style="height:400px"> -->
+		      <!-- <img th:src="@{/images/buff6.jpeg}" class="d-block w-100" alt="..."  style="height:400px"> -->
 		    </div>
 		  </div>
 		  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
@@ -116,7 +116,7 @@
 		<div class="intro">
 
 			<p>
-				<B>BUFFALO EXPRESSION DATABASE (BuFFExDB)</B> is a repository of gene expression profiles derived from RNA-Seq experiments of different tissues from the <I>Bubalus bubalis</I> (buffalo) species.
+				<B>BUFFALO EXPRESSION DATABASE (<i>BuffExDb</i>)</B> is a repository of gene expression profiles derived from RNA-Seq experiments of different tissues from the <I>Bubalus bubalis</I> (buffalo) species.
 			</p>
 		</div>
     <div class="stat-container">
@@ -186,22 +186,37 @@
 		   <h2 style="text-align:center"> <B>DATA ANALYSIS PIPELINE</B></h2>
 		</div>
 		<div class=' border'>
-			<img th:src="@{/images/pipeline.jpeg}" class="img_method" alt="..."  style="height:500px width=auto; display:block; margin:0 auto; border:none;">
+			<img th:src="@{/images/rna-seq_pipeline.jpeg}" class="img_method" alt="..."  style="height:500px width=auto; display:block; margin:0 auto; border:none;">
 		</div>
 		
 	</div>
 	
 		<div class="footer">
-
-			<div class="d-flex justify-content-center align-items-center">
-				<div>
-					<div class="sub-footer pt-2">
-						<h1>Database - Buffalo Expression DB</h1>
+			
+			<div class="d-flex justify-content-between align-items-center flex-wrap">
+				<div class="d-flex">
+					<div class="p-2 mr-4">
+						    
+						<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/IARI-Logo.jpg}" height="100px" width="100px"/>
+						</a>
 					</div>
-					<div class="sub-footer">
-						<p>Database Control Panel - Copyright &copy; ICAR-IASRI</p>
+				
+					<div class="p-2 mr-4">
+						    
+						<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/iasris.jpeg}" height="100px" width="100px"/>
+						</a>
 					</div>
 				</div>
+				<div class="p-2 text-center flex-grow-1">
+					<div class="sub-footer pt-2">
+						<h1>BuffExDb: Buffalo Expression Database</h1>
+					</div>
+					<div class="sub-footer">
+						<p> Copyright &copy; ICAR-Indian Agricultural Statistics Researh Institute</p>
+					</div>
+				</div>
+				
+				
 				<div class="globe-container">
 					<script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5hpljdi7n6u&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33&amp;bv=60" async="async">
 					</script>
