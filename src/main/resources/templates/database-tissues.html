@@ -19,7 +19,7 @@
 	<div class="parent">
 	<div class="container-fluid">
 		<div>
-			<div class="nav-bg">
+		<div class="nav-bg">
 				<div class="row">
 					<div class="col">
 						<nav class="navbar navbar-expand-lg text-white nav-border-style">
@@ -32,14 +32,8 @@
 						</nav>
 					</div>
 					<div class="col">
-						<div class="d-flex align-items-center text-white">
-						
-						<marquee behavior="scroll" direction="left"><h1>Buffalo Expression Database</h1></marquee>
-						<div class="d-flex align-items-center justify-content-end pt-2 px-5">
-						    
-							<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/icar.png}" height="100px" width="100px"/>
-							</a>
-						</div>
+						<div class="d-flex align-items-center text-white"  style="height:100%">
+							<marquee behavior="scroll" direction="left"><h1>Buffalo Expression Database</h1></marquee>
 						</div>
 						
 					</div>
@@ -98,7 +92,7 @@
 						<div class="row">
 							<div class="col">
 								<div class="">
-									<select class="form-select" id="select_tissue">
+									<select class="form-select" id="select_tissue" style="border: 2px solid #265073">
 										  <option disabled selected>Select Tissue</option>				  
 										  <option th:each="tissue, iStat: ${listTissues}" th:value="${tissue.url}" >[[${tissue.tissue}]]</option>
 									</select>
@@ -107,13 +101,13 @@
 							<div class="col">
 								<div class="d-flex align-items-center">
 									<div class="form-check m-2">
-									  <input class="form-check-input" type="checkbox" value="" id="cb_fpkm" checked onclick="checkBox_expLevel(this)">
+									  <input style="border: 2px solid #265073" class="form-check-input" type="checkbox" value="" id="cb_fpkm" checked onclick="checkBox_expLevel(this)">
 									  <label class="form-check-label" for="flexCheckDefault">
 									    FPKM
 									  </label>
 									</div>
 									<div class="form-check mx-2">
-									  <input class="form-check-input" type="checkbox" value="" id="cb_tpm" onclick="checkBox_expLevel(this)">
+									  <input style="border: 2px solid #265073" class="form-check-input" type="checkbox" value="" id="cb_tpm" onclick="checkBox_expLevel(this)">
 									  <label class="form-check-label" for="flexCheckChecked">
 									   TPM
 									  </label>
@@ -131,7 +125,7 @@
 				<div class="row">
 					<div class="col ">
 						<div class="d-flex justify-content-start" id="btn_heatmap" style="visibility:hidden;">
-							<button type="button" class="btn btn-success" onclick="showHeatMap(this)">Show Heat Map</button>		
+							<button type="button" style="border: 2px solid #265073" class="btn btn-success" onclick="showHeatMap(this)">Show Heat Map</button>		
 						</div>
 					</div>
 				</div>
@@ -139,15 +133,25 @@
 			<div class="p-2" style="background-color:rgb(38,80,115);color:white;" id='table-heading-container'>
 				<h3 class="text-center" id='table-heading' >Select Tissue to Load Tissue Data</h3>
 			</div>
+ 			<div class="d-flex flex-row">
+ 				 <div class="input-group mb-3 w-25 p-2 d-flex align-items-center">
+ 				 	  <label><strong>Records per Page:</strong></label>&nbsp;&nbsp;&nbsp;
+					  <input style="border: 2px solid #265073" type="number" value='50' class="form-control" placeholder="Entries per page"  id="entries" step="50" min="50" max="1000">
+					  <button style="border: 2px solid #265073" class="btn btn-secondary" type="button" id="btnEntries">Submit</button>
+				</div>
+ 			</div>
 	 		<div class="overflow-auto text-nowrap p-2">
-	 			<div>
-		 			<table class="table table-hover table-bordered" id="genes">
-					  <thead class="table-dark">
-					  </thead>
-					  <tbody>
-					    
-					  </tbody>
-					</table>
+	 			<div class="content">
+	 				<table class="table table-hover table-bordered "id="genes">
+				  		<thead class="table-dark " >
+				  		</thead>
+				  	
+				  		<tbody>
+				    
+				  		</tbody>
+				  	
+				  	</table>
+		
 				</div>
 				
 <!--  	 			<div class="overlay-loader" id="table_loader_bg">
@@ -179,8 +183,11 @@
 			<div class='d-flex flex-row-reverse'>
 				<div class="w-25 p-2">
 						<div class="input-group position-relative ">
-							  <input required placeholder="Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-							  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
+							  <input style="border: 2px solid #265073" required placeholder="Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+							  <button style="border: 2px solid #265073" class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
+						</div>
+						<div class="p-1">
+							<p class="" style="font-size:13px; color:grey">Search by Gene ID to see it's expression across tissues</p>
 						</div>
 	<!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
 						<div hidden=true id="listContainer" class=" position-absolute bg-light  overflow-auto text-nowrap border rounded-bottom" style="height:200px; width:315px;">
@@ -217,7 +224,8 @@
 			 	 
 			 </div>
 			 <div class="container overflow-auto">
-					<table class="table table-hover table-bordered" id="popup-table-view">
+
+				<table class="table table-hover table-bordered" id="popup-table-view">
 		 			 <thead class="table-bordered">
 		  			</thead>
 		  			<tbody>
@@ -230,7 +238,7 @@
 		</div>
 			<div class="overlay text-nowrap" id="overlay-heatmap">
 			<div class="fixed w-100">
-			<div class="popup-heatmap border rounded p-3">
+			<div class="popup-heatmap p-3">
 			<div class="close d-flex flex-row-reverse bd-highlight" id="close-heatmap">
 				<i onclick="closeHeatMap(this)" class="fa-regular fa-rectangle-xmark"></i>
 			</div>
@@ -263,8 +271,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script type="text/javascript">
 var	init = 0;
-var	last = 10;
-var pageSize = 10;
+var	last = 50;
+var pageSize = 50;
 var pageNum = 1;
 var totalRecords = 0;
 var totalPages = 0;
@@ -337,7 +345,7 @@ function plotHeatMap(){
 	        b: 250,
 	      },
 		  height: 800,  // Increase height
-	      width: 2000,
+	      width: 1300,
 //	      coloraxis: {
 //	        colorscale: customColorScale  // Apply custom color scale
 //	      }
@@ -546,6 +554,23 @@ document.getElementById("dropdownMenuLink1").addEventListener("input", function(
 		}
 });
 
+
+document.getElementById("btnEntries").addEventListener("click", function(event){
+	let entries = parseInt( $("#entries").val());
+	init = 0;
+	pageNum = 1;
+	console.log(entries);
+	last = entries;
+	pageSize = entries;
+	renderTableNew();
+	
+	totalRecords = globalData.length;
+    totalPages = Math.ceil(totalRecords/pageSize);
+ 	numberOfRecordsOfLastPage = totalRecords%pageSize;
+	pagination();
+	
+})
+
 function dropdownSelection(string){
 	document.getElementById("dropdownMenuLink1").value = string;
 	document.getElementById("listContainer").hidden = true;
@@ -623,6 +648,10 @@ document.getElementById("btn-fpkm-range").addEventListener("click", function(eve
 
 function renderTableNew(){
 	
+	$(".content").css({
+        'height': '400px',
+        'overflow-y': 'scroll'
+    });
     $("#table-heading").text(tissue_selected);   
 	isExpanded=false;	
 	headerRow = "";
@@ -853,7 +882,7 @@ $( document ).ready(function() {
 document.getElementById("firstPage").addEventListener("click", function(event){
 		if(pageNum>1){
 			init = 0;
-			last = 10;
+			last = pageSize;
 			pageNum = 1;
 			pagination();
 	  		event.preventDefault();
@@ -915,7 +944,7 @@ document.getElementById("previousPage").addEventListener("click", function(event
 				last = last - Math.ceil(pageSize/2);
 			}
 			else{
-				last = last - 10;
+				last = last - pageSize;
 			}
 			pagination();
 	  		event.preventDefault();

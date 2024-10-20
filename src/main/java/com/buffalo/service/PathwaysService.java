@@ -27,7 +27,7 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class PathwaysService {
 	
-	public final int GENE_PER_PAGE = 10;
+	public final int GENE_PER_PAGE = 50;
 	
 	@Autowired
 	private PathwaysRepository pathwaysRepo;

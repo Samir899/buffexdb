@@ -19,7 +19,7 @@
 <div class="parent">
 	<div class="container-fluid">
 		<div>
-			<div class="nav-bg">
+					<div class="nav-bg">
 				<div class="row">
 					<div class="col">
 						<nav class="navbar navbar-expand-lg text-white nav-border-style">
@@ -32,14 +32,8 @@
 						</nav>
 					</div>
 					<div class="col">
-						<div class="d-flex align-items-center text-white">
-						
-						<marquee behavior="scroll" direction="left"><h1>Buffalo Expression Database</h1></marquee>
-						<div class="d-flex align-items-center justify-content-end pt-2 px-5">
-						    
-							<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/icar.png}" height="100px" width="100px"/>
-							</a>
-						</div>
+						<div class="d-flex align-items-center text-white"  style="height:100%">
+							<marquee behavior="scroll" direction="left"><h1>Buffalo Expression Database</h1></marquee>
 						</div>
 						
 					</div>
@@ -98,30 +92,40 @@
 			<div class="p-2">
 			<div class="row w-100" style="height:100px">
 			<div class="col">
-			<form class="" id="queryForm" method='GET'  onsubmit="event.preventDefault()">
-				<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
-				<div class="input-group mb-2">
-				  <input required type="text" class="form-control" name="searchText" placeholder="Coding Label, Chromosome" aria-label="Recipient's username" id="searchText">
-				  <button class="btn btn-outline-secondary" type="submit" onclick="validateCheckBox(this)" id="search">Search</button>
-				</div>
-				<div class="align-middle mb-2">
-				   <input class="form-check-input" type="radio" name="searchParam" id="coding_label" value="coding_label">
-				  <label class="form-check-label" for="flexRadioDefault1">
-				    CODING LABEL
-				  </label>
-				   <input class="form-check-input" type="radio" name="searchParam" id="chromosome" value="chromosome">
-				  <label class="form-check-label" for="flexRadioDefault1">
-				    CHROMOSOME
-				  </label>
-				</div>
-				
-				<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px"></div>
-				</form>
+
+					<form class="" id="queryForm" method='GET'  onsubmit="event.preventDefault()">
+					<input class="form-input" type="text" name="database" th:value="${database}" hidden=true>
+					<div class="input-group rounded">
+					  <input list="searchOptions" style="border: 2px solid #265073" required type="text" class="form-control" name="searchText" placeholder="Coding Label" aria-label="Recipient's username" id="searchText">
+				  	  	<datalist id="searchOptions">
+	
+						</datalist>
+					  <button style="border: 2px solid #265073" class="btn btn-secondary" type="submit" onclick="validateCheckBox(this)" id="search">Search</button>
+					</div>
+					<!--  <div class="p-1">
+						<p class="" style="font-size:13px; color:grey">Enter the first letter of a gene symbol to get a list of gene symbols to search based on genes</p>
+					</div>-->
+					<div class="align-middle">
+					   <input class="form-check-input" style="border: 2px solid #265073"  type="radio" name="searchParam" id="coding_label" value="coding_label" checked="checked">
+					  <label class="form-check-label" for="flexRadioDefault1">
+					    CODING LABEL
+					  </label>
+					   <input class="form-check-input" type="radio" style="border: 2px solid #265073" name="searchParam" id="chromosome" value="chromosome" >
+					  <label class="form-check-label" for="flexRadioDefault1">
+					    CHROMOSOME
+					  </label>
+					</div>
+					<div id="radio-error" class="input-group w-25 fs-6 text-danger text-nowrap" style="height:20px"></div>
+					</form>
+
 				</div>
 				<div class="col">
 					<div class="input-group position-relative ">
-						  <input required placeholder="Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-						  <button class="btn btn-outline-secondary" type="button" id="btn-searchGeneByName">Search</button>
+						  <input style="border: 2px solid #265073" required placeholder="Gene Name" id="dropdownMenuLink1" type="text" class="form-control w-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+						  <button style="border: 2px solid #265073" class="btn btn-secondary" type="button" id="btn-searchGeneByName">Search</button>
+					</div>
+					<div class="p-1">
+						<p class="" style="font-size:13px; color:grey">Enter the first letter of a gene symbol to get a list of gene symbols to search based on genes</p>
 					</div>
 <!-- ---------------------------------List Container ---------------------------------------------------------------------------------------------->
 					<div hidden=true id="listContainer" class=" position-absolute bg-light  overflow-auto text-nowrap border rounded-bottom" style="height:200px; width:560px;">
@@ -135,10 +139,30 @@
 		<div class="p-2" style="background-color:rgb(38,80,115);color:white;">
 			<h3 class="text-center">Gene Description</h3>
 		</div>
-			<div class="m-2">
-					<button type="button" class="btn btn-success" onclick="arrayOfObjectsToCSV('gene_description')">Download Selected</button>		
+		<div class="row">
+			<div class="col">
+				<div class="input-group mb-3 w-50 p-2 d-flex flex-row align-items-center">
+				 	  <label><strong>Records per Page:</strong></label>&nbsp;&nbsp;&nbsp;
+					  <input type="number" style="border: 2px solid #265073" value='50' class="form-control" placeholder="Entries per page"  id="entries" step="50" min="50" max="1000">
+					  <button style="border: 2px solid #265073" class="btn btn-secondary" type="button" id="btnEntries">Submit</button>
 				</div>
+			
+			</div>
+			<div class="col">
+				<div class="d-flex justify-content-end">
+					<div class="m-2">
+						<button type="button" class="btn btn-success" onclick="arrayOfObjectsToCSV('gene_description')">Download Selected</button>		
+					</div>
+				</div>
+				
+			</div>
+			
+			
+		</div>
+		
+		 
  		<div class="overflow-auto p-2 text-nowrap">
+ 		<div class="content">
  		<table class="table table-striped border table-bordered" id="genes">
 			  <thead class="table-dark">
 				  
@@ -147,6 +171,7 @@
 			    
 			  </tbody>
 			</table>
+			</div>
 		</div>
 		</div>
 		
@@ -180,8 +205,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script type="text/javascript">
 var	init = 0;
-var	last = 10;
-var pageSize = 10;
+var	last = 50;
+var pageSize = 50;
 var pageNum = 1;
 var totalRecords = 0;
 var totalPages = 0;
@@ -192,10 +217,60 @@ var checkedData = new Set();
 var uncheckedData = new Set();
 var geneIdSet = new Set();
 var isCheckAll = false;
+var codingLabels = ['coding', 'noncoding']
+var chromosomes = ['18','23','4','2','1','17','5','11','12','3','14','15','7','16','8','24','6','9','X','13','21','20','22','10','19','MT']
 function filterArrayByProperty(array) {
     return array.filter(item => checkedData.has(item.geneId));
 }
 
+$(document).ready(function() {
+	let optionList = "";
+	for(codingLabel of codingLabels){
+		optionList = optionList + `<option value='${codingLabel}'>`
+	}
+	$('#searchOptions').empty();
+	$('#searchOptions').append(optionList);
+})
+
+$(document).ready(function() {
+	$('[name="searchParam"]').click(function(){
+		$("#searchText").val("");
+		
+		let id = $("input[name=searchParam]:checked").attr('id');
+		console.log(id);
+		let optionList = "";
+ 		if(id == 'coding_label'){
+ 			$("#searchText").attr("placeholder", "Coding Label");
+			for(codingLabel of codingLabels){
+				optionList = optionList + `<option value='${codingLabel}'>`
+			}
+		
+		}else if(id == 'chromosome'){
+			$("#searchText").attr("placeholder", "Chromosome");
+			for(chromosome of chromosomes){
+				optionList = optionList + `<option value=${chromosome}>`
+			}
+		}
+		$('#searchOptions').empty();
+		$('#searchOptions').append(optionList);
+	})
+})
+
+document.getElementById("btnEntries").addEventListener("click", function(event){
+	let entries = parseInt( $("#entries").val());
+	init = 0;
+	pageNum = 1;
+	console.log(entries);
+	last = entries;
+	pageSize = entries;
+	renderTableNew();
+	
+	totalRecords = globalData.length;
+    totalPages = Math.ceil(totalRecords/pageSize);
+ 	numberOfRecordsOfLastPage = totalRecords%pageSize;
+	pagination();
+	
+})
 function arrayOfObjectsToCSV(filename = 'data.csv') {
 
 	try{
@@ -272,6 +347,10 @@ function dropdownSelection(string){
 function renderTableNew(){
 	isExpanded=false;	
 	headerRow = "";
+	$(".content").css({
+        'height': '400px',
+        'overflow-y': 'scroll'
+    });
 	let object1 = globalData[0];
 	
 	if(isCheckAll){
@@ -284,6 +363,12 @@ function renderTableNew(){
 		td="";
 		if(key.toUpperCase() == 'GENE'){
 			td = `<td><div onclick="expand(this)">GENE ID <i class="fa-solid fa-circle-plus ml-5"></i></div></td>`;
+		}
+		else if(key.toUpperCase() == 'GENEID'){
+			td = `<td><div>GENE ID</div></td>`;
+		}
+		else if(key.toUpperCase() == 'TRANSCRIPTLENGTH'){
+			td = `<td><div>TRANSCRIPT LENGTH</div></td>`;
 		}
 		else if(key.toUpperCase() == 'ID'){
 			continue;
@@ -420,7 +505,7 @@ document.getElementById("btn-searchGeneByName").addEventListener("click", functi
 document.getElementById("firstPage").addEventListener("click", function(event){
         if(pageNum>1){
 			init = 0;
-			last = 10;
+			last = pageSize;
 			pageNum = 1;
 			pagination();
 	  		event.preventDefault();
@@ -463,7 +548,7 @@ document.getElementById("previousPage").addEventListener("click", function(event
 				last = last - Math.ceil(pageSize/2);
 			}
 			else{
-				last = last - 10;
+				last = last - pageSize;
 			}
 			pagination();
 	  		event.preventDefault();

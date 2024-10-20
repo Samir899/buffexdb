@@ -95,7 +95,6 @@ public class MainController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(listDB);
 		model.addAttribute("listDB", listDB);
 		return "import";
 	}

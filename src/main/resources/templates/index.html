@@ -32,14 +32,8 @@
 						</nav>
 					</div>
 					<div class="col">
-						<div class="d-flex align-items-center text-white">
-						
-						<marquee behavior="scroll" direction="left"><h1>Buffalo Expression Database</h1></marquee>
-				 		<div class="d-flex align-items-center justify-content-end pt-2 px-5">
-						    
-							<a class="navbar-brand" th:href="@{/}"> <img class="rounded-border" th:src="@{/images/icar.png}" height="100px" width="100px"/>
-							</a>
-						</div>
+						<div class="d-flex align-items-center text-white"  style="height:100%">
+							<marquee behavior="scroll" direction="left"><h1>Buffalo Expression Database</h1></marquee>
 						</div>
 						
 					</div>
@@ -113,10 +107,22 @@
 		
 		<div class="introduction-section">
 
-		<div class="intro">
+		<div class="intro p-2 ">
 
-			<p>
-				<B>BUFFALO EXPRESSION DATABASE (<i>BuffExDb</i>)</B> is a repository of gene expression profiles derived from RNA-Seq experiments of different tissues from the <I>Bubalus bubalis</I> (buffalo) species.
+			<p style="text-align: justify;" class="lh-lg">
+			<span  class="fw-bold">BUFFALO EXPRESSION DATABASE <span class="fst-italic">(BuffExDb)</span></span>
+				is a repository of gene
+				expression profiles derived from RNA-Seq experiments of 76 different tissues
+				from the Bubalus bubalis (buffalo) species. The domestic water buffalo (Bubalus bubalis),
+				falls under the family Bovidae and sub-family Bovinae. There are two distinct classifications for water 
+				buffalo, namely, swamp buffalo and river buffalo. <span class="fst-italic">BuffexDb</span> comprises 2429 RNA-Seq data representing
+				438 BioSamples from 23 BioProjects analysed using a uniform bioinformatics pipeline.
+				The user-friendliness and flexibility in retrieval of expression values (FPKM/TPM), 
+				tissue-specific genes (TSGs) and their functional annotation are the major characteristics of
+				<span class="fst-italic">BuffExDb</span>. An effortlessly navigable and filterable database, enabling users to examine and visualize 
+				the expression levels of each tissue across multiple samples, simultaneously. 
+				The gene description consists of 37,164 genes of buffalo annotated using the latest genome
+				assembly (GCA_019923935.1).
 			</p>
 		</div>
     <div class="stat-container">
@@ -214,6 +220,9 @@
 					<div class="sub-footer">
 						<p> Copyright &copy; ICAR-Indian Agricultural Statistics Researh Institute</p>
 					</div>
+					<div class="sub-footer">
+						Click to See:&nbsp;<a th:href="@{/api/open/license}" target="_blank" style="color:white;text-decoration:underline;">ICAR data use license</a>
+					</div>
 				</div>
 				
 				
@@ -225,7 +234,7 @@
 			</div>
 		</div>
 	</div>
-	
+	</div>
 <script>
 
 $(document).ready(function(){

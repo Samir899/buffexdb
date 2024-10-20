@@ -149,11 +149,10 @@ i:hover{
 	
 }
 *.popup-heatmap{
-	background: rgba(38,80,115);
-	margin:50px auto;
-	max-width: 80%;
-	width: fit-content;
+	background: rgba(38,80,115, 0.8);
+	height:100vh;
 	color:white;
+	
 	
 } 
 #piechart{
@@ -229,9 +228,9 @@ text-align: center;
 *.heatmap-container{
 	padding-bottom: 10px;
 	overflow:scroll;
-	height: 400px;
+	height: 80vh;
 	
-	width: 1000px;
+
 }
 #overlay-heatmap{
 	z-index:-2; 
