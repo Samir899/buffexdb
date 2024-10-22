@@ -427,15 +427,13 @@ function showGeneDescription(event){
 }
 
 function removeTissue(id){
-	renderLoader();
-
 	id = "#" + id;
 	$(id).remove();
 	let tissueName = id.replace("_", " ").substring(1);
 	selectedTissues.delete(tissueName)
+	renderLoader();
 	url = "[[@{/api/tissue_specific_gene}]]"
 	 	params = {tissues: Array.from(selectedTissues), specificities: Array.from(selectedSpecificities)};
-	 	
 	 	$.ajax({
 	 	    url: url,
 	 	    type: "POST",
@@ -454,10 +452,11 @@ function removeTissue(id){
 }
 
 document.getElementById("select-tissue").addEventListener("change", function(event){
-	renderLoader();
+	
  	tissueName = event.target.options[event.target.selectedIndex].innerHTML;
 
  	if(!selectedTissues.has(tissueName)){
+ 		renderLoader();
  		selectedTissues.add(tissueName);
  		let html = $("#selectedTissues").html();
  		let id = tissueName.replace(" ", "_")
@@ -488,14 +487,13 @@ document.getElementById("select-tissue").addEventListener("change", function(eve
  	}
 });
 function removeSpecificity(id){
-	console.log(id)
 	id = "#" + id;
 	$(id).remove();
 	let specificity = id.replace("_", " ").substring(1);
 	selectedSpecificities.delete(specificity)
 	url = "[[@{/api/tissue_specific_gene}]]"
  	params = {tissues: Array.from(selectedTissues), specificities: Array.from(selectedSpecificities)};
-
+	renderLoader();
  	$.ajax({
  	    url: url,
  	    type: "POST",
@@ -513,9 +511,10 @@ function removeSpecificity(id){
 	}); 	
 }
 document.getElementById("select-specificity").addEventListener("change", function(event){
-	renderLoader();
+
  	specificity = event.target.options[event.target.selectedIndex].innerHTML;
  	if(!selectedSpecificities.has(specificity)){
+ 		renderLoader();
  		selectedSpecificities.add(specificity);
  		let html = $("#selectedSpecificities").html();
  		let id = specificity.replace(" ", "_")
@@ -524,24 +523,25 @@ document.getElementById("select-specificity").addEventListener("change", functio
  	 	<i onclick="removeSpecificity('${id}')" class="fa-solid fa-circle-xmark fa-lg position-absolute top-0 start-100 translate-middle-x" style="color: #B197FC;"></i></div>`
  		$("#selectedSpecificities").empty();
  	 	$("#selectedSpecificities").append(html)
+ 	 	url = "[[@{/api/tissue_specific_gene}]]"
+ 	 	 	params = {tissues: Array.from(selectedTissues), specificities: Array.from(selectedSpecificities)};
+ 	 	 	$.ajax({
+ 	 	 	    url: url,
+ 	 	 	    type: "POST",
+ 	 	 	    data: JSON.stringify(params),  // Convert JS object to JSON string
+ 	 	 	    contentType: "application/json",  // Ensure the content type is set correctly
+ 	 	 	    success: function(data, status) {
+ 	 	 	    	hideLoader();
+ 	 	 	      	globalData = data;
+ 	 				renderTable();
+ 	 	 	    },
+ 	 	 	    error: function(xhr, status, error) {
+ 	 	 	    	hideLoader();
+ 	 	 	        alert("Server responded with error code")
+ 	 	 	    }
+ 		}); 
  	}
- 	url = "[[@{/api/tissue_specific_gene}]]"
- 	params = {tissues: Array.from(selectedTissues), specificities: Array.from(selectedSpecificities)};
- 	$.ajax({
- 	    url: url,
- 	    type: "POST",
- 	    data: JSON.stringify(params),  // Convert JS object to JSON string
- 	    contentType: "application/json",  // Ensure the content type is set correctly
- 	    success: function(data, status) {
- 	    	hideLoader();
- 	      	globalData = data;
-			renderTable();
- 	    },
- 	    error: function(xhr, status, error) {
- 	    	hideLoader();
- 	        alert("Server responded with error code")
- 	    }
-	}); 
+ 	
  	
 });
 
