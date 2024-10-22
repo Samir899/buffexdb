@@ -273,7 +273,17 @@ text-align: center;
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 	
 }
-
+*.crumb{
+	padding: 4px 6px;
+	color: white;
+	background-color: grey;
+	font-weight: bold;
+	border-radius: 8px;
+	font-size:small;
+	width:fit-content;
+	margin-left: 8px;
+	margin-top: 8px;
+}
 *.intro{
 	background-color:whitesmoke;
 	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);

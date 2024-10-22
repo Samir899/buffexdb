@@ -539,13 +539,14 @@ document.getElementById("lastPage").addEventListener("click", function(event){
 	    	}
 });
 document.getElementById("previousPage").addEventListener("click", function(event){
-		
+		let recordsInLastPage = last - init;
 		if(pageNum>1){
 			pageNum = pageNum - 1;
 			init = init - pageSize;
 			
 			if(pageNum == totalPages - 1){
-				last = last - Math.ceil(pageSize/2);
+				//last = last - Math.ceil(pageSize/2);
+				last = last - recordsInLastPage;
 			}
 			else{
 				last = last - pageSize;

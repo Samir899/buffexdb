@@ -103,7 +103,29 @@
 					</select>
 				</div>				
 			</div>
-			<div class="p-2" style="background-color:rgb(38,80,115);color:white;">
+			<div class="row w-100" >
+				<div class="col">
+				
+					<div id="selectedTissues" class="d-flex flex-wrap">
+
+					</div>
+			
+				</div>
+				<div class="col">
+					<div id="selectedSpecificities" class="d-flex flex-wrap"></div>
+				</div>				
+			</div>
+			<div class="row w-100" >
+				<div class="col">
+				
+					<div class="d-flex flex-row-reverse">
+						<button onclick="location.reload()" class="btn btn-outline-warning fw-bold">Clear All</button>
+					</div>
+			
+				</div>
+							
+			</div>
+			<div class="p-2 mt-3" style="background-color:rgb(38,80,115);color:white;">
 				<h3 class="text-center">Tissue Specificity</h3>
 			</div>
 			<div class="row">
@@ -111,7 +133,7 @@
 					<div class="input-group mb-3 w-50 p-2 d-flex align-items-center">
 		 				 	  <label><strong>Records per Page:</strong></label>&nbsp;&nbsp;&nbsp;
 							  <input style="border: 2px solid #265073" type="number" value='50' class="form-control" placeholder="Entries per page"  id="entries" step="50" min="50" max="1000">
-							  <button style="border: 2px solid #265073" class="btn btn-secondary" type="button" id="btnEntries">Submit</button>
+							  <button style="border: 2px solid #265073;z-index:1" class="btn btn-secondary" type="button" id="btnEntries">Submit</button>
 					</div>
 				</div>
 				<div class="col">
@@ -245,6 +267,11 @@ var pie_chart_labels = new Array();
 var specificity = undefined;
 var tissueName = undefined;
 var idSet = new Set();
+var selectedTissues = new Set();
+var selectedSpecificities = new Set();
+
+
+
 $( document ).ready(function() {
 	renderLoader()
 	url = "[[@{/gene/api/genes/geneId/all}]]"
@@ -335,7 +362,7 @@ function arrayOfObjectsToCSV(filename = 'data.csv') {
 
 function renderTable(){
 	init = 0;
-	last = 10;
+	last = pageSize;
 	pageNum = 1;
 	renderTableNew();
 	totalRecords = globalData.length;
@@ -399,141 +426,122 @@ function showGeneDescription(event){
 	});
 }
 
+function removeTissue(id){
+	renderLoader();
+
+	id = "#" + id;
+	$(id).remove();
+	let tissueName = id.replace("_", " ").substring(1);
+	selectedTissues.delete(tissueName)
+	url = "[[@{/api/tissue_specific_gene}]]"
+	 	params = {tissues: Array.from(selectedTissues), specificities: Array.from(selectedSpecificities)};
+	 	
+	 	$.ajax({
+	 	    url: url,
+	 	    type: "POST",
+	 	    data: JSON.stringify(params),  // Convert JS object to JSON string
+	 	    contentType: "application/json",  // Ensure the content type is set correctly
+	 	    success: function(data, status) {
+	 	    	hideLoader();
+	 	      	globalData = data;
+			renderTable();
+	 	    },
+	 	    error: function(xhr, status, error) {
+	 	    	hideLoader();
+	 	        alert("Server responded with error code")
+	 	    }
+		}); 
+}
+
 document.getElementById("select-tissue").addEventListener("change", function(event){
 	renderLoader();
  	tissueName = event.target.options[event.target.selectedIndex].innerHTML;
- 	console.log(tissueName)
- 	if(tissueName && specificity){
- 		console.log("Both Selected")
- 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter}]]" + `?tissueName=${tissueName}&tissueSpecificity=${specificity}`
- 		$.get(url, function(data, status){
-			hideLoader();
- 			if(data && data.length>0){
 
- 				globalData = data;
- 				renderTable();
- 			}
- 			else{
- 				console.log("0 Records returned")
- 			}
- 		
- 		}).fail(function(jqXHR, textStatus, errorThrown) {
-    		// Handle errors
-    		hideLoader();
-    		alert('There was a problem with the request');
-	});
- 		
- 	}
- 	else if(tissueName){
- 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter/tissueName}]]" + `?tissueName=${tissueName}`
- 		$.get(url, function(data, status){
- 		hideLoader();
- 			if(data && data.length>0){
+ 	if(!selectedTissues.has(tissueName)){
+ 		selectedTissues.add(tissueName);
+ 		let html = $("#selectedTissues").html();
+ 		let id = tissueName.replace(" ", "_")
+ 	 	html += `<div class="crumb position-relative" value='${tissueName}' id='${id}'>
+ 	 	${tissueName}
+ 	 	<i onclick="removeTissue('${id}')" class="fa-solid fa-circle-xmark fa-lg position-absolute top-0 start-100 translate-middle-x" style="color: #B197FC;"></i></div>`
+ 		$("#selectedTissues").empty();
+ 	 	$("#selectedTissues").append(html)
+ 	 	url = "[[@{/api/tissue_specific_gene}]]"
+ 	 	params = {tissues: Array.from(selectedTissues), specificities: Array.from(selectedSpecificities)};
 
- 				globalData = data;
- 				renderTable();
- 			}
- 			else{
- 				console.log("0 Records returned")
- 			}
- 		}).fail(function(jqXHR, textStatus, errorThrown) {
-    		// Handle errors
-    		hideLoader();
-    		alert('There was a problem with the request');
-	});
- 		
- 	}
- 	else if(specificity){
- 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter/tissueSpecificity}]]" + `?tissueSpecificity=${specificity}`
- 		$.get(url, function(data, status){
-			hideLoader()
- 			if(data && data.length>0){
-
- 				globalData = data;
- 				renderTable();
- 			}
- 			else{
- 				console.log("0 Records returned")
- 			}
- 		
- 		}).fail(function(jqXHR, textStatus, errorThrown) {
-    		// Handle errors
-    		hideLoader();
-    		alert('There was a problem with the request');
-	});
- 	}
- 	else{
- 		alert("Please select some Value")
+ 	 	
+ 	 	$.ajax({
+ 	 	    url: url,
+ 	 	    type: "POST",
+ 	 	    data: JSON.stringify(params),  // Convert JS object to JSON string
+ 	 	    contentType: "application/json",  // Ensure the content type is set correctly
+ 	 	    success: function(data, status) {
+ 	 	    	hideLoader();
+ 	 	      	globalData = data;
+				renderTable();
+ 	 	    },
+ 	 	    error: function(xhr, status, error) {
+ 	 	    	hideLoader();
+ 	 	        alert("Server responded with error code")
+ 	 	    }
+ 		}); 	
  	}
 });
+function removeSpecificity(id){
+	console.log(id)
+	id = "#" + id;
+	$(id).remove();
+	let specificity = id.replace("_", " ").substring(1);
+	selectedSpecificities.delete(specificity)
+	url = "[[@{/api/tissue_specific_gene}]]"
+ 	params = {tissues: Array.from(selectedTissues), specificities: Array.from(selectedSpecificities)};
 
+ 	$.ajax({
+ 	    url: url,
+ 	    type: "POST",
+ 	    data: JSON.stringify(params),  // Convert JS object to JSON string
+ 	    contentType: "application/json",  // Ensure the content type is set correctly
+ 	    success: function(data, status) {
+ 	    	hideLoader();
+ 	      	globalData = data;
+		renderTable();
+ 	    },
+ 	    error: function(xhr, status, error) {
+ 	    	hideLoader();
+ 	        alert("Server responded with error code")
+ 	    }
+	}); 	
+}
 document.getElementById("select-specificity").addEventListener("change", function(event){
 	renderLoader();
  	specificity = event.target.options[event.target.selectedIndex].innerHTML;
- 	if(tissueName && specificity){
- 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter}]]" + `?tissueName=${tissueName}&tissueSpecificity=${specificity}`
-
- 		$.get(url, function(data, status){
-			hideLoader();
- 			if(data && data.length>0){
-
- 				globalData = data;
- 				
- 				renderTable();
- 			}
- 			else{
- 				console.log("0 Records returned")
- 			}
- 		
- 		}).fail(function(jqXHR, textStatus, errorThrown) {
-    		// Handle errors
-    		hideLoader();
-    		alert('There was a problem with the request');
-		});
+ 	if(!selectedSpecificities.has(specificity)){
+ 		selectedSpecificities.add(specificity);
+ 		let html = $("#selectedSpecificities").html();
+ 		let id = specificity.replace(" ", "_")
+ 	 	html += `<div class="crumb position-relative" value='${specificity}' id='${id}'>
+ 	 	${specificity}
+ 	 	<i onclick="removeSpecificity('${id}')" class="fa-solid fa-circle-xmark fa-lg position-absolute top-0 start-100 translate-middle-x" style="color: #B197FC;"></i></div>`
+ 		$("#selectedSpecificities").empty();
+ 	 	$("#selectedSpecificities").append(html)
  	}
- 	else if(tissueName){
- 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter/tissueName}]]" + `?tissueName=${tissueName}`
-
- 		$.get(url, function(data, status){
- 		hideLoader();
- 			if(data && data.length>0){
- 				globalData = data;
- 				renderTable();
- 			}
- 			else{
- 				console.log("0 Records returned")
- 			}
- 		
- 		}).fail(function(jqXHR, textStatus, errorThrown) {
-    		// Handle errors
-    		hideLoader();
-    		alert('There was a problem with the request');
-		});
- 	}
- 	else if(specificity){
-
- 		url = "[[@{/tissue-specific-gene/api/tissue-specific-genes/filter/tissueSpecificity}]]" + `?tissueSpecificity=${specificity}`
-
- 		$.get(url, function(data, status){
- 			hideLoader();
- 			if(data && data.length>0){
-
- 				globalData = data;
- 				renderTable();				
- 			}
- 			else{
- 			alert("No records Found")
- 			}
- 		
- 		}).fail(function(jqXHR, textStatus, errorThrown) {
-    		// Handle errors
-    		hideLoader();
-    		alert('There was a problem with the request');
-		});
- 	}
- 	else{
- 		alert("Please Select some Value")
- 	}
+ 	url = "[[@{/api/tissue_specific_gene}]]"
+ 	params = {tissues: Array.from(selectedTissues), specificities: Array.from(selectedSpecificities)};
+ 	$.ajax({
+ 	    url: url,
+ 	    type: "POST",
+ 	    data: JSON.stringify(params),  // Convert JS object to JSON string
+ 	    contentType: "application/json",  // Ensure the content type is set correctly
+ 	    success: function(data, status) {
+ 	    	hideLoader();
+ 	      	globalData = data;
+			renderTable();
+ 	    },
+ 	    error: function(xhr, status, error) {
+ 	    	hideLoader();
+ 	        alert("Server responded with error code")
+ 	    }
+	}); 
  	
 });
 
@@ -737,16 +745,20 @@ document.getElementById("lastPage").addEventListener("click", function(event){
   		}
 });
 document.getElementById("previousPage").addEventListener("click", function(event){
+
+		let recordsInLastPage = last - init;
 		if(pageNum>1){
 		pageNum = pageNum - 1;
 		init = init - pageSize;
 		
 		if(pageNum == totalPages - 1){
-			last = last - Math.ceil(pageSize/2);
+			last = last - recordsInLastPage;
+		
 		}
 		else{
 			last = last - pageSize;
 		}
+
 		pagination();
   		event.preventDefault();
   		renderTableNew();

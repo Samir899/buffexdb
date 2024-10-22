@@ -450,7 +450,7 @@ $(document).ready(function() {
 		if(id == 'bioProject'){
 			$("#searchText").attr("placeholder", "Bio Project");
 			for(bioProject of bioProjects){
-				optionList = optionList + `<option value=${bioProject}>`
+				optionList = optionList + `<option value='${bioProject}'>`
 			}
 		}else if(id == 'breed'){
 			$("#searchText").attr("placeholder", "Breed");
@@ -462,19 +462,19 @@ $(document).ready(function() {
 		}else if(id == 'condition_treatment'){
 			$("#searchText").attr("placeholder", "Condition/Treatment");
 			for(condition_treatment of condition_treatments){
-				optionList = optionList + `<option value=${condition_treatment}>`
+				optionList = optionList + `<option value='${condition_treatment}'>`
 			}
 		
 		}else if(id == 'tissue'){
 			$("#searchText").attr("placeholder", "Tissues");
 			for(tissue of tissues){
-				optionList = optionList + `<option value=${tissue}>`
+				optionList = optionList + `<option value='${tissue}'>`
 			}
 		
 		}else if(id == 'category'){
 			$("#searchText").attr("placeholder", "Category");
 			for(category of categories){
-				optionList = optionList + `<option value=${category}>`
+				optionList = optionList + `<option value='${category}'>`
 			}
 		}
 		$('#searchOptions').empty();
@@ -594,12 +594,14 @@ document.getElementById("lastPage").addEventListener("click", function(event){
 	  		}
 });
 document.getElementById("previousPage").addEventListener("click", function(event){
+		 let recordsInLastPage = last - init;
 		 if(pageNum>1){
 			pageNum = pageNum - 1;
 			init = init - pageSize;
 			
 			if(pageNum == totalPages - 1){
-				last = last - Math.ceil(pageSize/2);
+				//last = last - Math.ceil(pageSize/2);
+				last = last - recordsInLastPage;
 			}
 			else{
 				last = last - pageSize;

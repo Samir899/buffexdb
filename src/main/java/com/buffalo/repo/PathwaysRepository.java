@@ -25,4 +25,5 @@ public interface PathwaysRepository extends CrudRepository<Pathways, Integer>{
 	public List<String> getAllGeneSymbols();
 	
 	
+	
 }
